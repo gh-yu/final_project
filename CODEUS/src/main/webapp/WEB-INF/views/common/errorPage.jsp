@@ -23,7 +23,8 @@
                 <div class="col-md-5">
                     <div class="form-input-content text-center">
                         <div class="mb-5">
-                            <a class="btn btn-primary" href="${contextPath}">Back to Home</a>
+                            <a class="btn btn-primary" href="javascript:history.back()"><!-- Back to Home -->이전 페이지</a> 
+                            <!-- c:if errorCode가 403, 즉 접근 불가면  ${contextPath}로 가기 -->
                         </div>
                         <h1 class="error-text font-weight-bold">400</h1> <!-- ${errorCode}  -->
                         <h4 class="mt-4"><i class="fa fa-thumbs-down text-danger"></i> Bad Request</h4>  <!-- ${errorTitle}  -->

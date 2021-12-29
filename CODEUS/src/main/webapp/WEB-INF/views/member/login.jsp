@@ -8,7 +8,13 @@
 </head>
 <body>
 	                      <div class="mb-5">
-                            <a class="btn btn-primary" href="home.do">go to Home</a>
+	                      <form action="login.me" method="post">
+	                      	<input type="text" name="mId">
+	                      	<input type="text" name="mPwd">
+	                      	<input type="submit" value="로그인">
+	                      	
+	                      </form>
+                            <!-- <a class="btn btn-primary" href="login.me">login</a> -->
                         </div>
 </body>
 </html>

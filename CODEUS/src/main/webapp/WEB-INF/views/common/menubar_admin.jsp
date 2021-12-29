@@ -35,8 +35,8 @@
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <a href="${contextPath}" class="brand-logo" style="background: #2b2d35;">
-                <img class="logo-abbr" src="${contextPath}/resources/assets/images/logo4.png" alt="" style="border-radius: 100%; width: 170px; height: 32px;">
+            <a href="${contextPath}/admin/mlist.ad" class="brand-logo" style="background: #2b2d35;">
+                <img class="logo-abbr" src="${contextPath}/resources/assets/images/logo.png" alt="" style="border-radius: 100%; width: 170px; height: 32px;">
                <%--  <img class="logo-compact" src="${contextPath}/resources/assets/images/logo-text.png" alt=""> --%>
                <%--  <img class="brand-title" src="${contextPath}/resources/assets/images/logo-text.png" alt="" style="width: 200px; height: 100px;"> --%>
                	<b class="logo-compact" style="font-size: x-large;">CODEUS</b>
@@ -68,13 +68,13 @@
                                     <i class="mdi mdi-account"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="./app-profile.html" class="dropdown-item">
+                                    <a href="${contextPath}/home.do" class="dropdown-item">
                                         <i class="fa fa-home"></i>
-                                        <span class="ml-2">사원 페이지로 돌아가기</span>
+                                        <span class="ml-2">Dashboard </span>
                                     </a>
-                                    <a href="./page-login.html" class="dropdown-item">
+                                    <a href="${contextPath}/logout.me" class="dropdown-item">
                                         <i class="icon-key"></i>
-                                        <span class="ml-2">로그아웃</span>
+                                        <span class="ml-2">Logout </span>
                                     </a>
                                 </div>
                             </li>
@@ -97,23 +97,24 @@
                     <li><a class="has-arrow" href="${contextPath}" aria-expanded="false">
                     	<i class="fa fa-sitemap"></i><!-- <i class="fa fa-user-plus"></i> --><span class="nav-text">조직 관리</span></a>
                      	  <ul aria-expanded="false">
-                            <li><a href="javascript:void()">사원 관리</a></li>
+                            <li><a href="mlist.ad">사원 관리</a></li>
                             <li><a href="javascript:void()">조직설계</a></li>
                             <li><a href="javascript:void()">직위체계</a></li>
                         </ul>                   	
                     </li>
                     
                    <!--  <li class="nav-label">Apps</li> -->
-                    <li><a href="javascript:void()" aria-expanded="false">
-                    		<i class="fa fa-bullhorn"></i><span class="nav-text">공지사항 관리</span></a>
-                    </li>
-                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                    		<i class="fa fa-folder-open-o"></i><span class="nav-text">자료실 관리</span></a>
-                        <ul aria-expanded="false">
-                            <li><a href="javascript:void()">자료 등록</a></li>
-                            <li><a href="javascript:void()">자료실 용량</a></li>
-                        </ul>
-                    </li>
+                   <!-- 공지사항, 자료실은 멤버 페이지에서 관리자 여부로 작성/수정할 수 있게 하기 -->
+<!--                     <li><a href="javascript:void()" aria-expanded="false"> -->
+<!--                     		<i class="fa fa-bullhorn"></i><span class="nav-text">공지사항 관리</span></a> -->
+<!--                     </li> -->
+<!--                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"> -->
+<!--                     		<i class="fa fa-folder-open-o"></i><span class="nav-text">자료실 관리</span></a> -->
+<!--                         <ul aria-expanded="false"> -->
+<!--                             <li><a href="javascript:void()">자료 등록</a></li> -->
+<!--                             <li><a href="javascript:void()">자료실 용량</a></li> -->
+<!--                         </ul> -->
+<!--                     </li> -->
                     <li><a href="javascript:void()" aria-expanded="false">
                     		<i class="fa fa-bars"></i><span class="nav-text">신고글 관리</span></a>
 

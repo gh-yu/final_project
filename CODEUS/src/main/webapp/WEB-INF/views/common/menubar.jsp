@@ -35,8 +35,8 @@
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <a href="${contextPath}" class="brand-logo">
-                <img class="logo-abbr" src="${contextPath}/resources/assets/images/logo4.png" alt="" style="border-radius: 50%;">
+            <a href="${contextPath}/home.do" class="brand-logo">
+                <img class="logo-abbr" src="${contextPath}/resources/assets/images/logo.png" alt="" style="border-radius: 50%;">
                <%--  <img class="logo-compact" src="${contextPath}/resources/assets/images/logo-text.png" alt=""> --%>
                <%--  <img class="brand-title" src="${contextPath}/resources/assets/images/logo-text.png" alt="" style="width: 200px; height: 100px;"> --%>
                	<b class="logo-compact" style="font-size: x-large;">CODEUS</b>
@@ -147,7 +147,13 @@
                                         <i class="icon-envelope-open"></i>
                                         <span class="ml-2">Chat </span>
                                     </a>
-                                    <a href="./page-login.html" class="dropdown-item">
+                                    <c:if test="${ loginUser.managerYn == 'Y' }">
+	                                    <a href="${contextPath}/admin/mlist.ad" class="dropdown-item">
+	                                        <i class="fa fa-mail-forward"></i>
+	                                        <span class="ml-2">Admin Page </span>
+	                                    </a>
+                                    </c:if>                                   
+                                    <a href="logout.me" class="dropdown-item">
                                         <i class="icon-key"></i>
                                         <span class="ml-2">Logout </span>
                                     </a>
@@ -169,8 +175,8 @@
             <div class="quixnav-scroll">
                 <ul class="metismenu" id="menu">
                 	<li class="nav-label first"></li>
-                    <li><a href="${contextPath}" aria-expanded="false"><i
-                                class="icon icon-app-store"></i><!-- <i class="fa fa-home"></i> --><!-- <i class="fa fa-dashboard"></i> --><span class="nav-text">대시보드</span></a>
+                    <li><a href="home.do" aria-expanded="false"><!-- <i
+                                class="icon icon-app-store"></i> --><i class="fa fa-home"></i><span class="nav-text">대시보드</span></a>
                     </li>
                     
                    <!--  <li class="nav-label">Apps</li> -->
@@ -219,6 +225,13 @@
                             <li><a href="javascript:void()">Datatable</a></li>
                         </ul>
                     </li>
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+                                class="fa fa-calendar"></i><span class="nav-text">캘린더</span></a>
+                        <ul aria-expanded="false">
+                            <li><a href="javascript:void()">전체 캘린더</a></li>
+                            <li><a href="javascript:void()">부서 캘린더</a></li>
+                        </ul>
+                    </li>                    
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
                                 class="icon icon-single-04"></i><span class="nav-text">마이페이지</span></a>
                         <ul aria-expanded="false">
