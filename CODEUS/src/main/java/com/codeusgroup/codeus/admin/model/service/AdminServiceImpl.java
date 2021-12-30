@@ -57,4 +57,19 @@ public class AdminServiceImpl implements AdminService {
 		return aDAO.getMemberCount(sqlSession);
 	}
 
+	@Override
+	public int updateMultiMember(String[] mArr, int mStatus) {
+		return aDAO.updateMultiMember(sqlSession, mArr, mStatus);
+	}
+
+	@Override
+	public int updateMember(Member m) {
+		return aDAO.updateMember(sqlSession, m);
+	}
+
+	@Override
+	public int deleteMember(String[] mIdArr) {
+		return aDAO.deleteMember(sqlSession, mIdArr);
+	}
+
 }

@@ -45,13 +45,38 @@ public class AdminDAO {
 		int offset  = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
-		 ArrayList<Member> m = (ArrayList)sqlSession.selectList("adminMapper.selectSearchMemberList", map, rowBounds);
-		 System.out.println(m);
-		return m;
+		return (ArrayList)sqlSession.selectList("adminMapper.selectSearchMemberList", map, rowBounds);
 	}
 
 	public ArrayList<Integer> getMemberCount(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("adminMapper.getMemberCount");
+	}
+
+	public int updateMultiMember(SqlSessionTemplate sqlSession, String[] mArr, int mStatus) {
+		int result = 0;
+		for(String mId : mArr) {
+//			HashMap<String, String> map = new HashMap<String, String>();
+//			map.put("mId", mId);
+//			map.put("mStatus", String.valueOf(mStatus));
+			Member m = new Member();
+			m.setmId(mId);
+			m.setStatus(mStatus);
+			result += sqlSession.update("adminMapper.updateMultiMember", m);
+		}
+		
+		return result;
+	}
+
+	public int updateMember(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("adminMapper.updateMember", m);
+	}
+
+	public int deleteMember(SqlSessionTemplate sqlSession, String[] mIdArr) {
+		int result = 0;
+		for (String mId : mIdArr) {
+			result += sqlSession.update("adminMapper.deleteMember", mId);
+		}
+		return result;
 	}
 
 }

@@ -19,6 +19,7 @@ public class Member {
 	private Date endDate;
 	private int status;
 	private String managerYn;
+	private String jobId;
 	private String jobName;
 	private String deptId;
 	private String deptName;
@@ -27,7 +28,7 @@ public class Member {
 
 	public Member(String mId, String mPwd, String mName, Date birthDate, String email, String phone, String address,
 			String profile, String imgOriginName, String imgChangeName, Date enrollDate, Date updateDate, Date hireDate,
-			Date endDate, int status, String managerYn, String jobName, String deptId, String deptName) {
+			Date endDate, int status, String managerYn, String jobId, String jobName, String deptId, String deptName) {
 		super();
 		this.mId = mId;
 		this.mPwd = mPwd;
@@ -45,6 +46,7 @@ public class Member {
 		this.endDate = endDate;
 		this.status = status;
 		this.managerYn = managerYn;
+		this.jobId = jobId;
 		this.jobName = jobName;
 		this.deptId = deptId;
 		this.deptName = deptName;
@@ -178,6 +180,14 @@ public class Member {
 		this.managerYn = managerYn;
 	}
 
+	public String getJobId() {
+		return jobId;
+	}
+
+	public void setJobId(String jobId) {
+		this.jobId = jobId;
+	}
+
 	public String getJobName() {
 		return jobName;
 	}
@@ -208,7 +218,7 @@ public class Member {
 				+ email + ", phone=" + phone + ", address=" + address + ", profile=" + profile + ", imgOriginName="
 				+ imgOriginName + ", imgChangeName=" + imgChangeName + ", enrollDate=" + enrollDate + ", updateDate="
 				+ updateDate + ", hireDate=" + hireDate + ", endDate=" + endDate + ", status=" + status + ", managerYn="
-				+ managerYn + ", jobName=" + jobName + ", deptId=" + deptId + ", deptName=" + deptName + "]";
+				+ managerYn + ", jobId=" + jobId + ", jobName=" + jobName + ", deptId=" + deptId + ", deptName="
+				+ deptName + "]";
 	}
-		
 }

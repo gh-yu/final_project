@@ -25,7 +25,7 @@
 		          LEFT JOIN DEPARTMENT USING(DEPT_ID)
 		          LEFT JOIN JOB USING(JOB_ID)
 		      WHERE M_STATUS NOT IN (2, 3)
-		      ORDER BY M_STATUS, JOB_ORDER)
+		      ORDER BY M_STATUS, JOB_ORDER, M_ENROLL_DATE DESC)
 	</select>
 	
 	<resultMap type="Member" id="memberResultSet">
@@ -115,7 +115,7 @@
 			<if test="searchValue != ''">
 				and m_name like '%' || #{searchValue} || '%'
 			</if>			
-			ORDER BY M_STATUS, JOB_ORDER
+			ORDER BY M_STATUS, JOB_ORDER, M_ENROLL_DATE DESC
 	</select>
 		
 	<select id="getMemberCount" resultType="int">
@@ -128,8 +128,40 @@
 		where m_status = 1
 	</select>
 	
+	<update id="updateMultiMember">
+		update member
+		set m_status = #{status},
+			m_update_date = SYSDATE
+		where m_id = #{mId}
+	</update>
+
+	<update id="updateMember">
+		update member
+		set m_status = #{status},
+			<if test="hireDate != null">
+			m_hire_date = #{hireDate},
+			</if>
+			<if test="endDate != null">
+			m_end_date = #{endDate},
+			</if>
+			<if test="managerYn != null">
+			m_manager_yn = #{managerYn},
+			</if>
+			<if test="jobId != null">
+			job_id = #{jobId},
+			</if>
+			<if test="deptId != null">
+			dept_id = #{deptId},
+			</if>	
+			m_update_date = SYSDATE
+		where m_id = #{mId}
+	</update>
 	
-	
-	
+	<update id="deleteMember">
+		update member
+		set m_status = 3
+		where m_id = #{mId}
+	</update>
+		
 	
 </mapper>

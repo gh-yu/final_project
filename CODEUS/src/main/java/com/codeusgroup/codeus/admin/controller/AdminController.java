@@ -1,10 +1,13 @@
 package com.codeusgroup.codeus.admin.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,7 +27,8 @@ public class AdminController {
 	private AdminService aService;
 	
 	@RequestMapping("admin/mlist.ad")
-	public ModelAndView selectMemberList(@RequestParam(value="page", required=false) Integer page, ModelAndView mv) {
+	public ModelAndView selectMemberList(@RequestParam(value="page", required=false) Integer page, 
+										@RequestParam(value="message", required=false) String message, ModelAndView mv) {
 		
 		int currentPage = 1;
 		if(page != null) {
@@ -46,6 +50,7 @@ public class AdminController {
 			mv.addObject("mList", mList);
 			mv.addObject("dList", dList);
 			mv.addObject("jList", jList);
+			mv.addObject("message", message);
 			mv.setViewName("memberList");
 		} else {
 			throw new AdminException("멤버 리스트 조회에 실패하엿습니다.");
@@ -63,7 +68,7 @@ public class AdminController {
 		HashMap<String, String> map = new HashMap();
 		map.put("selectDept", selectDept);
 		map.put("selectJob", selectJob);
-		map.put("searchValue", searchValue);
+		map.put("searchValue", searchValue.trim());
 
 		int currentPage = 1;
 		if(page != null) {
@@ -95,4 +100,36 @@ public class AdminController {
 		return mv;
 	}
 	
+	@RequestMapping("admin/mupdate.ad")
+	public String updateMember(@ModelAttribute Member m, @RequestParam(value="multiCheck", required=false) boolean multiCheck) {
+		if(multiCheck) {
+			String[] mArr =  m.getmId().split(",");
+			int mStatus = m.getStatus();
+			
+			int result = aService.updateMultiMember(mArr, mStatus);
+			if (result != mArr.length) {
+				throw new AdminException("멤버 정보 수정에 실패하엿습니다.");
+			}
+			
+		} else {
+			int result = aService.updateMember(m);
+			if (result <= 0) {
+				throw new AdminException("멤버 정보 수정에 실패하엿습니다.");
+			}
+		}
+		
+		return "redirect:mlist.ad?message=u";
+	}
+
+	@RequestMapping("admin/mdelete.ad")
+	public String updateMember(@RequestParam("mId") String[] mIdArr) {
+		
+		int result = aService.deleteMember(mIdArr);
+		
+		if (result != mIdArr.length) {
+				throw new AdminException("멤버 삭제에 실패하엿습니다.");
+		}
+		
+		return "redirect:mlist.ad?message=d";
+	}	
 }
