@@ -1,19 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.ArrayList, com.codeusgroup.codeus.member.model.vo.Member"%>
+    pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Member Management</title>
-<%-- <link href="${contextPath}/resources/assets/vendor/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet"> --%>
 <style>
-	.btn{background: #6495ED; border-color: #6495ED;}
-	#searchForm select{width: 130px; margin-right: 5px;}
+	#searchForm select{width: 130px; margin-right: 5px; display: inline;}
 	#searchForm button{background: none; border: none;}
 	.disabled a:hover{background: white; color: white}
 </style>
-
 </head>
 <body>
 
@@ -32,16 +29,6 @@
                 <div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-	                        <c:set var="normal" value="0"/>
-	                        <c:set var="pause" value="0"/>
-	                        <c:forEach var="m" items="${ mList }">
-                        		<c:if test="${ m.status eq 0 }">
-                        			<c:set var="normal" value="${ normal + 1 }"/>
-                        		</c:if>
-                        		<c:if test="${ m.status eq 1 }">
-                        			<c:set var="normal" value="${ pause + 1 }"/>
-                        		</c:if>
-                      		</c:forEach>
                         	<span style="color: black; margin-right: 100px;"><b>사원 수</b></span>
                         	<span style="color: black; margin-right: 50px;"><b>${ memberCount[0] }</b>명(정상)</span>
                         	<span style="color: black;"> 중지: <span> ${ memberCount[1] }</span>명</span>
@@ -50,7 +37,7 @@
                     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">조직 관리</li>
-                            <li class="breadcrumb-item active"><a href="javascript:void(0)">사원 관리</a></li>
+                            <li class="breadcrumb-item active"><a href="mlist.ad">사원 관리</a></li>
                         </ol>
                     </div>
                 </div>
@@ -58,12 +45,12 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Member List</h4>
+                                <h3 class="card-title" style="font-weight: bold;">사원 목록</h3>
                             </div>
                             <div class="card-body">
 				                <div style="float: right;">
 					                <form id="searchForm" action="${ contextPath }/admin/msearch.ad" method="get">
-					                	<select id="selectDept" name="selectDept">
+					                	<select id="selectDept" class="form-control" name="selectDept">
 					                    	<option value="">부서</option>  
 					                    	<c:forEach var="d" items="${ dList }">
 					                    		<c:if test="${ selectDept ne d.deptId }">
@@ -74,8 +61,8 @@
 					                    		</c:if>
 					                    	</c:forEach>
 					                    </select>
-					                    <select id="selectJob" name="selectJob">
-					                    	<option value="">직위/직책</option>
+					                    <select id="selectJob" class="form-control" name="selectJob">
+					                    	<option value="">직위</option>
 					                    	<c:forEach var="j" items="${ jList }">
 					                    		<c:if test="${ selectJob ne j.jobId }">
 					                    			<option value="${ j.jobId }">${ j.jobName }</option>
@@ -85,7 +72,7 @@
 					                    		</c:if>
 					                    	</c:forEach>
 					                    </select>
-					                    <input type="search" name="searchValue" style="width: 150px;" placeholder="사원 이름">
+					                    <input type="search" class="form-control" name="searchValue" style="width: 150px; display: inline;" placeholder="사원 이름" required>
 					                    <button><i class="mdi mdi-magnify"></i></button>
 					                </form>
 					                <script>
@@ -98,7 +85,7 @@
 					                    		
 					                    $('#selectJob').on('change', function(){
 					                    	var selectJob = $(this).val();
-					                    	if(selectJob != '직위/직책') {
+					                    	if(selectJob != '직위') {
 					                    		$('#searchForm').submit();
 					                    	}
 					                    });
@@ -106,11 +93,11 @@
 				                </div>
 				             	<form id="deleteForm" action="${ contextPath }/admin/mdelete.ad" method="post">
 	                            	<div style="margin-bottom: 10px;">
-					                    <button class="btn btn-dark" id="btnSubmit">계정 삭제</button>
+					                    <button type="button" class="btn btn-dark" id="btnSubmit">계정 삭제</button>
 					                    <!-- Button trigger modal -->
-	                                    <button type="button" class="btn btn-dark" id="btnModal" data-toggle="modal" data-target="#exampleModalCenter">계정 상태 변경</button>
+	                                    <button type="button" class="btn btn-dark" id="btnModal" data-toggle="modal" data-target="#updateStatus">계정 상태 변경</button>
 	                                    <!-- Modal -->
-	                                    <div class="modal fade" id="exampleModalCenter">
+	                                    <div class="modal fade" id="updateStatus">
 	                                        <div class="modal-dialog modal-dialog-centered" role="document">
 	                                            <div class="modal-content">
 	                                                <div class="modal-header">
@@ -120,15 +107,14 @@
 	                                                </div>
 	                                                <div class="modal-body" style="color: black;">
 	                                                	<p>선택한 사원 <span id="countCheck"></span>명의</p>
-	                                                	계정 상태 변경: 
-	                                                	<select id="mStatus" name="status">
+	                                                	계정 상태 변경  &nbsp;
+	                                                	<select id="mStatus" class="form-control" name="mStatus"  style="width: 100px; display: inline;">
 	                                                		<option value="0">정상</option>
 	                                                		<option value="1">중지</option>
 	                                                	</select>
-	                                                	<input type="hidden" id="multiCheck" name="multiCheck" value="false">
 	                                                </div>
 	                                                <div class="modal-footer">
-	                                                    <button type="button" class="btn btn-primary" id="btndSubmit2">저장</button>
+	                                                    <button type="button" class="btn btn-primary" id="btnSubmit2">저장</button>
 	                                                    <button type="button" class="btn btn-light" data-dismiss="modal">취소</button>
 	                                                </div>
 	                                            </div>
@@ -136,17 +122,17 @@
 	                                    </div>
 					                </div>
 	                                <div class="table-responsive">
-	                                    <table class="table table-bordered verticle-middle table-responsive-sm" style="color: black; text-align: center;">
+	                                    <table class="table table-hover table-responsive-sm" style="color: black; text-align: center;">
 	                                        <thead>
 	                                            <tr>
 	                                                <th scope="col" width="30px"><input type="checkbox" id="checkAll"></th>
 	                                                <th scope="col" width="100px">이름</th>
-	                                                <th scope="col" width="120px">직위/직책</th>
+	                                                <th scope="col" width="120px">직위</th>
 	                                                <th scope="col" width="150px">부서</th>
 	                                                <th scope="col" width="120px">아이디</th>
 	                                                <th scope="col" width="180px">이메일</th>
 	                                                <th scope="col" width="130px">입사일</th>
-	                                                <th scope="col" width="120px">계정상태</th>
+	                                                <th scope="col" width="120px">계정 상태</th>
 	                                                <th scope="col" width="50px">상세</th>
 	                                                <c:set var="loopFlag" value="false"/>
 	                                                <c:forEach var="m" items="${ mList }">
@@ -178,7 +164,7 @@
 		                                                <td>${ m.deptName }</td>
 		                                                <td>${ m.mId }</td>
 		                                                <td>${ m.email }</td>
-		                                                <td>${ m.enrollDate }</td>
+		                                                <td>${ m.hireDate }</td>
 		                                                <td>
 			                                                <c:if test="${ m.status eq 0 }">
 			                                                	정상
@@ -192,8 +178,14 @@
 		                                                </td>
 		                                                <td>
 		                                                    <span>
-		                                                    	<c:url var="mdetail" value="${ contextPath }/admin/mdetail.ad">
+		                                                    	<c:url var="mdetail" value="mdetail.ad">
 		                                                    		<c:param name="mId" value="${ m.mId }"/>
+		                                                    		<c:param name="page" value="${ pi.currentPage }"/>
+		                                                    		<c:if test="${ searchValue ne null }"> <!-- null이 아니면 검색을 했다는 뜻 -->
+																		<c:param name="selectDept" value="${ selectDept }"/>
+																		<c:param name="selectJob" value="${ selectJob }"/>
+																		<c:param name="searchValue" value="${ searchValue }"/>
+																	</c:if>	
 		                                                    	</c:url>
 		                                                        <a href="${ mdetail }" class="mr-4" data-toggle="tooltip"
 		                                                            data-placement="top" title="Edit" style="padding-left: 30%;"><i
@@ -205,9 +197,10 @@
 		                                                </td>
 		                                                <c:if test="${ m.status eq 2 }"> <!-- 가입 대기 상태일 때 -->
 		                                               		<td>
-				                                                <div class="btn-group"> <!-- ajax로 처리  -->
-								                                    <button id="approveBtn" type="button" class="btn btn-primary in" style="background: #6495ED; border: #6495ED;">승인</button>
-								                                    <button id="deleteBtn" type="button" class="btn btn-primary out" style="background: #CD5C5C; border: #CD5C5C;">취소</button> 
+				                                                <div class="btn-group">
+				                                                	<input type="hidden" name="joinId" value="${ m.mId }">
+								                                    <button type="button" class="btn btn-primary in approveBtn" style="background: #6495ED; border: #6495ED;">승인</button>
+								                                    <button type="button" class="btn btn-primary out rejectBtn" style="background: #CD5C5C; border: #CD5C5C;">거부</button> 
 								                                </div>
 							                                </td>
 	                                              		</c:if>
@@ -225,9 +218,9 @@
                        		<script>
 								// 수정 또는 삭제 성공시 success 알럿창 띄우기
 	                			$(function(){
-	                				var message = '${message}' == "u" ? "수정이 완료되었습니다." : "사원 삭제가 완료되었습니다.";
+	                				var message = '${message}' == "u" ? "변경이 완료되었습니다." : "계정 삭제가 완료되었습니다.";
 	                				
-	                				if ('${message}' !== '') {
+	                				if ('${message}' != '') {
 	                					Swal.fire({
 		  	                				position: 'top',
 		  	                				icon: 'success',
@@ -270,11 +263,8 @@
                        				
                        			});
                        			
-                       			// 계정 삭제 버튼 클릭시 검증
-                       			$('#btnSubmit').on('click', function(e) {
-                       				e.preventDefault();
-                       				//var form = $(this).parents('form');
-                       				var form = $('#deleteForm');
+                       			// 계정 삭제 버튼 클릭시 실행하는 함수
+                       			$('#btnSubmit').on('click', function(){
                        				
 									var checkM = document.getElementsByClassName('checkM');
                        				
@@ -311,11 +301,10 @@
 	                       				  cancelButtonText: '취소'
 	                       				}).then((result) => {
 	                       				  if (result.value) {
-	                       					form.submit();
+	                       					$('#deleteForm').submit();
 	                       				  }
                        					});
                        				} else if (managerYn) {
-                       					// Swal.fire('삭제하시려는 계정은 관리자 계정입니다.\n 삭제하려면, 먼저 관리자 설정을 해제하여 주세요.');
                        					 Swal.fire(managerId + '은 관리자 계정입니다.\n 삭제하려면, 먼저 관리자 설정을 해제하여 주세요.');
                        				} else {
                        					Swal.fire('적용할 사원을 선택하세요.');
@@ -344,17 +333,15 @@
                        				}
                        			});
                        			
-                       			// 사원 정보 수정 모달창에서 상태 변경 저장 버튼 클릭시
-                       			$('#btndSubmit2').on('click', function(){
+                       			// 사원 정보 수정 모달창에서 상태 변경 저장 버튼 클릭시 실행하는 함수
+                       			$('#btnSubmit2').on('click', function(){
 									var checkM = document.getElementsByClassName('checkM');
                        				var mStatus = $('#mStatus').val();
                        				
-                       				var count = 0;									
                        				var managerYn = false;
                        				var managerId = "";
                        				for (var i in checkM) {
                        					if(checkM[i].checked) {
-                       						count++;
                        						<c:forEach items="${ mList }" var="m">
                        							if (checkM[i].value == '${ m.mId }' && '${ m.managerYn }' == 'Y') {
                        							 	managerYn = true;
@@ -368,19 +355,73 @@
                        					}
                        				}       
                        				
-                       				if (count > 1) {
-                       					$('#multiCheck').val("true");
-                       					console.log($('#multiCheck').val());
-                       				}
-                       				
                        				if (!managerYn || mStatus == 0) {
-                       					$('#deleteForm').attr('action', '${ contextPath }/admin/mupdate.ad');
-                       					$('#deleteForm').submit();
+                       					$(this).parents('form').attr('action', '${ contextPath }/admin/mupdatemulti.ad');
+                       					$(this).parents('form').submit();
                        				} else {
-                       					 Swal.fire(managerId + '은 관리자 계정입니다.\n 계정을 중지하려면, 먼저 관리자 설정을 해제하여 주세요.');
+                       					Swal.fire(managerId + '은 관리자 계정입니다.\n 계정을 중지하려면, 먼저 관리자 설정을 해제하여 주세요.');
                        				} 
                        				                      				
                        			});
+                       			
+                       			// 가입 승인
+                       			$('.approveBtn').on('click', function() {
+                       				var checkM = document.getElementsByClassName('checkM');
+                       				
+                       				for(var i in checkM) {
+                       					if(checkM[i].value == $(this).prev().val()) { // 승인하려는 멤버만 선택되어 있게 함
+                       						checkM[i].checked = true;
+                       					} else {
+                       						checkM[i].checked = false;
+                       					}
+                       				}
+                       				
+									$('#mStatus').eq(0).attr('selected', 'selected'); // 계정 상태 변경 : 정상  선택
+									
+                   			 	 	Swal.fire({
+	                       				title: '가입을 승인하시겠습니까?',
+	                       				text: '승인 후 계정 상태가 정상으로 변경됩니다.',
+	                       				icon: 'question',
+	                       				showCancelButton: true,
+	                       				confirmButtonColor: '#3085d6',
+	                       				cancelButtonColor: 'gray',
+	                       				confirmButtonText: '승인',
+	                       				cancelButtonText: '취소'
+	                       			}).then((result) => {
+	                       				if (result.value) {
+	                       					$(this).parents('form').attr('action', '${ contextPath }/admin/mupdatemulti.ad');
+	                           				$(this).parents('form').submit();
+	                       				}
+                     				});
+                       			});
+                       			
+                       			// 가입 거부
+                       			$('.rejectBtn').on('click', function() {
+                       				var checkM = document.getElementsByClassName('checkM');
+                       				
+                       				for(var i in checkM) {
+                       					if(checkM[i].value == $(this).prev().prev().val()) { // 가입 거부하려는 멤버만 선택되어 있게 함
+                       						checkM[i].checked = true;
+                       					} else {
+                       						checkM[i].checked = false;
+                       					}
+                       				}
+                       				
+                   			 	 	Swal.fire({
+	                       				title: '가입을 거부하시겠습니까?',
+	                       				text: '계정이 삭제되며 복구할 수 없습니다.',
+	                       				icon: 'warning',
+	                       				showCancelButton: true,
+	                       				confirmButtonColor: '#CD5C5C',
+	                       				cancelButtonColor: 'gray',
+	                       				confirmButtonText: '가입 거부',
+	                       				cancelButtonText: '취소'
+	                       			}).then((result) => {
+	                       				if (result.value) {
+	                       					$('#deleteForm').submit();
+	                       				}
+                     				}); 
+                       			});                       			
                        		</script> 
                         
                             <!-- 페이징 영역 시작 -->
@@ -397,7 +438,7 @@
                                   		<c:if test="${ pi.currentPage > 1 }">
                                   			<c:url var="before" value="${ loc }">
 												<c:param name="page" value="${ pi.currentPage - 1 }"/>
-												<c:if test="${ selectDept ne null || selectJob ne null || searchValue ne null }"> <!-- null이 아니면 검색을 했다는 뜻 -->
+												<c:if test="${ searchValue ne null }"> <!-- null이 아니면 검색을 했다는 뜻 -->
 													<c:param name="selectDept" value="${ selectDept }"/>
 													<c:param name="selectJob" value="${ selectJob }"/>
 													<c:param name="searchValue" value="${ searchValue }"/>
@@ -417,7 +458,7 @@
 	                                        <c:if test="${ p ne pi.currentPage }">
 	                                        	<c:url var="pagination" value="${ loc }">
 	                                        		<c:param name="page" value="${ p }"/>
-	                                        		<c:if test="${ selectDept ne null || selectJob ne null || searchValue ne null }"> 
+	                                        		<c:if test="${ searchValue ne null }"> 
 														<c:param name="selectDept" value="${ selectDept }"/>
 														<c:param name="selectJob" value="${ selectJob }"/>
 														<c:param name="searchValue" value="${ searchValue }"/>
@@ -437,7 +478,7 @@
                                          <c:if test="${ pi.currentPage < pi.maxPage }">
                                          	<c:url var="after" value="${ loc }">
                                         		<c:param name="page" value="${ pi.currentPage + 1 }"/>
-	                                        	<c:if test="${ selectDept ne null || selectJob ne null || searchValue ne null }"> 
+	                                        	<c:if test="${ searchValue ne null }"> 
 													<c:param name="selectDept" value="${ selectDept }"/>
 													<c:param name="selectJob" value="${ selectJob }"/>
 														c:param name="searchValue" value="${ searchValue }"/>

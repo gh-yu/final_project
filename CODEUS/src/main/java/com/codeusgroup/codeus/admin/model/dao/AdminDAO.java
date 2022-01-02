@@ -52,9 +52,9 @@ public class AdminDAO {
 		return (ArrayList)sqlSession.selectList("adminMapper.getMemberCount");
 	}
 
-	public int updateMultiMember(SqlSessionTemplate sqlSession, String[] mArr, int mStatus) {
+	public int updateMultiMember(SqlSessionTemplate sqlSession, String[] mIdArr, int mStatus) {
 		int result = 0;
-		for(String mId : mArr) {
+		for(String mId : mIdArr) {
 //			HashMap<String, String> map = new HashMap<String, String>();
 //			map.put("mId", mId);
 //			map.put("mStatus", String.valueOf(mStatus));
@@ -77,6 +77,10 @@ public class AdminDAO {
 			result += sqlSession.update("adminMapper.deleteMember", mId);
 		}
 		return result;
+	}
+
+	public Member selectMember(SqlSessionTemplate sqlSession, String mId) {
+		return sqlSession.selectOne("adminMapper.selectMember", mId);
 	}
 
 }

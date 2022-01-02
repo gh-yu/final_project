@@ -58,8 +58,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public int updateMultiMember(String[] mArr, int mStatus) {
-		return aDAO.updateMultiMember(sqlSession, mArr, mStatus);
+	public int updateMultiMember(String[] mIdArr, int mStatus) {
+		return aDAO.updateMultiMember(sqlSession, mIdArr, mStatus);
 	}
 
 	@Override
@@ -70,6 +70,11 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int deleteMember(String[] mIdArr) {
 		return aDAO.deleteMember(sqlSession, mIdArr);
+	}
+
+	@Override
+	public Member selectMember(String mId) {
+		return aDAO.selectMember(sqlSession, mId);
 	}
 
 }

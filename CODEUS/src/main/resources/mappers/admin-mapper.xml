@@ -11,7 +11,7 @@
 	<select id="selectMemberList" resultMap="memberResultSet">
 		SELECT *
 		FROM (SELECT M_ID, M_PWD, M_NAME, M_BIRTH_DATE, M_EMAIL, M_PHONE, M_ADDRESS, M_PROFILE, M_IMG_ORIGIN_NAME, M_IMG_CHANGE_NAME, M_ENROLL_DATE, M_UPDATE_DATE, 
-       			M_HIRE_DATE, M_END_DATE, M_STATUS, M_MANAGER_YN, JOB_NAME, DEPT_ID, DEPT_NAME
+       			M_HIRE_DATE, M_END_DATE, M_STATUS, M_MANAGER_YN, JOB_ID, JOB_NAME, DEPT_ID, DEPT_NAME
      		  FROM MEMBER
           	  	   LEFT JOIN DEPARTMENT USING(DEPT_ID)
          		   LEFT JOIN JOB USING(JOB_ID)
@@ -20,12 +20,12 @@
 		UNION ALL
 		SELECT *
 		FROM (SELECT M_ID, M_PWD, M_NAME, M_BIRTH_DATE, M_EMAIL, M_PHONE, M_ADDRESS, M_PROFILE, M_IMG_ORIGIN_NAME, M_IMG_CHANGE_NAME, M_ENROLL_DATE, M_UPDATE_DATE, 
-		       M_HIRE_DATE, M_END_DATE, M_STATUS, M_MANAGER_YN, JOB_NAME, DEPT_ID, DEPT_NAME
+		       M_HIRE_DATE, M_END_DATE, M_STATUS, M_MANAGER_YN, JOB_ID, JOB_NAME, DEPT_ID, DEPT_NAME
 		      FROM MEMBER
 		          LEFT JOIN DEPARTMENT USING(DEPT_ID)
 		          LEFT JOIN JOB USING(JOB_ID)
 		      WHERE M_STATUS NOT IN (2, 3)
-		      ORDER BY M_STATUS, JOB_ORDER, M_ENROLL_DATE DESC)
+		      ORDER BY M_STATUS, <!-- JOB_ORDER, --> M_ENROLL_DATE DESC)
 	</select>
 	
 	<resultMap type="Member" id="memberResultSet">
@@ -45,6 +45,7 @@
 		<result column="M_END_DATE" property="endDate"/>
 		<result column="M_STATUS" property="status"/>
 		<result column="M_MANAGER_YN" property="managerYn"/>
+		<result column="JOB_ID" property="jobId"/>
 		<result column="JOB_NAME" property="jobName"/>
 		<result column="DEPT_ID" property="deptId"/>
 		<result column="DEPT_NAME" property="deptName"/>
@@ -71,10 +72,11 @@
 	</resultMap>
 	
 	<select id="selectJobList" resultMap="jobResultSet">
-		SELECT *
-		FROM JOB
+		SELECT JOB_ID, JOB_ORDER, JOB_NAME, COUNT(M_ID) MEMBER_COUNT
+		FROM JOB LEFT JOIN MEMBER USING(JOB_ID)
 		WHERE JOB_STATUS = 0
-		ORDER BY JOB_ORDER
+		GROUP BY JOB_ID, JOB_ORDER, JOB_NAME
+		ORDER BY JOB_ORDER, JOB_ID
 	</select>
 	
 	<resultMap type="Job" id="jobResultSet">
@@ -82,6 +84,7 @@
 		<result column="JOB_NAME" property="jobName"/>
 		<result column="JOB_ORDER" property="jobOrder"/>
 		<result column="JOB_STATUS" property="jobStatus"/>
+		<result column="MEMBER_COUNT" property="memberCount"/>
 	</resultMap>	
 	
 	<select id="getSearchListCount" resultType="_int">
@@ -115,7 +118,7 @@
 			<if test="searchValue != ''">
 				and m_name like '%' || #{searchValue} || '%'
 			</if>			
-			ORDER BY M_STATUS, JOB_ORDER, M_ENROLL_DATE DESC
+			ORDER BY M_STATUS, <!-- JOB_ORDER, --> M_ENROLL_DATE DESC
 	</select>
 		
 	<select id="getMemberCount" resultType="int">
@@ -134,28 +137,6 @@
 			m_update_date = SYSDATE
 		where m_id = #{mId}
 	</update>
-
-	<update id="updateMember">
-		update member
-		set m_status = #{status},
-			<if test="hireDate != null">
-			m_hire_date = #{hireDate},
-			</if>
-			<if test="endDate != null">
-			m_end_date = #{endDate},
-			</if>
-			<if test="managerYn != null">
-			m_manager_yn = #{managerYn},
-			</if>
-			<if test="jobId != null">
-			job_id = #{jobId},
-			</if>
-			<if test="deptId != null">
-			dept_id = #{deptId},
-			</if>	
-			m_update_date = SYSDATE
-		where m_id = #{mId}
-	</update>
 	
 	<update id="deleteMember">
 		update member
@@ -163,5 +144,26 @@
 		where m_id = #{mId}
 	</update>
 		
+	<select id="selectMember" resultMap="memberResultSet">
+		SELECT M_ID, M_PWD, M_NAME, M_BIRTH_DATE, M_EMAIL, M_PHONE, M_ADDRESS, M_PROFILE, M_IMG_ORIGIN_NAME, M_IMG_CHANGE_NAME, 
+			   M_ENROLL_DATE, M_UPDATE_DATE, M_HIRE_DATE, M_END_DATE, M_STATUS, M_MANAGER_YN, JOB_ID, JOB_NAME, DEPT_ID, DEPT_NAME
+     	FROM MEMBER
+          	 LEFT JOIN DEPARTMENT USING(DEPT_ID)
+         	 LEFT JOIN JOB USING(JOB_ID)
+        WHERE M_ID = #{mId}
+	</select>
+
+	<update id="updateMember">
+		update member
+		set m_hire_date = #{hireDate},
+			m_end_date = #{endDate},
+			m_status = #{status},
+			m_manager_yn = #{managerYn},
+			job_id = #{jobId},
+			dept_id = #{deptId},
+			m_update_date = SYSDATE
+		where m_id = #{mId}
+	</update>
+	
 	
 </mapper>

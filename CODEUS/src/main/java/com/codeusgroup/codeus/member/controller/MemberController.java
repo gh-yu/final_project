@@ -1,5 +1,9 @@
 package com.codeusgroup.codeus.member.controller;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +23,6 @@ import com.codeusgroup.codeus.member.model.vo.Member;
 @Controller
 public class MemberController {
 	
-	
 	@Autowired
 	private MemberService mService;
 	
@@ -27,7 +30,6 @@ public class MemberController {
 	public String login(@ModelAttribute Member m, Model model) {
 		
 		Member loginUser = mService.memberLogin(m);
-		System.out.println(loginUser);
 		
 		if(loginUser != null) {
 			model.addAttribute("loginUser", loginUser);
@@ -39,11 +41,14 @@ public class MemberController {
 	}
 	
 	@RequestMapping("logout.me")
-	public String login(SessionStatus session) {
+	public void login(SessionStatus session,  HttpServletRequest request, HttpServletResponse response) {
 		
 		session.setComplete();
-		
-		return "../../../index";
+		try {
+			response.sendRedirect(request.getContextPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

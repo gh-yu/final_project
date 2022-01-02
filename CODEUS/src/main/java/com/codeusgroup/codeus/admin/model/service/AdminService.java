@@ -24,10 +24,13 @@ public interface AdminService {
 
 	ArrayList<Integer> getMemberCount();
 
-	int updateMultiMember(String[] mArr, int mStatus);
+	int updateMultiMember(String[] mIdArr, int mStatus);
 
 	int updateMember(Member m);
 
 	int deleteMember(String[] mIdArr);
+
+	Member selectMember(String mId);
+
 
 }

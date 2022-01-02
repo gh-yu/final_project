@@ -98,8 +98,8 @@
                     	<i class="fa fa-sitemap"></i><!-- <i class="fa fa-user-plus"></i> --><span class="nav-text">조직 관리</span></a>
                      	  <ul aria-expanded="false">
                             <li><a href="mlist.ad">사원 관리</a></li>
-                            <li><a href="javascript:void()">조직설계</a></li>
-                            <li><a href="javascript:void()">직위체계</a></li>
+                            <li><a href="deptlist.ad">부서 관리</a></li>
+                            <li><a href="joblist.ad">직위 관리</a></li>
                         </ul>                   	
                     </li>
                     
