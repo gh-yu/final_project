@@ -275,7 +275,6 @@
                        					if(checkM[i].checked) {
                        						count++;
                        						<c:forEach items="${ mList }" var="m">
-                       							
                        							if (checkM[i].value == '${ m.mId }' && '${ m.managerYn }' == 'Y' ) {
                        							 	managerYn = true;
                        							 	if (managerId == "") {
@@ -312,7 +311,7 @@
                        				
                        			});
                        			
-                       			// 계정 상태 변경 모달창 띄우기
+                       			// 계정 상태 변경 모달창 띄우기 전 모달 내 텍스트 변경
                        			$('#btnModal').on('click', function(){
                        				$(this).attr('data-toggle', '');
                        				

@@ -23,13 +23,16 @@
                 <div class="col-md-5">
                     <div class="form-input-content text-center">
                         <div class="mb-5">
-                            <a class="btn btn-primary" href="javascript:history.back()"><!-- Back to Home -->이전 페이지</a> 
-                            <!-- c:if errorCode가 403, 즉 접근 불가면  ${contextPath}로 가기 -->
+                        	<c:if test="${ error_code ne '403' }"> 
+                            	<a class="btn btn-primary" href="javascript:history.back()">이전 페이지</a> 
+                            </c:if>
+                            <c:if test="${ error_code eq '403' }"> <!-- 403, 즉 접근 불가 에러일 경우 시작 페이지로 이동하는 버튼 -->
+                            	<a class="btn btn-primary" href="${ contextPath }">시작 페이지</a> 
+                            </c:if>
                         </div>
-                        <h1 class="error-text font-weight-bold">400</h1> <!-- ${errorCode}  -->
-                        <h4 class="mt-4"><i class="fa fa-thumbs-down text-danger"></i> Bad Request</h4>  <!-- ${errorTitle}  -->
-                        <p>Your Request resulted in an error</p>  <!-- ${errorMsg} -->
-                        <h2 style="color: blue;"><%= request.getAttribute("javax.servlet.error.message") %></h2> <!-- 나중에 삭제  -->
+                        <h1 class="error-text font-weight-bold">${ error_code }</h1>
+                        <h4 class="mt-4"><i class="fa fa-exclamation-triangle text-warning"></i> ${ msg }</h4>
+                        <!-- 나중에 삭제  --><p><%= request.getAttribute("javax.servlet.error.message") %></p>
                     </div>
                 </div>
             </div>

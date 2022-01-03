@@ -54,7 +54,7 @@
 	<select id="selectDepartmentList" resultMap="departmentResultSet">
 		SELECT D.DEPT_ID, DEPT_NAME, DEPT_MANAGER, M_NAME, UPPER_DEPT, DEPT_LEVEL, DEPT_ORDER, DEPT_STATUS, DEPT_CREATE_DATE
 		FROM DEPARTMENT D
-		     LEFT JOIN MEMBER ON(DEPT_MANAGER = M_NAME)
+		     LEFT JOIN MEMBER ON(DEPT_MANAGER = M_ID)
 		WHERE DEPT_STATUS = 0
 		ORDER BY DEPT_LEVEL
 	</select>
@@ -165,5 +165,20 @@
 		where m_id = #{mId}
 	</update>
 	
+	<update id="deleteJob">
+		update job
+		set job_status = 1
+		where job_id = #{jobId}
+	</update>
 	
+	<insert id="insertJob">
+		insert into job
+		values(seq_job_id.nextval, #{jobName}, #{jobOrder}, default)
+	</insert>
+	
+	<update id="updateJob">
+		update job
+		set job_name = #{jobName}, job_order = #{jobOrder}
+		where job_id = #{jobId}
+	</update>
 </mapper>
