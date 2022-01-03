@@ -32,5 +32,11 @@ public interface AdminService {
 
 	Member selectMember(String mId);
 
+	int deleteJob(String[] jobIdArr);
+
+	int insertJob(Job job);
+
+	int updateJob(Job job);
+
 
 }

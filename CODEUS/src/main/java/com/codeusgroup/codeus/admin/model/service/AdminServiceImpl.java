@@ -77,4 +77,19 @@ public class AdminServiceImpl implements AdminService {
 		return aDAO.selectMember(sqlSession, mId);
 	}
 
+	@Override
+	public int deleteJob(String[] jobIdArr) {
+		return aDAO.deleteJob(sqlSession, jobIdArr);
+	}
+
+	@Override
+	public int insertJob(Job job) {
+		return aDAO.insertJob(sqlSession, job);
+	}
+
+	@Override
+	public int updateJob(Job job) {
+		return aDAO.updateJob(sqlSession, job);
+	}
+
 }

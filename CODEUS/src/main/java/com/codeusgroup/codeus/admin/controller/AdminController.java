@@ -8,6 +8,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,8 @@ import com.codeusgroup.codeus.admin.model.vo.Department;
 import com.codeusgroup.codeus.admin.model.vo.Job;
 import com.codeusgroup.codeus.admin.model.vo.PageInfo;
 import com.codeusgroup.codeus.member.model.vo.Member;
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
 
 @Controller
 public class AdminController {
@@ -152,7 +155,7 @@ public class AdminController {
 			mv.addObject("message", message);
 			mv.setViewName("memberDetail");
 		} else {
-			throw new AdminException("멤버 검색 결과 조회에 실패하엿습니다.");
+			throw new AdminException("멤버 상세 조회에 실패하엿습니다.");
 		}
 		
 		return mv;
@@ -206,10 +209,97 @@ public class AdminController {
 		if(jList != null) {
 			model.addAttribute("jList", jList);
 		} else {
-			throw new AdminException("멤버 검색 결과 조회에 실패하엿습니다.");
+			throw new AdminException("직위 목록 조회에 실패하엿습니다.");
 		}
 		
 		return "jobList";
 	}
+	
+	@RequestMapping("admin/jdelete.ad")
+	public void deleteJob(@RequestParam("jobIdArr") String[] jobIdArr, HttpServletResponse response) {
+		
+		int result = aService.deleteJob(jobIdArr);
+		
+		if (result != jobIdArr.length) {
+			throw new AdminException("직위 삭제에 실패하엿습니다.");
+		}
+		
+		ArrayList<Job> jList = aService.selectJobList();
+		if(jList == null) {
+			throw new AdminException("직위 목록을 불러오는데 실패하였습니다.");
+		} 
+		
+		Gson gson = new Gson();
+		try {
+			gson.toJson(jList, response.getWriter());
+		} catch (JsonIOException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}	
+	
+	@RequestMapping("admin/jinsert.ad")
+	public void insertJob(@ModelAttribute Job job, HttpServletResponse response) {
+		
+		int result = aService.insertJob(job);
+		
+		if (result < 0) {
+			throw new AdminException("직위 등록에 실패하였습니다.");
+		}
+		
+		ArrayList<Job> jList = aService.selectJobList();
+		if(jList == null) {
+			throw new AdminException("직위 목록을 불러오는데 실패하였습니다.");
+		} 
+		
+		Gson gson = new Gson();
+		try {
+			gson.toJson(jList, response.getWriter());
+		} catch (JsonIOException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("admin/jupdate.ad")
+	public void updateJob(@ModelAttribute Job job, HttpServletResponse response) {
+		
+		int result = aService.updateJob(job);
+		
+		if (result < 0) {
+			throw new AdminException("직위 수정에 실패하였습니다.");
+		}
+		
+		ArrayList<Job> jList = aService.selectJobList();
+		if(jList == null) {
+			throw new AdminException("직위 목록을 불러오는데 실패하였습니다.");
+		} 
+		
+		Gson gson = new Gson();
+		try {
+			gson.toJson(jList, response.getWriter());
+		} catch (JsonIOException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
+	}
+	
+	@RequestMapping("admin/deptlist.ad")
+	public String selectDepartmentList(Model model) {
+		
+		ArrayList<Department> dList = aService.selectDepartmentList();
+		
+		if(dList != null) {
+			model.addAttribute("dList", dList);
+		} else {
+			throw new AdminException("직위 목록 조회에 실패하엿습니다.");
+		}
+		System.out.println(dList);
+		return "deptList";		
+	}	
 	
 }

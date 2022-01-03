@@ -5,15 +5,17 @@ public class Job {
 	private String jobName;
 	private int jobOrder;
 	private int jobStatus;
+	private int memberCount;
 	
 	public Job() {}
 
-	public Job(int jobId, String jobName, int jobOrder, int jobStatus) {
+	public Job(int jobId, String jobName, int jobOrder, int jobStatus, int memberCount) {
 		super();
 		this.jobId = jobId;
 		this.jobName = jobName;
 		this.jobOrder = jobOrder;
 		this.jobStatus = jobStatus;
+		this.memberCount = memberCount;
 	}
 
 	public int getJobId() {
@@ -48,10 +50,18 @@ public class Job {
 		this.jobStatus = jobStatus;
 	}
 
+	public int getMemberCount() {
+		return memberCount;
+	}
+
+	public void setMemberCount(int memberCount) {
+		this.memberCount = memberCount;
+	}
+
 	@Override
 	public String toString() {
 		return "Job [jobId=" + jobId + ", jobName=" + jobName + ", jobOrder=" + jobOrder + ", jobStatus=" + jobStatus
-				+ "]";
+				+ ", memberCount=" + memberCount + "]";
 	}
 
 }

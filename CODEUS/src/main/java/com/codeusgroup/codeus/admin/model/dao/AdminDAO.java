@@ -83,4 +83,21 @@ public class AdminDAO {
 		return sqlSession.selectOne("adminMapper.selectMember", mId);
 	}
 
+	public int deleteJob(SqlSessionTemplate sqlSession, String[] jobIdArr) {
+		int result = 0;
+		for (String jobId : jobIdArr) {
+			result += sqlSession.update("adminMapper.deleteJob", jobId);
+		}
+		
+		return result;
+	}
+
+	public int insertJob(SqlSessionTemplate sqlSession, Job job) {
+		return sqlSession.insert("adminMapper.insertJob", job);
+	}
+
+	public int updateJob(SqlSessionTemplate sqlSession, Job job) {
+		return sqlSession.update("adminMapper.updateJob", job);
+	}
+
 }
