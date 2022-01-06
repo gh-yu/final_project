@@ -21,7 +21,7 @@
     ***********************************-->
     <div id="main-wrapper">	
 
-		<c:import url="../common/menubar_admin.jsp"/>
+		<c:import url="../member/menubar.jsp"/>
     
         <!--**********************************
             Content body start
@@ -77,12 +77,22 @@
                                         </div>
                                         <label class="col-form-label">부서</label>
                                         <select>
-                                        	<option>3433</option>
+                                        	<option>경영지원팀</option>
+                                        	<option>개발팀</option>
                                         </select>
                                         <br>
                                         <label class="col-form-label">직위/직책</label>
                                         <select>
-                                        	<option>3433</option>
+                                        	<option>사원</option>
+                                        	<option>주임</option>
+                                        	<option>대리</option>
+                                        	<option>과장</option>
+                                        	<option>차장</option>
+                                        	<option>부장</option>
+                                        	<option>이사</option>
+                                        	<option>상무</option>
+                                        	<option>전무</option>
+                                        	<option>사장</option>
                                         </select>
                                         <br>
                                         <label class="col-form-label">입사일</label>

@@ -22,10 +22,17 @@ public class AdminDAO {
 	}
 
 	public ArrayList<Member> selectMemberList(SqlSessionTemplate sqlSession, PageInfo pi) {
-		int offset  = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
-		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
-		return (ArrayList)sqlSession.selectList("adminMapper.selectMemberList", null, rowBounds);
+		ArrayList<Member> mList = null;
+		if (pi != null) {
+			int offset  = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+			RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+			mList = (ArrayList)sqlSession.selectList("adminMapper.selectMemberList", null, rowBounds);
+		} else {
+			mList = (ArrayList)sqlSession.selectList("adminMapper.selectMemberList2");
+		}
+		
+		return mList;
 	}
 
 	public ArrayList<Department> selectDepartmentList(SqlSessionTemplate sqlSession) {
@@ -98,6 +105,14 @@ public class AdminDAO {
 
 	public int updateJob(SqlSessionTemplate sqlSession, Job job) {
 		return sqlSession.update("adminMapper.updateJob", job);
+	}
+
+	public ArrayList<Member> selectDeptMemberList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.selectDeptMemberList");
+	}
+
+	public ArrayList<Department> getSubDeptList(SqlSessionTemplate sqlSession, int upperDept) {
+		return (ArrayList)sqlSession.selectList("adminMapper.getSubDeptList", upperDept);
 	}
 
 }

@@ -7,26 +7,28 @@ public class Department {
 	private String deptName;
 	private String deptManager;
 	private String deptManagerName;
-	private	int uppperDept;
+	private	int upperDept;
 	private int deptLevel;
 	private int deptOrder;
 	private int deptStatus;
 	private Date createDate;
+	private int hasChildren;
 	
 	public Department() {}
 
-	public Department(int deptId, String deptName, String deptManager, String deptManagerName, int uppperDept,
-			int deptLevel, int deptOrder, int deptStatus, Date createDate) {
+	public Department(int deptId, String deptName, String deptManager, String deptManagerName, int upperDept,
+			int deptLevel, int deptOrder, int deptStatus, Date createDate, int hasChildren) {
 		super();
 		this.deptId = deptId;
 		this.deptName = deptName;
 		this.deptManager = deptManager;
 		this.deptManagerName = deptManagerName;
-		this.uppperDept = uppperDept;
+		this.upperDept = upperDept;
 		this.deptLevel = deptLevel;
 		this.deptOrder = deptOrder;
 		this.deptStatus = deptStatus;
 		this.createDate = createDate;
+		this.hasChildren = hasChildren;
 	}
 
 	public int getDeptId() {
@@ -61,12 +63,12 @@ public class Department {
 		this.deptManagerName = deptManagerName;
 	}
 
-	public int getUppperDept() {
-		return uppperDept;
+	public int getUpperDept() {
+		return upperDept;
 	}
 
-	public void setUppperDept(int uppperDept) {
-		this.uppperDept = uppperDept;
+	public void setUpperDept(int upperDept) {
+		this.upperDept = upperDept;
 	}
 
 	public int getDeptLevel() {
@@ -101,11 +103,20 @@ public class Department {
 		this.createDate = createDate;
 	}
 
+	public int getHasChildren() {
+		return hasChildren;
+	}
+
+	public void setHasChildren(int hasChildren) {
+		this.hasChildren = hasChildren;
+	}
+
 	@Override
 	public String toString() {
 		return "Department [deptId=" + deptId + ", deptName=" + deptName + ", deptManager=" + deptManager
-				+ ", deptManagerName=" + deptManagerName + ", uppperDept=" + uppperDept + ", deptLevel=" + deptLevel
-				+ ", deptOrder=" + deptOrder + ", deptStatus=" + deptStatus + ", createDate=" + createDate + "]";
+				+ ", deptManagerName=" + deptManagerName + ", upperDept=" + upperDept + ", deptLevel=" + deptLevel
+				+ ", deptOrder=" + deptOrder + ", deptStatus=" + deptStatus + ", createDate=" + createDate
+				+ ", hasChildren=" + hasChildren + "]";
 	}
-	
+
 }

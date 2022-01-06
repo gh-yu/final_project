@@ -10,6 +10,7 @@
 	#searchForm select{width: 130px; margin-right: 5px; display: inline;}
 	#searchForm button{background: none; border: none;}
 	.disabled a:hover{background: white; color: white}
+	.search input{display: inline;  width: 150px;}
 </style>
 </head>
 <body>
@@ -48,7 +49,7 @@
                                 <h3 class="card-title" style="font-weight: bold;">사원 목록</h3>
                             </div>
                             <div class="card-body">
-				                <div style="float: right;">
+				                <div class="search" style="float: right;">
 					                <form id="searchForm" action="${ contextPath }/admin/msearch.ad" method="get">
 					                	<select id="selectDept" class="form-control" name="selectDept">
 					                    	<option value="">부서</option>  
@@ -72,7 +73,13 @@
 					                    		</c:if>
 					                    	</c:forEach>
 					                    </select>
-					                    <input type="search" class="form-control" name="searchValue" style="width: 150px; display: inline;" placeholder="사원 이름" required>
+					                    <input type="search" class="form-control" name="searchValue"  list="memberList" placeholder="사원 이름" required autocomplete="off">
+					                    <datalist id="memberList">
+			                        	<c:forEach var="m2" items="${ mList2 }">
+			                        		<option value="${ m2.mName }"></option>                               		
+	 	                                </c:forEach>
+			                        </datalist>
+					                    
 					                    <button><i class="mdi mdi-magnify"></i></button>
 					                </form>
 					                <script>
@@ -221,13 +228,7 @@
 	                				var message = '${message}' == "u" ? "변경이 완료되었습니다." : "계정 삭제가 완료되었습니다.";
 	                				
 	                				if ('${message}' != '') {
-	                					Swal.fire({
-		  	                				position: 'top',
-		  	                				icon: 'success',
-		  	                				title: message,
-		  	                				showConfirmButton: false,
-		  	                				timer: 1500
-		  	                			});
+	                					alert(message);
 	                					<c:remove var="message" scope="request"/>
 		                				history.replaceState({}, null, location.pathname);
 	                				}
@@ -292,7 +293,7 @@
                        			 		Swal.fire({
 	                       				  title: '선택된 ' + count + '명의 사원을 삭제하시겠습니까?',
 	                       				  text: '삭제 후 복구할 수 없습니다.',
-	                       				  icon: 'warning',
+	                       				  // icon: 'warning',
 	                       				  showCancelButton: true,
 	                       				  confirmButtonColor: '#CD5C5C',
 	                       				  cancelButtonColor: 'gray',
@@ -304,9 +305,9 @@
 	                       				  }
                        					});
                        				} else if (managerYn) {
-                       					 Swal.fire(managerId + '은 관리자 계정입니다.\n 삭제하려면, 먼저 관리자 설정을 해제하여 주세요.');
+                       					alert('삭제하려면, 먼저 관리자 설정을 해제하여 주세요.', managerId + '은 관리자 계정입니다.')
                        				} else {
-                       					Swal.fire('적용할 사원을 선택하세요.');
+                       					alert('적용할 사원을 선택하세요.');
                        				}
                        				
                        			});
@@ -328,7 +329,7 @@
                        					$('#countCheck').html(count);
                        					$(this).attr('data-toggle', 'modal');
                        				} else {
-                       					Swal.fire('적용할 사원을 선택하세요.');
+                       					alert('적용할 사원을 선택하세요.');
                        				}
                        			});
                        			
@@ -358,7 +359,7 @@
                        					$(this).parents('form').attr('action', '${ contextPath }/admin/mupdatemulti.ad');
                        					$(this).parents('form').submit();
                        				} else {
-                       					Swal.fire(managerId + '은 관리자 계정입니다.\n 계정을 중지하려면, 먼저 관리자 설정을 해제하여 주세요.');
+                       					alert('계정을 중지하려면, 먼저 관리자 설정을 해제하여 주세요.', managerId + '은 관리자 계정입니다.');
                        				} 
                        				                      				
                        			});
@@ -380,7 +381,6 @@
                    			 	 	Swal.fire({
 	                       				title: '가입을 승인하시겠습니까?',
 	                       				text: '승인 후 계정 상태가 정상으로 변경됩니다.',
-	                       				icon: 'question',
 	                       				showCancelButton: true,
 	                       				confirmButtonColor: '#3085d6',
 	                       				cancelButtonColor: 'gray',
@@ -409,7 +409,6 @@
                    			 	 	Swal.fire({
 	                       				title: '가입을 거부하시겠습니까?',
 	                       				text: '계정이 삭제되며 복구할 수 없습니다.',
-	                       				icon: 'warning',
 	                       				showCancelButton: true,
 	                       				confirmButtonColor: '#CD5C5C',
 	                       				cancelButtonColor: 'gray',
@@ -420,7 +419,22 @@
 	                       					$('#deleteForm').submit();
 	                       				}
                      				}); 
-                       			});                       			
+                       			});      
+                       			
+                       			// sweet alert customize
+				        		var alert = function(msg, title, icon) {
+				        			Swal.fire({
+				        				position: 'top',
+				        				background: '#292B30',
+					       				color: 'white',
+				        				title : title,
+				        				text : msg,
+				        				icon: icon,
+				        				timer : 2000,
+				        				customClass : 'sweet-size',
+				        				showConfirmButton : false
+				        			});
+				        		}
                        		</script> 
                         
                             <!-- 페이징 영역 시작 -->
@@ -507,7 +521,7 @@
         ***********************************-->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">CODEUS</a> 2021</p>
+                <p>Copyright © Designed &amp; Developed by <a href="${contextPath}/home.do" target="_blank">CODEUS</a> 2021</p>
             </div>
         </div>
         <!--**********************************
@@ -522,7 +536,6 @@
    <!--**********************************
         Scripts
     ***********************************-->
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

@@ -29,7 +29,15 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public ArrayList<Member> selectMemberList(PageInfo pi) {
-		return aDAO.selectMemberList(sqlSession, pi);
+		
+		ArrayList<Member> mList = null;
+		if (pi != null) {
+			mList = aDAO.selectMemberList(sqlSession, pi);
+		} else {
+			mList = aDAO.selectMemberList(sqlSession, null);
+		}
+		
+		return mList;
 	}
 
 	@Override
@@ -90,6 +98,16 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int updateJob(Job job) {
 		return aDAO.updateJob(sqlSession, job);
+	}
+
+	@Override
+	public ArrayList<Member> selectDeptMemberList() {
+		return aDAO.selectDeptMemberList(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Department> getSubDeptList(int upperDept) {
+		return aDAO.getSubDeptList(sqlSession, upperDept);
 	}
 
 }

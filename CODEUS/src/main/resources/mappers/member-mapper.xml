@@ -4,9 +4,9 @@
 	<select id="memberLogin" resultMap="memberResultSet">
 		select *
 		from member
-		left join departmeNt using(dept_id)
+		left join department using(dept_id)
 		left join JOB using(JOB_id)
-		WHERE M_STATUS = 0 and m_id = #{mId} and m_pwd = #{mPwd}
+		WHERE M_STATUS != 3 and m_id = #{mId}
 	</select>
 	
 	<resultMap type="Member" id="memberResultSet">
@@ -26,11 +26,39 @@
 		<result column="M_END_DATE" property="endDate"/>
 		<result column="M_STATUS" property="status"/>
 		<result column="M_MANAGER_YN" property="managerYn"/>
+		<result column="JOB_ID" property="jobId"/>
 		<result column="JOB_NAME" property="jobName"/>
 		<result column="DEPT_ID" property="deptId"/>
 		<result column="DEPT_NAME" property="deptName"/>
 	</resultMap>
 
+	<insert id="insertMember">
+		insert into member
+		values(#{mId}, #{mPwd}, #{mName}, #{birthDate},
+			   #{email}, #{phone}, #{address}, #{profile},
+			   #{imgOriginName}, #{imgChangeName}, sysdate, sysdate,
+			   sysdate, sysdate, default, default, #{jobId},
+			   #{jobName}, #{deptId}, #{deptName})
+	</insert>
 	
+	<select id="idSearchMember" resultMap="memberResultSet">
+		select m_id
+		from member
+		where m_Name = #{mName} and
+			  m_Email = #{email} and
+			  M_STATUS != 3 
+	</select>
 	
+	<select id="pwdSearchMember" resultMap="memberResultSet">
+		select *
+		from member
+		where m_id = #{mId} and 
+			  m_Name = #{mName} and 
+			  m_Email = #{email}
+	</select>
+	
+	<update id="updatePwdMember">
+		update member set m_Pwd = #{mPwd}
+		where m_id = #{mId} 
+	</update>
 </mapper>

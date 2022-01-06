@@ -241,23 +241,11 @@
 		                       						jobList.append(html);
 		                       						$('#insertJob').modal('hide');
 		                       						
-		                       						Swal.fire({
-		    		  	                				position: 'top',
-		    		  	                				icon: 'success',
-		    		  	                				title: '저장되었습니다.',
-		    		  	                				showConfirmButton: false,
-		    		  	                				timer: 1500
-		    		  	                			});		                       						
+		                       						alert('저장되었습니다.');		                       						
 		                       					},
 		                       					error: function(data){
 		                       						console.log(data);
-		                       						Swal.fire({
-		    		  	                				position: 'top',
-		    		  	                				icon: 'error',
-		    		  	                				title: '알 수 없는 오류가 발생했습니다.',
-		    		  	                				showConfirmButton: false,
-		    		  	                				timer: 1500
-		    		  	                			});
+		                       						alert('알 수 없는 오류가 발생했습니다.', '', 'error');
 		                       					}
 	                       					});
 	                       				}
@@ -352,23 +340,11 @@
 		                       						jobList.append(html);
 		                       						$('#updateJob').modal('hide');
 		                       						
-		                       						Swal.fire({
-		    		  	                				position: 'top',
-		    		  	                				icon: 'success',
-		    		  	                				title: '변경되었습니다.',
-		    		  	                				showConfirmButton: false,
-		    		  	                				timer: 1500
-		    		  	                			});		                       						
+		                       						alert('변경되었습니다.');	                       						
 		                       					},
 		                       					error: function(data){
 		                       						console.log(data);
-		                       						Swal.fire({
-		    		  	                				position: 'top',
-		    		  	                				icon: 'error',
-		    		  	                				title: '알 수 없는 오류가 발생했습니다.',
-		    		  	                				showConfirmButton: false,
-		    		  	                				timer: 1500
-		    		  	                			});
+		                       						alert('알 수 없는 오류가 발생했습니다.', '', 'error');
 		                       					}
 	                       					});
 	                       				}
@@ -389,7 +365,6 @@
 					        					if($('#jobList').find('input[value=' + checkJ[i].value + ']').parent().parent().children().eq(3).text() > 0 ){
 					        						userCheck = true;
 					        					}
-					        					
 					        				}
 					        			}
 					        			
@@ -397,7 +372,7 @@
 					        				Swal.fire({
 						        				title: jobIdArr.length + '개의 항목을 삭제하시겠습니까?',
 				                       			text: '삭제 후 복구할 수 없습니다.',
-				                       			icon: 'warning',
+				                       			// icon: 'warning',
 				                       			showCancelButton: true,
 				                       			confirmButtonColor: '#CD5C5C',
 				                       			cancelButtonColor: 'gray',
@@ -430,36 +405,38 @@
 				                       						}
 				                       						
 				                       						jobList.append(html);
-				                       						Swal.fire({
-				    		  	                				position: 'top',
-				    		  	                				icon: 'success',
-				    		  	                				title: '삭제되었습니다.',
-				    		  	                				showConfirmButton: false,
-				    		  	                				timer: 1500
-				    		  	                			});
+				                       						alert("삭제되었습니다.");
 				                       						
 				                       					},
 				                       					error: function(data){
 				                       						console.log(data);
-				                       						Swal.fire({
-				    		  	                				position: 'top',
-				    		  	                				icon: 'error',
-				    		  	                				title: '알 수 없는 오류가 발생했습니다.',
-				    		  	                				showConfirmButton: false,
-				    		  	                				timer: 1500
-				    		  	                			});
+				                       						alert('알 수 없는 오류가 발생했습니다.', '', 'error');
 				                       					}
 				                       				});
 				                       			}
 			                       			});
 					        			} else if (userCheck){
-					        				Swal.fire("사용 인원이 있는 직위는\n 삭제할 수 없습니다.")
+					        				alert('사용 인원이 있는 직위는 삭제할 수 없습니다.');
 					        			} else {
-					        				Swal.fire("삭제할 항목을 선택해 주세요.")
+							       			alert('삭제할 항목을 선택하세요.');
 					        			}
 					        			
 					        		});
 					        		
+					        		// sweet alert customize
+					        		var alert = function(msg, title, icon) {
+					        			Swal.fire({
+					        				position: 'top',
+					        				background: '#292B30',
+						       				color: 'white',
+					        				title : title,
+					        				text : msg,
+					        				icon: icon,
+					        				timer : 1500,
+					        				customClass : 'sweet-size',
+					        				showConfirmButton : false
+					        			});
+					        		}
 	                        	</script>
                             </div>
                         </div>
@@ -476,7 +453,7 @@
         ***********************************-->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">CODEUS</a> 2021</p>
+                <p>Copyright © Designed &amp; Developed by <a href="${contextPath}/home.do" target="_blank">CODEUS</a> 2021</p>
             </div>
         </div>
         <!--**********************************
@@ -491,7 +468,6 @@
    <!--**********************************
         Scripts
     ***********************************-->
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

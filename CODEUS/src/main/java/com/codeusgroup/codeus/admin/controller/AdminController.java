@@ -50,13 +50,15 @@ public class AdminController {
 		
 		ArrayList<Integer> memberCount = aService.getMemberCount();
 		ArrayList<Member> mList = aService.selectMemberList(pi);
+		ArrayList<Member> mList2 = aService.selectMemberList(null);
 		ArrayList<Department> dList = aService.selectDepartmentList();
 		ArrayList<Job> jList = aService.selectJobList();
 		
-		if(memberCount != null && mList != null && dList != null && jList != null) {
+		if(memberCount != null && mList != null && mList2 != null && dList != null && jList != null) {
 			mv.addObject("memberCount", memberCount);
 			mv.addObject("pi", pi);
 			mv.addObject("mList", mList);
+			mv.addObject("mList2", mList2);
 			mv.addObject("dList", dList);
 			mv.addObject("jList", jList);
 			mv.addObject("message", message);
@@ -89,13 +91,15 @@ public class AdminController {
 
 		ArrayList<Integer> memberCount = aService.getMemberCount();
 		ArrayList<Member> mList = aService.selectSearchMemberList(pi, map);
+		ArrayList<Member> mList2 = aService.selectMemberList(null);
 		ArrayList<Department> dList = aService.selectDepartmentList();
 		ArrayList<Job> jList = aService.selectJobList();
 	
-		if(memberCount != null && mList != null && dList != null && jList != null) {
+		if(memberCount != null && mList != null && mList2 != null && dList != null && jList != null) {
 			mv.addObject("memberCount", memberCount);
 			mv.addObject("pi", pi);
 			mv.addObject("mList", mList);
+			mv.addObject("mList2", mList2);
 			mv.addObject("dList", dList);
 			mv.addObject("jList", jList);
 			mv.addObject("selectDept", selectDept);
@@ -144,7 +148,6 @@ public class AdminController {
 		ArrayList<Job> jList = aService.selectJobList();
 		mv.addObject("dList", dList);
 		mv.addObject("jList", jList);
-		System.out.println(member);
 		
 		if (member != null && dList != null && jList != null) {
 			mv.addObject("member", member);
@@ -292,14 +295,36 @@ public class AdminController {
 	public String selectDepartmentList(Model model) {
 		
 		ArrayList<Department> dList = aService.selectDepartmentList();
+		ArrayList<Member> mList = aService.selectDeptMemberList();
 		
-		if(dList != null) {
+		if(dList != null && mList != null) {
 			model.addAttribute("dList", dList);
+			model.addAttribute("mList", mList);
 		} else {
 			throw new AdminException("직위 목록 조회에 실패하엿습니다.");
 		}
-		System.out.println(dList);
+		
 		return "deptList";		
 	}	
+	
+	@RequestMapping("admin/subDeptList.ad")
+	public void getSubDeptList(@RequestParam("upperDept") int upperDept, HttpServletResponse response) {
+		System.out.println(upperDept);
+		ArrayList<Department> subDeptList = aService.getSubDeptList(upperDept);
+		
+		if(subDeptList == null) {
+			throw new AdminException("하위 부서 목록 불러오기에 실패하였습니다.");
+		}
+		
+		Gson gson = new Gson();
+		try {
+			gson.toJson(subDeptList, response.getWriter());
+		} catch (JsonIOException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	
+	}
 	
 }

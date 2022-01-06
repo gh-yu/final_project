@@ -38,5 +38,9 @@ public interface AdminService {
 
 	int updateJob(Job job);
 
+	ArrayList<Member> selectDeptMemberList();
+
+	ArrayList<Department> getSubDeptList(int upperDept);
+
 
 }

@@ -23,12 +23,14 @@ public class Member {
 	private String jobName;
 	private String deptId;
 	private String deptName;
+	private int comYear;
 	
 	public Member() {}
 
 	public Member(String mId, String mPwd, String mName, Date birthDate, String email, String phone, String address,
 			String profile, String imgOriginName, String imgChangeName, Date enrollDate, Date updateDate, Date hireDate,
-			Date endDate, int status, String managerYn, String jobId, String jobName, String deptId, String deptName) {
+			Date endDate, int status, String managerYn, String jobId, String jobName, String deptId, String deptName,
+			int comYear) {
 		super();
 		this.mId = mId;
 		this.mPwd = mPwd;
@@ -50,6 +52,7 @@ public class Member {
 		this.jobName = jobName;
 		this.deptId = deptId;
 		this.deptName = deptName;
+		this.comYear = comYear;
 	}
 
 	public String getmId() {
@@ -212,6 +215,14 @@ public class Member {
 		this.deptName = deptName;
 	}
 
+	public int getComYear() {
+		return comYear;
+	}
+
+	public void setComYear(int comYear) {
+		this.comYear = comYear;
+	}
+
 	@Override
 	public String toString() {
 		return "Member [mId=" + mId + ", mPwd=" + mPwd + ", mName=" + mName + ", birthDate=" + birthDate + ", email="
@@ -219,6 +230,7 @@ public class Member {
 				+ imgOriginName + ", imgChangeName=" + imgChangeName + ", enrollDate=" + enrollDate + ", updateDate="
 				+ updateDate + ", hireDate=" + hireDate + ", endDate=" + endDate + ", status=" + status + ", managerYn="
 				+ managerYn + ", jobId=" + jobId + ", jobName=" + jobName + ", deptId=" + deptId + ", deptName="
-				+ deptName + "]";
+				+ deptName + ", comYear=" + comYear + "]";
 	}
-}
+
+}	

@@ -96,7 +96,7 @@
 						                    		<c:if test="${ member.jobId == j.jobId }">
 						                    			<option value="${ j.jobId }" selected>${ j.jobName }</option>
 						                    		</c:if>
-						                    		<c:if test="${  member.jobId != j.jobId }">
+						                    		<c:if test="${ member.jobId != j.jobId }">
 						                    			<option value="${ j.jobId }">${ j.jobName }</option>
 						                    		</c:if>
 						                    	</c:forEach>	                                        	
@@ -303,6 +303,5 @@
    <!--**********************************
         Scripts
     ***********************************-->
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
