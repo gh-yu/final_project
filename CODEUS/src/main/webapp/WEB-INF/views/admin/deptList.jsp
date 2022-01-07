@@ -16,6 +16,8 @@
 	.dept-detail input[type=text], .dept-detail input[type=search], .dept-detail select{display: inline;  width: 150px;}
 	.tree-div{overflow-x: hidden; color: black;}
 	.card-body{min-height: 800px;}
+	.bi-person-fill{color: gray;}
+	.badge i{color: black;}
 </style>
 <style>
 
@@ -35,36 +37,6 @@
 
 		<c:import url="../common/menubar_admin.jsp"/>
     	
-    	    <script>/* 
-		function initTrees() {
-			$("#black").treeview({
-				url: "source.php"
-			})
-	
-			$("#mixed").treeview({
-				url: "source.php",
-				// add some additional, dynamic data and request with POST
-				ajax: {
-					data: {
-						"additional": function() {
-							return "yeah: " + new Date;
-						}
-					},
-					type: "post"
-				}
-			});
-		}
-		$(document).ready(function(){
-			initTrees();
-			$("#refresh").click(function() {
-				$("#black").empty();
-				$("#mixed").empty();
-				initTrees();
-			});
-		}); */
-    
-    </script>
-    	
         <!--**********************************
             Content body start
         ***********************************-->
@@ -81,143 +53,306 @@
                     </div>
                 </div>
                 <div class="row">
-<!--                 	<div class="col-lg-3"> -->
-<!--                         <div class="card"> -->
-<!--                             <div class="card-body"> -->
-<!--                                 <h4 class="card-intro-title" style="font-weight: bold;">부서 목록</h4> -->
-
-<!--                                 <div class=""> -->
-<!--                                     <div id="external-events" class="my-3"> -->
-<!--                                         <p>Drag and drop your event or click in the calendar</p> -->
-<!--                                         <div class="external-event" data-class="bg-primary"><i class="fa fa-move"></i>New Theme Release</div> -->
-<!--                                         <div class="external-event" data-class="bg-success"><i class="fa fa-move"></i>My Event -->
-<!--                                         </div> -->
-<!--                                         <div class="external-event" data-class="bg-warning"><i class="fa fa-move"></i>Meet manager</div> -->
-<!--                                         <div class="external-event" data-class="bg-dark"><i class="fa fa-move"></i>Create New theme</div> -->
-<!--                                     </div> -->
-<!--                                     checkbox -->
-<!--                                     <div class="checkbox checkbox-event pt-3 pb-5"> -->
-<!--                                         <input id="drop-remove" class="styled-checkbox" type="checkbox"> -->
-<!--                                         <label class="ml-2 mb-0" for="drop-remove">Remove After Drop</label> -->
-<!--                                     </div> -->
-<!--                                     <a href="javascript:void()" data-toggle="modal" data-target="#add-category" class="btn btn-primary btn-event w-100"> -->
-<!--                                         <span class="align-middle"><i class="ti-plus"></i></span> Create New -->
-<!--                                     </a> -->
-<!--                                 </div> -->
-<!--                             </div> -->
-<!--                         </div> -->
-<!--                     </div> -->
-                    
                     <div class="col-lg-4 card1">
-                       <!--  <div class="sparkline9-list shadow-reset responsive-mg-b-30"> -->
                     	<div class="card">
                            	<div class="card-body tree-div">
                                <h4 class="card-intro-title" style="font-weight: bold;">조직도</h4>
 							   <br>
 							   <div style="float: right;">
 								   <b>부서</b> 
-								   <a class="badge badge-light"><i class="bi bi-plus-lg" style="color: black;"></i> 추가</a>
+								   <a class="badge badge-light" id="insertDeptBtn" data-toggle="modal" data-target="#insertDeptModal">
+								   	<i class="bi bi-plus-lg""></i> 추가
+								   </a>
 								   <a class="badge badge-light"><i class="bi bi-dash-lg"></i> 삭제</a>
+								   
+								   					              
+		                            <!-- 부서 추가  Modal창 -->
+		                            <div class="modal fade" id="insertDeptModal">
+		                            	<div class="modal-dialog modal-dialog-centered" role="document">
+		                                	<div class="modal-content">
+		                                    	<div class="modal-header">
+		                                        	<h5 class="modal-title">부서 추가</h5>
+		                                            <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+		                                            </button>
+		                                        </div>
+		                                        <div class="modal-body" style="color: black;">
+		                                        	<input type="hidden" name="upperDept">
+		                                        	<span class="text-danger">*</span><label class="col-form-label">부서명</label> 
+		                                            <input id="insertDeptName" type="text" class="form-control insertInput" name="deptName" maxlength="10"><br>
+		                                            <span id="insertDeptNameGuide" class="guide text-danger"></span><br>
+		                                            &nbsp;<label class="col-form-label">부서책임자</label>
+		                                            <input id="insertDeptMgr" type="search" class="form-control insertInput" name="deptManager" list="memberList" placeholder="사원 아이디" autocomplete="off">
+							                        <datalist id="memberList">
+							                        	<c:forEach var="m" items="${ mList }">
+							                        		<option value="${ m.mId }"> ${ m.jobName } ${ m.mName } </option> 
+					 	                                 </c:forEach>
+							                        </datalist>
+		                                            <span id="insertDeptMgrGuide" class="guide text-danger"></span><br>
+		                                        </div>
+		                                        <div class="modal-footer">
+		                                            <button type="button" class="btn btn-primary" id="insertBtn">저장</button>
+		                                            <button type="button" class="btn btn-light" data-dismiss="modal">취소</button>
+		                                        </div>
+		                                    </div>
+		                            	</div>
+		                          </div>
+								  <script>
+									  $('#insertDeptMgr').on('change', function(){
+						                	console.log($(this).val());
+						                	$(this).val($(this).val().trim());
+						                    // 만약 멤버리스트에 없는 아이디 입력시 존재하는 사원의 아이디를 입력해달라고 안내 문구
+						              });
+								  </script>
 							   </div>
 							   <br>
 							   <hr>
 	                           <div id="treeView">
-	                                        <ul id="deptList">
-	                                            <li><a class="selectDept">${ dList[0].deptName }</a>
-		                                            <c:set var="hasChildren" value="false"/> 
-		                                            <c:forEach var="m" items="${ mList }">
-						                        		<c:if test="${ m.deptId == dList[0].deptId }">
-						                        			 <c:set var="hasChildren" value="true"/> 
-						                        		</c:if>
-				 	                                </c:forEach>
-	                                            	<c:if test="${ dList[0].hasChildren == 0 || hasChildren }">
-		                                            	<ul class="hasChildren">
-		                                            	<c:forEach var="m" items="${ mList }">
-									                    	<c:if test="${ m.deptId == dList[0].deptId }">
-									                    		<li><span><i class="bi bi-person-fill" style="color: gray;"></i>${ m.jobName } ${ m.mName }</span></li>
-									                        </c:if>
-							 	                        </c:forEach>
-		                                            	<c:forEach var="d2" items="${ dList }">
-		                                            		<c:if test="${ d2.deptLevel == 2}">
-		                                            			<li class="deptNode"><input type="hidden" name="deptId" value="${ d2.deptId }"><a class="selectDept">${ d2.deptName }</a>
-		                                            			<c:if test="${ d2.hasChildren == 0 }">
-		                                            				<ul class="hasChildren">
-	<%-- 		                                            			<c:forEach var="d3" items="${ dList }"> --%>
-	<%-- 		                                            				<c:if test="${ d3.upperDept == d2.deptId }"> --%>
-	<%-- 			                                                            <li><a>${ d3.deptName }</a> --%>
-	<%-- 			                                                            <c:if test="${ d3.subDeptYn == 0 }"> --%>
-	<!-- 			                                                            	<ul class="hasChildren"> -->
-	<%-- 			                                                            	<c:forEach var="d4" items="${ dList }"> --%>
-	<%-- 			                                                            		<c:if test="${ d4.upperDept == d3.deptId }"> --%>
-	<%-- 		                                            								<li><a>${ d4.deptName }</a> --%>
-	<!-- 		                                            								</li> -->
-	<%-- 			                                                       			 	</c:if> --%>
-	<%-- 			                                                            	</c:forEach> --%>
-	<!-- 			                                                            	</ul> -->
-	<%-- 			                                                            </c:if> --%>
-	<!-- 			                                                            </li> -->
-	<%-- 			                                                        </c:if>	 --%>
-	<%-- 		                                            			</c:forEach> --%>
-			                                            			</ul>
-			                                            		</c:if>
+	                           		<ul id="deptList">
+	                                	<li><input class="lv" type="hidden" name="deptId" value="${ dList[0].deptId }">
+	                                		<a class="selectDept">${ dList[0].deptName }</a>
+		                                	<c:set var="hasChildren" value="false"/> 
+		                                    <c:forEach var="m" items="${ mList }">
+							                    <c:if test="${ m.deptId == dList[0].deptId }">
+							                    	<c:set var="hasChildren" value="true"/> 
+							                    </c:if>
+				 	                        </c:forEach>
+	                                        <c:if test="${ dList[0].hasChildren == 0 || hasChildren }">
+	                                        	<c:set var="hasChildren" value="false"/> 
+		                                    	<ul class="hasChildren">
+		                                        	<c:forEach var="m" items="${ mList }">
+									                 	<c:if test="${ m.deptId == dList[0].deptId }">
+									                    	<li><span><i class="bi bi-person-fill"></i>${ m.jobName } ${ m.mName }</span></li>
+									                    </c:if>
+							 	                    </c:forEach>
+		                                            <c:forEach var="d2" items="${ dList }" varStatus="vs">
+		                                            	<c:if test="${ d2.deptLevel == 2}">
+			                                            	<li>
+		                                            			<input class="lv" type="hidden" name="deptId" value="${ d2.deptId }">
+		                                            			<a class="selectDept">${ d2.deptName }</a>
+		                                            			<c:forEach var="m" items="${ mList }">
+												                    <c:if test="${ m.deptId == d2.deptId }">
+												                    	<c:set var="hasChildren" value="true"/> 
+												                    </c:if>
+								 	                        	</c:forEach>
+			                                            		<c:if test="${ d2.hasChildren == 0 || hasChildren }">
+			                                            			<c:set var="hasChildren" value="false"/> 
+			                                            			<ul class="hasChildren">
+				                                            			<c:forEach var="m" items="${ mList }">
+														                 	<c:if test="${ m.deptId ==  d2.deptId }">
+														                    	<li><span><i class="bi bi-person-fill"></i>${ m.jobName } ${ m.mName }</span></li>
+														                    </c:if>
+												 	                    </c:forEach>
+				                                            			<c:forEach var="d3" items="${ dList }">
+				                                            				<c:if test="${ d3.upperDept == d2.deptId }">
+					                                                            <li>
+					                                                            	<input class="lv" type="hidden" name="deptId" value="${ d3.deptId }">
+					                                                            	<a class="selectDept">${ d3.deptName }</a>
+						                                                            <c:forEach var="m" items="${ mList }">
+																	                    <c:if test="${ m.deptId == d3.deptId }">
+																	                    	<c:set var="hasChildren" value="true"/> 
+																	                    </c:if>
+													 	                        	</c:forEach>
+						                                                            <c:if test="${ d3.hasChildren == 0 || hasChildren }">
+						                                                            	<c:set var="hasChildren" value="false"/> 
+						                                                            	<ul class="hasChildren">
+						                                                            	<c:forEach var="m" items="${ mList }">
+																		                 	<c:if test="${ m.deptId ==  d3.deptId }">
+																		                    	<li><span><i class="bi bi-person-fill"></i>${ m.jobName } ${ m.mName }</span></li>
+																		                    </c:if>
+																 	                    </c:forEach>
+						                                                            	<c:forEach var="d4" items="${ dList }">
+						                                                            		<c:if test="${ d4.upperDept == d3.deptId }">
+					                                            								<li class="expandable d4">
+					                                            									<input type="hidden" name="deptId" value="${ d4.deptId }">
+					                                            									<a class="selectDept">${ d4.deptName }</a>
+									                                                            	<c:forEach var="m" items="${ mList }">
+																					                 	<c:if test="${ m.deptId ==  d4.deptId }">
+																					                    	<c:set var="hasChildren" value="true"/> 
+																					                    </c:if>
+																			 	                    </c:forEach>
+						                                            								<c:if test="${ d4.hasChildren == 0 || hasChildren }">
+						                                            									<ul class="hasChildren">
+						                                            									</ul>
+						                                            								</c:if>
+					                                            								</li>
+						                                                       			 	</c:if>
+						                                                            	</c:forEach>
+						                                                            	</ul>
+						                                                            </c:if>
+						                                                            </li>
+						                                                        </c:if>	
+					                                            			</c:forEach>
+				                                            			</ul>
+				                                            		</c:if>
 		                                            			</li>
 		                                            		</c:if>
-		                                            	</c:forEach>
-		                                            	</ul>
-	                                            	</c:if>
-	                                            </li>
-	                                        </ul>
+		                                            </c:forEach>
+		                                    	</ul>
+	                                    	</c:if>
+	                                	</li>
+	                            	</ul>
 	                        	</div>
                         	</div>
                     	</div>
                    </div> 
                     
 		            <script>
-		            	$(function(){
+		            	$(document).ready(function(){
+		            		$('.d4:last').addClass('lastExpandable').removeClass('lastCollapsable');
 		            		$("#deptList").treeview({
 		            			//animated: "fast",
 		            			//collapsed: true,
+		            			//control:"#sidetreecontrol",
+		        				//prerendered: true,
 		            			//unique: true,
 		            			//persist: "location",
 		            			//persist: "cookie",
+
 // 		            			toggle: function() {
 // 		            				window.console && console.log("%o was toggled", this);
 // 		            			}
 		            		});
 		            	});
 		            	
-		            	$(document).on('click', '.selectDept', function(){
-		            		$('.selectDept').css('background', '');
-		            		$(this).css('background', '#FFF8DC');
-		            		
-		            		console.log($(this).text());
-							
+						
+		            	// 미우스 호버시 css 적용
+		            	$(document).on('mouseenter', '.selectDept', function(){
+		            		if (!$(this).attr('class').includes('selected')) {
+		            			$(this).css({'background':'#FDF5E6', 'border':'1px dotted #F4A460'});
+		            		} 
+		            	}).on('mouseout', '.selectDept', function(){
+		            		if (!$(this).attr('class').includes('selected')) {
+		            			$(this).css({'background':'', 'border':''});
+		            		} 
 		            	});
 		            	
-// 		            	$(document).on('click', '.deptNode', function(){
-// 		            		console.log($(this).children().eq(1).val());
-// 		            	})
+ 		            	$(document).on('click', '.selectDept', function(){
+ 		            		$('.selectDept').css({'background':'', 'border':''});
+ 		            		$('.selectDept').removeClass('selected');
+		            		$(this).css({'background':'#FFE4B5', 'border':'1px dotted #F4A460'});
+		            		$(this).addClass('selected');
+ 		            		console.log($(this).text());
+							
+ 		            	});
+		            	
 		            	
 		            	$(document).on('click', '.hitarea', function(){ // 트리뷰의 + 버튼을 클릭하면 실행되는 함수
-		            		console.log($(this).next().val());
 		            		var upperDept = $(this).next().val();
-		            		var rootNode = console.log($(this).parent().find('ul'));
-		            		$.ajax({
-		            			url: 'subDeptList.ad',
-		            			dataType: 'json',
-		            			data: {upperDept:upperDept},
-		            			type: 'GET',
-		            			success: function(data) {
-		            				console.log(data);
-		            			},
-		            			error: function(data) {
-		            				console.log(data);
-		            			}
-		            		});
-		            		
-		            	})
+		            		var $rootNode = $(this).parent().find('ul');
+ 		            		
+		            			if ($(this).next().attr('class') != 'lv' && $(this).attr('class').includes('collapsable')) {
+		            				$.ajax({
+				            			url: 'subDeptList.ad',
+				            			dataType: 'json',
+				            			data: {upperDept:upperDept},
+				            			type: 'GET',
+				            			success: function(data) {
+				            				console.log(data);
+				            				$rootNode.html('');
+				            				$("#deptList").treeview({});
+				            				
+				            				var $li;
+				            				var $span;
+				            				var $a;
+				            				var $input;
+				            				var $ul;
+				            				if (data.length > 0) {
+				            					for (var i in data) {
+				            						if (data[i].nodeType == 'member') {
+				            							$li = $('<li>');
+														if (i == data.length - 1) {
+							            					$li.attr('class', 'last');
+														}
+														var jobName = data[i].jobName == null ? "" : data[i].jobName;
+				            							$span = $('<span>').html('<i class="bi bi-person-fill"></i>' + jobName + ' ' + data[i].nodeName);
+				            							$li.append($span);
+				            							$rootNode.append($li);
+				            						} else {
+					            						var hasChildren = false;
+				            							<c:forEach var="m" items="${ mList }">
+										                    if ('${ m.deptId }' == data[i].nodeId) {
+										                    	hasChildren = true;
+										                    }
+						 	                       		</c:forEach>
+					            						
+				            							if (data[i].hasChildren == 0 || hasChildren) {
+				            								$li = $('<li class="expandable">');
+				            								$div =  $('<div class="hitarea expandable-hitarea">');
+															if (i == data.length - 1) {
+																$li = $('<li class="expandable lastExpandable">');
+																$div = $('<div class="hitarea expandable-hitarea lastExpandable-hitarea">');
+															}
+					            							
+							            					$input = '<input type="hidden" name="deptId" value="' + data[i].nodeId + '">'
+							            					$a = '<a class="selectDept">' + data[i].nodeName + '</a>';
+							            					$ul = '<ul class="hasChildren"></ul>';
+							            					
+							            					$li.append($div);
+							            					$li.append($input);
+							            					$li.append($a);
+							            					$li.append($ul);
+							            					$rootNode.append($li);
+															
+				            							} else {
+				            								$li = $('<li>');
+															if (i == data.length - 1) {
+							            						$li.attr('class', 'last');
+															}
+							            					$input = '<input type="hidden" name="deptId" value="' + data[i].nodeId + '">'
+							            					$a = '<a class="selectDept">' + data[i].nodeName + '</a>';
+							            					$li.append($input);
+							            					$li.append($a);
+							            					
+							            					$rootNode.append($li);
+				            								
+				            							}
+				            						}
+
+				            					}
+
+				            					$("#deptList").treeview({});
+				            					
+				            					//parent.top.document.getElementById("treeCookie").text = $("#deptList").html();
+// 				            					console.log($rootNode.parent());
+// 				            					console.log($rootNode.parent().parent().find('li:last'));
+// 				            					console.log($rootNode.parent().parent().find('li:last').find('div'));
+// 				            					$rootNode.parent().removeClass('expandable').addClass('collapsable');
+// 					            				$rootNode.parent().removeClass('lastExpandable').addClass('lastCollapsable');
+// 					            				$rootNode.parent().find('.collapsable-hitarea').removeClass('expandable-hitarea').addClass('collapsable-hitarea');
+// 					            				$rootNode.parent().find('.lastCollapsable-hitarea').removeClass('lastExpandable-hitarea').addClass('lastCollapsable-hitarea');
+					            				
+				            					//$rootNode.css('display', 'block');
+				            					
+				            					
+				            				} 
+				            				
+				            				
+				            				//$rootNode.parent().children().find('.hitarea').removeClass('expandable-hitarea');
+				            				//$rootNode.parent().children().find('.hitarea').removeClass('lastExpandable-hitarea');
+				            				//console.log(html);
+				            				//$rootNode.append(html);
+				            				//rootNode.append(html);
+				            			},
+				            			error: function(data) {
+				            				console.log(data);
+				            			},
+				            		});
+		            				
+		            				
+		            			} 
+		            			//else if ($rootNode.css('display') != 'none'){
+// 	            					$rootNode.parent().addClass('expandable').removeClass('collapsable');
+// 		            				$rootNode.parent().find('.lastCollapsable').addClass('lastExpandable').removeClass('lastCollapsable');
+// 		            				$rootNode.parent().find('.collapsable-hitarea').addClass('expandable-hitarea').removeClass('collapsable-hitarea');
+// 		            				$rootNode.parent().find('.lastCollapsable-hitarea').addClass('lastExpandable-hitarea').removeClass('lastCollapsable-hitarea');
+		            				//$rootNode.css('display', 'none');
+		            				//$rootNode.children().remove();
+	            				//}
+		            	});
 		            	
-		            	// +버튼 누를시 ajax호출 -> node List에 deptMember랑 부서랑 저장하여 반환하기 -> nodeId nodeName nodeType(m, d) hasChildren 
+// 		            	$(document).on('click', '', function(){ 
+// 		            	}
+		            
 		            </script>
                     <div class="col-lg-8 card2">
                         <div class="card">
@@ -254,7 +389,7 @@
                     <script>
 		            	$('input[name=deptManager]').on('change', function(){
 		                	console.log($('input[name=deptManager]').val());
-		                    // 만약 멤버리스트에 없는 아이디 입력시 존재하는 사원의 아이디를 입력해달라 알럿창
+		                    // 만약 멤버리스트에 없는 아이디 입력시 존재하는 사원의 아이디를 입력해달라고 안내 문구
 		                });
 		            </script>
 		            
@@ -412,8 +547,8 @@
     
    <!-- Tree Viewer JS
 	============================================ -->
-	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script> -->
-	<%-- <script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.cookie.js"></script> --%>
+<!-- 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script> -->
+	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.cookie.js"></script>
 	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.js" type="text/javascript"></script>
 	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.edit.js" type="text/javascript"></script>
 	<script src="${contextPath}/resources/assets/vendor/deptList/js/jquery.treeview.async.js" type="text/javascript"></script>
