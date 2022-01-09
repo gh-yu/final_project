@@ -117,4 +117,12 @@ public class AdminDAO {
 		return (ArrayList)sqlSession.selectList("adminMapper.getSubDeptList", upperDept);
 	}
 
+	public int insertDept(SqlSessionTemplate sqlSession, Department dept) {
+		return sqlSession.insert("adminMapper.insertDept", dept);
+	}
+	
+	public Department selectDept(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("adminMapper.selectDept");
+	}
+
 }

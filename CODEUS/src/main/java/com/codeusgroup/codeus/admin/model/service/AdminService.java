@@ -42,5 +42,8 @@ public interface AdminService {
 
 	ArrayList<Department> getSubDeptList(int upperDept);
 
+	Department insertDept(Department dept);
+
+
 
 }

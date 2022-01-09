@@ -271,7 +271,9 @@
                        				
                        				var count = 0;
                        				var managerYn = false;
+                       				var deptMgrYn = false;
                        				var managerId = "";
+                       				var deptMgrId = "";
                        				for (var i in checkM) {
                        					if(checkM[i].checked) {
                        						count++;
@@ -286,10 +288,21 @@
                        								
                        							}
                        						</c:forEach>
+                       						
+                       						<c:forEach items="${ dList }" var="d">
+	                   							if (checkM[i].value == '${ d.deptManager }') {
+	                   								deptMgrYn = true;
+	                   							 	if (deptMgrId == "") {
+	                   							 		deptMgrId = checkM[i].value;
+	                							 	} else {
+	                							 		deptMgrId += ", " + checkM[i].value;
+	                							 	}
+	                   							}
+           									</c:forEach>
                        					}
                        				}                   			
                        				
-                       				if (count > 0 && !managerYn) {
+                       				if (count > 0 && !managerYn && !deptMgrYn) {
                        			 		Swal.fire({
 	                       				  title: '선택된 ' + count + '명의 사원을 삭제하시겠습니까?',
 	                       				  text: '삭제 후 복구할 수 없습니다.',
@@ -306,10 +319,11 @@
                        					});
                        				} else if (managerYn) {
                        					alert('삭제하려면, 먼저 관리자 설정을 해제하여 주세요.', managerId + '은 관리자 계정입니다.')
+                       				} else if (deptMgrYn) {
+                       					alert('삭제하려면, 먼저 부서 책임자 설정을 해제하여 주세요.', deptMgrId + '은 부서 책임자입니다.')
                        				} else {
                        					alert('적용할 사원을 선택하세요.');
                        				}
-                       				
                        			});
                        			
                        			// 계정 상태 변경 모달창 띄우기 전 모달 내 텍스트 변경
@@ -339,7 +353,9 @@
                        				var mStatus = $('#mStatus').val();
                        				
                        				var managerYn = false;
+                       				var deptMgrYn = false;
                        				var managerId = "";
+                       				var deptMgrId = "";
                        				for (var i in checkM) {
                        					if(checkM[i].checked) {
                        						<c:forEach items="${ mList }" var="m">
@@ -352,15 +368,28 @@
                     							 	}
                        							}
                        						</c:forEach>
+                       						
+                       						<c:forEach items="${ dList }" var="d">
+	                   							if (checkM[i].value == '${ d.deptManager }') {
+	                   								deptMgrYn = true;
+	                   							 	if (deptMgrId == "") {
+	                   							 		deptMgrId = checkM[i].value;
+	                							 	} else {
+	                							 		deptMgrId += ", " + checkM[i].value;
+	                							 	}
+	                   							}
+               								</c:forEach>
                        					}
                        				}       
                        				
-                       				if (!managerYn || mStatus == 0) {
+                       				if ((!managerYn & !deptMgrYn) || mStatus == 0) {
                        					$(this).parents('form').attr('action', '${ contextPath }/admin/mupdatemulti.ad');
                        					$(this).parents('form').submit();
-                       				} else {
+                       				} else if (managerYn) {
                        					alert('계정을 중지하려면, 먼저 관리자 설정을 해제하여 주세요.', managerId + '은 관리자 계정입니다.');
-                       				} 
+                       				} else {
+                       					alert('계정을 중지하려면, 먼저 부서책임자 설정을 해제하여 주세요.', deptMgrId + '은 부서책임자입니다.');
+                       				}
                        				                      				
                        			});
                        			

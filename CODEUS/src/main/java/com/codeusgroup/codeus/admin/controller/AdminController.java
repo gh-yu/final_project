@@ -30,6 +30,7 @@ import com.codeusgroup.codeus.admin.model.vo.Job;
 import com.codeusgroup.codeus.admin.model.vo.PageInfo;
 import com.codeusgroup.codeus.member.model.vo.Member;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 
 @Controller
@@ -313,6 +314,7 @@ public class AdminController {
 	@RequestMapping("admin/subDeptList.ad")
 	@ResponseBody
 	public String getSubDeptList(@RequestParam("upperDept") Integer upperDept, HttpServletResponse response) {
+		
 		ArrayList<Department> subDeptList = aService.getSubDeptList(upperDept);
 		ArrayList<Member> deptMemberList = aService.selectDeptMemberList(upperDept);
 		
@@ -345,7 +347,27 @@ public class AdminController {
 		}
 		
 		return jArr.toJSONString();
+	}
+	
+	@RequestMapping("admin/dinsert.ad")
+	public void insertDept(@ModelAttribute Department dept, HttpServletResponse response) {
 		
+		ArrayList<Department> subDeptList = aService.getSubDeptList(dept.getUpperDept());
+		dept.setDeptOrder(subDeptList.size() + 1);
+		Department d = aService.insertDept(dept);
+		if (d == null) {
+			throw new AdminException("부서 등록에 실패하였습니다.");
+		}
+		System.out.println(d);
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		try {
+			gson.toJson(d, response.getWriter());
+		} catch (JsonIOException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
 	}
 	
 }
