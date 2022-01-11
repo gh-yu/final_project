@@ -85,8 +85,25 @@
 	  <error-code>503</error-code>
 	  <location>/common/error503.do</location>
 	</error-page>
-
-	<!-- member 관련 -->
+	
+	<!-- admin 관련 -->
+	<servlet>
+	 	<servlet-name>adminServlet</servlet-name>
+	 	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	 	<init-param>
+	 		<param-name>contextConfigLocation</param-name>
+	 		<param-value>
+	 			/WEB-INF/spring/appServlet/admin-context.xml
+	 			/WEB-INF/spring/appServlet/aspect-context.xml
+	 		</param-value>
+	 	</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>adminServlet</servlet-name>
+		<url-pattern>*.ad</url-pattern>
+	</servlet-mapping> 
+	
+	<!-- 멤버 관련 -->
 	<servlet>
 		<servlet-name>memberServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -100,19 +117,125 @@
 		<url-pattern>*.me</url-pattern>
 	</servlet-mapping>
 	
-	<!-- admin 관련 -->
+	<!-- 채팅 관련 -->
 	<servlet>
-	 	<servlet-name>adminServlet</servlet-name>
-	 	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-	 	<init-param>
-	 		<param-name>contextConfigLocation</param-name>
-	 		<param-value>/WEB-INF/spring/appServlet/admin-context.xml</param-value>
-	 	</init-param>
-	 </servlet>
-	 
+		<servlet-name>chettingServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/chetting-context.xml</param-value>
+		</init-param>
+	</servlet>
+	
 	<servlet-mapping>
-		<servlet-name>adminServlet</servlet-name>
-		<url-pattern>*.ad</url-pattern>
-	</servlet-mapping> 
+		<servlet-name>chettingServlet</servlet-name>
+		<url-pattern>*.ch</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 주소록 관련 -->
+	<servlet>
+		<servlet-name>addressServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/address-context.xml</param-value>
+		</init-param>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>addressServlet</servlet-name>
+		<url-pattern>*.addr</url-pattern>
+	</servlet-mapping>
+
+	<!-- 캘린더 관련 -->
+	<servlet>
+		<servlet-name>calendarServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				/WEB-INF/spring/appServlet/calendar-context.xml
+			</param-value>
+		</init-param>
+	</servlet>	
+	<servlet-mapping>
+		<servlet-name>calendarServlet</servlet-name>
+		<url-pattern>*.ca</url-pattern>
+	</servlet-mapping>
+
+	<!-- 회의실 예약 게시판 관련 -->
+    <servlet>
+        <servlet-name>meetResrvServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet
+        </servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>
+                /WEB-INF/spring/appServlet/meet-context.xml
+            </param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>meetResrvServlet</servlet-name>
+        <url-pattern>*.mr</url-pattern>
+    </servlet-mapping>
+
+	<!-- 근태 관련 -->	
+	<servlet>
+		<servlet-name>empStatusServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/empStatus-context.xml</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>empStatusServlet</servlet-name>
+		<url-pattern>*.em</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 연차 관련 -->
+	<servlet>
+		<servlet-name>annualLeaveServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/annualLeave-context.xml</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>annualLeaveServlet</servlet-name>
+		<url-pattern>*.al</url-pattern>
+	</servlet-mapping>
+
+	<!-- 게시판 관련 -->
+	<servlet>
+		<servlet-name>boardServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				/WEB-INF/spring/appServlet/board-context.xml
+			</param-value>
+		</init-param>
+	</servlet>	
+	<servlet-mapping>
+		<servlet-name>boardServlet</servlet-name>
+		<url-pattern>*.bo</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 전자결재 관련 -->
+	<servlet>
+		<servlet-name>documentServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/document-context.xml</param-value>
+	 	</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>documentServlet</servlet-name>
+		<url-pattern>*.dc</url-pattern>
+	</servlet-mapping>
 	
 </web-app>
