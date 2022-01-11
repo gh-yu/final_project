@@ -7,7 +7,8 @@
 		http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
+	<!-- 프로그래밍적 방식 -->
 	<aop:aspectj-autoproxy/>
 	
-	<tx:annotation-driven/> 
+	<tx:annotation-driven/> <!-- 어노테이션으로 트랜잭션 관리 -->
 </beans>
