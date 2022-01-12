@@ -14,4 +14,6 @@ public interface MeetRoomService {
 
 	int updateMeetRoom(MeetingRoom meetRoom);
 
+	int deleteMeetRoom(int meet_no);
+
 }

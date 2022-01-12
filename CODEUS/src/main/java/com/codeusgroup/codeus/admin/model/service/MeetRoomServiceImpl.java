@@ -37,6 +37,11 @@ public class MeetRoomServiceImpl implements MeetRoomService {
 	public int updateMeetRoom(MeetingRoom meetRoom) {
 		return meetDAO.updateMeetRoom(sqlSession, meetRoom);
 	}
+
+	@Override
+	public int deleteMeetRoom(int meet_no) {
+		return meetDAO.deleteMeetRoom(sqlSession, meet_no);
+	}
 	
 	
 }

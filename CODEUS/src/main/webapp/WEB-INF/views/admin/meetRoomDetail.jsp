@@ -14,6 +14,7 @@
 	.col-form-label{font-weight: bolder; width: 150px;}
 	input. textarea{width: 500px;}
 	.display-none{display: none;}
+	.fa-camera:hover{cursor: pointer;}
 </style>
 </head>
 <body>
@@ -71,10 +72,34 @@
                                        </div>
                                        <div align="center">
 	                                       <button type="button" class="btn btn-primary" id="updateFormBtn">수정하기</button>
-	                                       <button type="button" class="btn btn-outline-primary" id="deleteBtn">삭제</button>
+	                                       <form id="deleteForm" action="meetdelete.ad" method="post" style="display: inline-block;">
+	                                       		<input type="hidden" name="meet_no" value="${ meetRoom.meet_no }">
+	                                       		<input type="hidden" name="img_change_name" value="${ meetRoom.img_change_name }"> 
+	                                       		<button type="button" class="btn btn-outline-primary" id="deleteBtn">삭제</button>
+		                                   </form>
 		                                   <button type="button" class="btn btn-outline-primary" onclick="location.href='meetList.ad'">목록으로</button>
 	                                   </div>
                                 </div>
+                                <script>
+                                	// 회의실 삭제
+                                	$('#deleteBtn').on('click', function(){
+                                		Swal.fire({
+  	                       				  text: '정말 삭제하시겠습니까?',
+  	                       				  background: '#292B30',
+					       				  color: 'white',
+  	                       				  showCancelButton: true,
+  	                       				  confirmButtonColor: '#CD5C5C',
+  	                       				  cancelButtonColor: 'gray',
+  	                       				  confirmButtonText: '삭제',
+  	                       				  cancelButtonText: '취소'
+  	                       				}).then((result) => {
+  	                       				  if (result.value) {
+  	                       					$('#deleteForm').submit();
+  	                       				  }
+                         				});
+                                	});
+                                </script>
+                                
                                 <!-- 회의실 수정 화면 -->
                            		<div class="meetRoom-update display-none">
                                     <form action="meetupdate.ad" method="post" encType="multipart/form-data" onsubmit="return check();">

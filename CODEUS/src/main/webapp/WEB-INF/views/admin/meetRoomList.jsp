@@ -10,6 +10,7 @@
 <style>
 	.col-form-label{width: 100px;}
 	a:hover{cursor: pointer;}
+	.fa-camera:hover{cursor: pointer;}
 	.profile-photo img{width: 240px; height: 200px; margin-left: 10px;}
 	.profile-photo{position: relative;}
 	.profile-photo label{display: inline; position: absolute; top: 180px; left: 220px;}
@@ -183,7 +184,11 @@
 		                        	// 저장 성공시 success 알럿창 띄우기
 		                			$(function(){
 		                				if ('${message}' != '') {
-		                					alert('등록되었습니다.');
+		                					if ('${message}' == 'd') {
+		                						alert('삭제되었습니다.');
+		                					} else {
+		                						alert('등록되었습니다.');
+		                					}
 		                					<c:remove var="message" scope="request"/>
 			                				history.replaceState({}, null, location.pathname);
 		                				}

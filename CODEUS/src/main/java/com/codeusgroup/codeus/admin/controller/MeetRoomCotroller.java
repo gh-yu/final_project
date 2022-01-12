@@ -100,7 +100,7 @@ public class MeetRoomCotroller {
 	@RequestMapping("admin/meetupdate.ad")
 	public String updateMeetRoom(@ModelAttribute MeetingRoom meetRoom, @RequestParam("reloadFile") MultipartFile reloadFile, 
 								HttpServletRequest request) {
-		System.out.println(meetRoom);
+		
 		if (reloadFile != null && !reloadFile.isEmpty()) { // 수정할 파일 존재
 			
 			// 수정할 파일 존재 + 기존 파일 존재 = 기존 파일 삭제
@@ -129,11 +129,22 @@ public class MeetRoomCotroller {
      * 회의실 삭제
      */
 	@RequestMapping("admin/meetdelete.ad")
-	public String deleteMeetRoom(Model model) {
+	public String deleteMeetRoom(@RequestParam("meet_no") int meet_no, 
+								 @RequestParam("img_change_name") String img_change_name, 
+								 Model model, HttpServletRequest request) {
 		
-		System.out.println("ddddd");
+		// 회의실 삭제시 등록된 파일도 삭제
+		if (!img_change_name.equals("")) {
+			fileManager.deleteFile(img_change_name, request);
+		}
 		
-		return "redirect:meetlist.ad";
+		int result = meetService.deleteMeetRoom(meet_no);
+		
+		if (result < 0) {
+			throw new AdminException("회의실 등록에 실패하였습니다.");
+		}
+		
+		return "redirect:meetList.ad?message=d";
 	}
 
 }

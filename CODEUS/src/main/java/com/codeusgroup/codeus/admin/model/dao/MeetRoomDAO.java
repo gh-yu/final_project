@@ -25,5 +25,9 @@ public class MeetRoomDAO {
 	public int updateMeetRoom(SqlSessionTemplate sqlSession, MeetingRoom meetRoom) {
 		return sqlSession.update("meetRoomMapper.updateMeetRoom", meetRoom);
 	}
+
+	public int deleteMeetRoom(SqlSessionTemplate sqlSession, int meet_no) {
+		return sqlSession.update("meetRoomMapper.deleteMeetRoom", meet_no);
+	}
 	
 }

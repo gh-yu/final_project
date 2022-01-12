@@ -35,4 +35,10 @@
 			img_change_name = #{img_change_name}, meet_update_date = sysdate
 		where meet_no = #{meet_no}
 	</update>
+	
+	<update id="deleteMeetRoom">
+		update meeting_room
+		set meet_status = 1
+		where meet_no = #{meet_no}
+	</update>	
 </mapper>
