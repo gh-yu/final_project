@@ -114,11 +114,11 @@
 <!--                             <li><a href="javascript:void()">자료실 용량</a></li> -->
 <!--                         </ul> -->
 <!--                     </li> -->
-                    <li><a href="javascript:void()" aria-expanded="false">
+                    <li><a href="reportList.ad" aria-expanded="false">
                     		<i class="fa fa-bars"></i><span class="nav-text">신고글 관리</span></a>
 
                     </li>
-                    <li><a href="javascript:void()" aria-expanded="false">
+                    <li><a href="meetList.ad" aria-expanded="false">
                     	<i class="bi bi-pencil-square"></i><span class="nav-text">회의실 관리</span></a>
                     </li>
                 </ul>
