@@ -1,0 +1,4 @@
+.metadata/
+CODEUS/target/
+.springBeans
+CODEUS/src/main/webapp/resources/uploadFiles/

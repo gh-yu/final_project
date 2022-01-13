@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			classpath:root-context.xml
+			/WEB-INF/spring/spring-security.xml
+		</param-value> 
+	</context-param>
+	
+	<!-- Creates the Spring Container shared by all Servlets and Filters -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- Processes application requests -->
+	<servlet>
+		<servlet-name>appServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+		
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<!-- <url-pattern>/</url-pattern> -->
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 인코딩 필터 적용 -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>  <!-- Spring에서 filter 지원함 -->
+	    <init-param> 
+	       <param-name>encoding</param-name> 
+	       <param-value>UTF-8</param-value> 
+	    </init-param> 
+	    <init-param> 
+	       <param-name>forceEncoding</param-name> 
+	       <param-value>true</param-value> <!-- 인코딩 설정 강제, response에도 인코딩 설정 적용  -->
+	    </init-param> 
+	</filter> 
+	<filter-mapping> 
+	   <filter-name>encodingFilter</filter-name> 
+	   <url-pattern>/*</url-pattern> 
+	</filter-mapping> 
+
+	<!-- 에러페이지 -->
+	<error-page>
+	  <exception-type>java.lang.Throwable</exception-type>
+	  <location>/common/errorThrowable.do</location>
+	</error-page>
+	<error-page>
+	  <exception-type>java.lang.Exception</exception-type>
+	  <location>/common/errorException.do</location>
+	</error-page>
+	<error-page>
+	  <error-code>400</error-code>
+	  <location>/common/error400.do</location>
+	</error-page>
+	<error-page>
+	  <error-code>403</error-code>
+	  <location>/common/error403.do</location>
+	</error-page>
+	<error-page>
+	  <error-code>404</error-code>
+	  <location>/common/error404.do</location>
+	</error-page>
+	<error-page>
+	  <error-code>405</error-code>
+	  <location>/common/error405.do</location>
+	</error-page>
+	<error-page>
+	  <error-code>500</error-code>
+	  <location>/common/error500.do</location>
+	</error-page>
+	<error-page>
+	  <error-code>503</error-code>
+	  <location>/common/error503.do</location>
+	</error-page>
+	
+	<!-- admin 관련 -->
+	<servlet>
+	 	<servlet-name>adminServlet</servlet-name>
+	 	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	 	<init-param>
+	 		<param-name>contextConfigLocation</param-name>
+	 		<param-value>
+	 			/WEB-INF/spring/appServlet/admin-context.xml
+	 			/WEB-INF/spring/appServlet/aspect-context.xml
+	 		</param-value>
+	 	</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>adminServlet</servlet-name>
+		<url-pattern>*.ad</url-pattern>
+	</servlet-mapping> 
+	
+	<!-- 공지사항 관련 -->
+	<servlet>
+	 	<servlet-name>noticeBoardServlet</servlet-name>
+	 	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	 	<init-param>
+	 		<param-name>contextConfigLocation</param-name>
+	 		<param-value>
+	 			/WEB-INF/spring/appServlet/noticeBoard-context.xml
+	 			/WEB-INF/spring/appServlet/aspect-context.xml
+	 		</param-value>
+	 	</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>noticeBoardServlet</servlet-name>
+		<url-pattern>*.nb</url-pattern>
+	</servlet-mapping> 
+	
+	<!-- 자료실 관련 -->
+		<servlet>
+	 	<servlet-name>archiveServlet</servlet-name>
+	 	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	 	<init-param>
+	 		<param-name>contextConfigLocation</param-name>
+	 		<param-value>
+	 			/WEB-INF/spring/appServlet/archive-context.xml
+	 			/WEB-INF/spring/appServlet/aspect-context.xml
+	 		</param-value>
+	 	</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>archiveServlet</servlet-name>
+		<url-pattern>*.arch</url-pattern>
+	</servlet-mapping> 
+	
+	<!-- 멤버 관련 -->
+	<servlet>
+		<servlet-name>memberServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/member-context.xml</param-value>
+	 	</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>memberServlet</servlet-name>
+		<url-pattern>*.me</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 마이페이지 관련 -->
+	<servlet>
+		<servlet-name>myPageServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/myPage-context.xml</param-value>
+	 	</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>myPageServlet</servlet-name>
+		<url-pattern>*.mp</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 채팅 관련 -->
+	<servlet>
+		<servlet-name>chettingServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/chetting-context.xml</param-value>
+		</init-param>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>chettingServlet</servlet-name>
+		<url-pattern>*.ch</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 주소록 관련 -->
+	<servlet>
+		<servlet-name>addressServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/address-context.xml</param-value>
+		</init-param>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>addressServlet</servlet-name>
+		<url-pattern>*.addr</url-pattern>
+	</servlet-mapping>
+
+	<!-- 캘린더 관련 -->
+	<servlet>
+		<servlet-name>calendarServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				/WEB-INF/spring/appServlet/calendar-context.xml
+			</param-value>
+		</init-param>
+	</servlet>	
+	<servlet-mapping>
+		<servlet-name>calendarServlet</servlet-name>
+		<url-pattern>*.ca</url-pattern>
+	</servlet-mapping>
+
+	<!-- 회의실 예약 게시판 관련 -->
+    <servlet>
+        <servlet-name>meetResrvServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet
+        </servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>
+                /WEB-INF/spring/appServlet/meet-context.xml
+            </param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>meetResrvServlet</servlet-name>
+        <url-pattern>*.mr</url-pattern>
+    </servlet-mapping>
+
+	<!-- 근태 관련 -->	
+	<servlet>
+		<servlet-name>empStatusServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/empStatus-context.xml</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>empStatusServlet</servlet-name>
+		<url-pattern>*.em</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 연차 관련 -->
+	<servlet>
+		<servlet-name>annualLeaveServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/annualLeave-context.xml</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>annualLeaveServlet</servlet-name>
+		<url-pattern>*.al</url-pattern>
+	</servlet-mapping>
+
+	<!-- 게시판 관련 -->
+	<servlet>
+		<servlet-name>boardServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				/WEB-INF/spring/appServlet/board-context.xml
+			</param-value>
+		</init-param>
+	</servlet>	
+	<servlet-mapping>
+		<servlet-name>boardServlet</servlet-name>
+		<url-pattern>*.bo</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 전자결재 관련 -->
+	<servlet>
+		<servlet-name>documentServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/document-context.xml</param-value>
+	 	</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>documentServlet</servlet-name>
+		<url-pattern>*.dc</url-pattern>
+	</servlet-mapping>
+	
+</web-app>

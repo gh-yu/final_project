@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0 EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+	<settings>
+ 		<setting name="jdbcTypeForNull" value="NULL"/> 
+ 	</settings>
+
+ 	<typeAliases>
+ 		<typeAlias type="com.codeusgroup.codeus.member.model.vo.Member" alias="Member"/>
+ 		<typeAlias type="com.codeusgroup.codeus.admin.model.vo.Department" alias="Department"/>
+ 		<typeAlias type="com.codeusgroup.codeus.admin.model.vo.Job" alias="Job"/>
+ 		<typeAlias type="com.codeusgroup.codeus.meetingResrv.model.vo.MeetingResrv" alias="MeetingResrv"/>
+ 		<typeAlias type="com.codeusgroup.codeus.meetingResrv.model.vo.MeetingRoom" alias="MeetingRoom"/>
+ 		<typeAlias type="com.codeusgroup.codeus.commBoard.model.vo.CommBoard" alias="Board"/>
+ 		<typeAlias type="com.codeusgroup.codeus.commBoard.model.vo.Reply" alias="Reply"/>
+ 		<typeAlias type="com.codeusgroup.codeus.commBoard.model.vo.Report" alias="Report"/>
+ 	</typeAliases>
+ 	
+ 	<!-- ORACLE LONG 타입을 처리하기 위한 typeHandler -->
+ 	<typeHandlers>
+        <typeHandler handler="com.codeusgroup.codeus.common.MyLongTypeHandler" jdbcType="LONGVARCHAR" javaType="java.lang.String"/>
+	</typeHandlers>
+ 	
+ 	<mappers>
+ 		<mapper resource="mappers/member-mapper.xml"/>
+ 		<mapper resource="mappers/myPage-mapper.xml"/>
+ 		<mapper resource="mappers/admin-mapper.xml"/>
+ 		<mapper resource="mappers/meetRoom-mapper.xml"/>
+ 		<mapper resource="mappers/archive-mapper.xml"/>
+ 		<mapper resource="mappers/noticeBoard-mapper.xml"/>
+ 		<mapper resource="mappers/board-mapper.xml"/>
+ 	</mappers>
+ 	
+</configuration>
