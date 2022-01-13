@@ -182,7 +182,7 @@
                     
                    <!--  <li class="nav-label">Apps</li> -->
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                    		<i class="fa fa-comments"></i><span class="nav-text">채팅</span></a>
+                    		<i class="bi bi-chat-dots"></i></i><span class="nav-text">채팅</span></a>
 	                    	<ul aria-expanded="false">
 		                    		<li><a href="chetList.ch">채팅방 목록</a></li>
                             <li><a href="chetSearch.ch">채팅방 검색</a></li>
@@ -207,8 +207,11 @@
 
                         </ul>
                     </li>
-                    <li><a href="javascript:void()" aria-expanded="false">
+                    <li><a href="noticeBoardList.nb" aria-expanded="false">
                     	<i class="bi bi-megaphone-fill"></i><span class="nav-text">공지사항</span></a>
+                    </li>
+                    <li><a href="archive.arch" aria-expanded="false">
+                    	<i class="bi bi-cloud"></i><span class="nav-text">자료실</span></a>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     		<i class="fa fa-phone-square"></i><span class="nav-text">주소록</span></a>

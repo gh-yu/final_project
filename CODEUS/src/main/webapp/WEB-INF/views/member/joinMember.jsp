@@ -24,10 +24,11 @@
                         <div class="row no-gutters">
                             <div class="col-xl-12">
                                 <div class="auth-form">
-                                    <a href="${contextPath}" class="brand-logo">
-                							<img class="logo-abbr" src="${contextPath}/resources/assets/images/mainlogo.png" alt="" style="border-radius: 100%; width: 250px; height: 120px; text-align : center;
-                																														position: relative; left: 195px;">		
-            						</a>
+                                    <div align="center">
+	                                	<a href="${contextPath}" class="brand-logo" >
+	                						<img class="logo-abbr" src="${contextPath}/resources/assets/images/mainlogo.png" style="width: 250px; height: 120px;">		
+	            						</a>
+                                	</div>
                                     <form action="insert.me">
                                         <div class="form-group">
                                         	<label><strong>이름</strong></label>

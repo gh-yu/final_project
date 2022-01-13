@@ -58,7 +58,7 @@ public class AdminController {
 		
 		ArrayList<Integer> memberCount = aService.getMemberCount();
 		ArrayList<Member> mList = aService.selectMemberList(pi);
-		ArrayList<Member> mList2 = aService.selectMemberList(null);
+		ArrayList<Member> mList2 = aService.selectMemberList(null); // 사원 이름 검색시 자동완성 기능 제공하기 위한 memberList
 		ArrayList<Department> dList = aService.selectDepartmentList();
 		ArrayList<Job> jList = aService.selectJobList();
 		
@@ -277,7 +277,7 @@ public class AdminController {
 		
 		int result = aService.insertJob(job);
 		
-		if (result < 0) {
+		if (result <= 0) {
 			throw new AdminException("직위 등록에 실패하였습니다.");
 		}
 		
@@ -304,7 +304,7 @@ public class AdminController {
 		
 		int result = aService.updateJob(job);
 		
-		if (result < 0) {
+		if (result <= 0) {
 			throw new AdminException("직위 수정에 실패하였습니다.");
 		}
 		
@@ -436,7 +436,7 @@ public class AdminController {
 		System.out.println(deptId);
 		int result = aService.deleteDept(deptId);
 		
-		if (result < 0) {
+		if (result <= 0) {
 			throw new AdminException("부서 삭제에 실패하였습니다.");
 		} else {
 			return "redirect:deptlist.ad?message=d";
@@ -452,7 +452,7 @@ public class AdminController {
 		
 		int result = aService.updateDept(dept);
 		
-		if (result < 0) {
+		if (result <= 0) {
 			throw new AdminException("부서 수정에 실패하였습니다.");
 		} else {
 			return "success";
@@ -491,7 +491,7 @@ public class AdminController {
 		map.put("deptOrder", deptOrder);
 		int result = aService.moveDept(map);
 		
-		if (result < 0) {
+		if (result <= 0) {
 			throw new AdminException("부서 위치 이동에 실패하였습니다.");
 		} else {
 			return "success";

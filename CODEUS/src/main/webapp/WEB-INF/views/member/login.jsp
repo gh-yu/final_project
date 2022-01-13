@@ -36,10 +36,11 @@
                         <div class="row no-gutters">
                             <div class="col-xl-12">
                                 <div class="auth-form">
-            							<a href="${contextPath}" class="brand-logo">
-                							<img class="logo-abbr" src="${contextPath}/resources/assets/images/mainlogo.png" alt="" style="border-radius: 100%; width: 250px; height: 120px; text-align : center;
-                																														position: relative; left: 195px;">		
-            							</a>
+            						<div align="center">
+	                                	<a href="${contextPath}" class="brand-logo" >
+	                						<img class="logo-abbr" src="${contextPath}/resources/assets/images/mainlogo.png" style="width: 250px; height: 120px;">		
+	            						</a>
+                                	</div>
                                     <form action="login.me" method="post">
                                         <div class="form-group">
                                             <label><strong>아이디</strong></label>
@@ -71,49 +72,25 @@
 												opener.document.idSearch.email.value = "";
 											</script>
 											<script>
-												alert("일치하는 회원정보가 없습니다.");
-												
-												<c:remove var="check" scope="request"/>
-								                history.replaceState({}, null, '${ contextPath }/');
-								                
-								                var alert = function(msg, title, icon) {
-						                            Swal.fire({
-						                                position: 'top',
-						                                background: 'white',
-						                                color: 'black',
-						                                title : title,
-						                                text : msg,
-						                                icon: icon,
-						                                // timer : 1500,
-						                                customClass : 'sweet-size',
-						                                showConfirmButton : true
-						                            });
-						                        }
+												$(function() {
+													Swal.fire("일치하는 회원정보가 없습니다.");
+													
+													<c:remove var="check" scope="request"/>
+									                history.replaceState({}, null, '${ contextPath }/');
+									                
+												});
 											</script>
 										</c:if>
 
 										<!-- 회원정보가 일치 할 때 -->
 										<c:if test="${check == 0 }">
 											<script>
-												alert("회원님의 아이디는' ${id}' 입니다.");
-												<c:remove var="check" scope="request"/>
-							                    history.replaceState({}, null, '${ contextPath }/');
-							                    
-							                    var alert = function(msg, title, icon) {
-						                            Swal.fire({
-						                                position: 'top',
-						                                background: 'white',
-						                                color: 'black',
-						                                title : title,
-						                                text : msg,
-						                                icon: icon,
-						                                // timer : 1500,
-						                                customClass : 'sweet-size',
-						                                showConfirmButton : true
-						                            });
-						                        }
+												$(function() {
+													Swal.fire("회원님의 아이디는 '${id}' 입니다.");
+													<c:remove var="check" scope="request"/>
+								                    history.replaceState({}, null, '${ contextPath }/');
+												});
 											</script>
-							
 										</c:if>
 										
 										<script>

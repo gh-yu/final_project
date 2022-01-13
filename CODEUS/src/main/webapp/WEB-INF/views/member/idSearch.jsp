@@ -25,16 +25,17 @@
                         <div class="row no-gutters">
                             <div class="col-xl-12">
                                 <div class="auth-form">
-                                    <a href="${contextPath}" class="brand-logo">
-                							<img class="logo-abbr" src="${contextPath}/resources/assets/images/mainlogo.png" alt="" style="border-radius: 100%; width: 250px; height: 120px; text-align : center;
-                																														position: relative; left: 195px;">				
-            							</a>
+                                    <div align="center">
+	                                	<a href="${contextPath}" class="brand-logo" >
+	                						<img class="logo-abbr" src="${contextPath}/resources/assets/images/mainlogo.png" style="width: 250px; height: 120px;">		
+	            						</a>
+                               	 	</div>
                                     <form action="idSearch.me" name="idSearch">
                                         <div class="form-group">
                                             <label><strong>이름</strong></label>
-                                            <input type="text" id="mName" name="mName" class="form-control">
+                                            <input type="text" id="mName" name="mName" class="form-control" required>
                                             <label><strong>이메일</strong></label>
-                                            <input type="text" id="email" name="email" class="form-control">
+                                            <input type="email" id="email" name="email" class="form-control" required>
                                           
                                         </div>
                                         <div class="text-center">
@@ -74,7 +75,7 @@
     </div>
     <!-- #/ container-fluid -->
     <!-- Common JS -->
-    <script src="../vendor/global/global.min.js"></script>
+	<script src="${contextPath}/resources/assets/vendor/global/global.min.js"></script>
     <!-- Custom script -->
     <script src="${contextPath}/resources/assets/vendor/quixnav/quixnav.min.js"></script>
     <script src="${contextPath}/resources/assets/js/quixnav-init.js"></script>

@@ -123,16 +123,19 @@
 	                                        <br>
 	                                       
 	                                        <c:if test="${ member.managerYn == 'Y' && member.status != 2 && member.mId != 'admin'}">
-	                                        	<label class="col-form-label">관리자 여부</label>
+	                                        	<label class="col-form-label">관리자로 설정</label>
 	                                        	<input type="checkbox" name="managerYn" value="Y" checked> 
+	                                        	<span style="color: gray; font-size: small">&nbsp;관리자로 설정</span>
 	                                        </c:if>
 	                                        <c:if test="${ member.managerYn != 'Y' && member.status != 2 && member.mId != 'admin'}">
-	                                        	<label class="col-form-label">관리자 여부</label>
-	                                        	<input type="checkbox" name="managerYn" value="Y"> 
+	                                        	<label class="col-form-label">관리자로 설정</label>
+	                                        	<input type="checkbox" name="managerYn" value="Y">
+	                                        	<span style="color: gray; font-size: small">&nbsp;관리자로 설정</span>
 	                                        </c:if>
 	                                        <c:if test="${ member.mId == 'admin' }"> <!-- 최초 관리자 계정은 관리자 설정 해제 불가 -->
-	                                        	<label class="col-form-label">관리자 여부</label>
+	                                        	<label class="col-form-label">관리자로 설정</label>
 	                                        	<input type="checkbox" name="managerYn" value="Y" checked disabled="disabled">
+	                                        	<span style="color: gray; font-size: small">&nbsp;관리자 해제 불가</span>
 	                                        </c:if>	
 	                                        <c:if test="${ member.status == 2 }">
 	                                        	<input type="hidden" name="managerYn" value="N">
