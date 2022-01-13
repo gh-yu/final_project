@@ -152,8 +152,10 @@
              Documentation at: /docs/config/valve.html
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
-
-      <Context docBase="CODEUS" path="/codeus" reloadable="true" source="org.eclipse.jst.jee.server:CODEUS"/></Host>
+        <Context docBase="CODEUS" path="/codeus" reloadable="true" source="org.eclipse.jst.jee.server:CODEUS"/>
+      	<Context path="/summernoteImage" reloadable="true" docBase="C:\\summernote_image\\"/>
+      	<!-- 톰캣의 컨텍스트 외부로 경로 매핑-외부에 업로드 폴더 설정(톰캣 외부 리소스 매핑) -->
+      </Host>
     </Engine>
   </Service>
 </Server>

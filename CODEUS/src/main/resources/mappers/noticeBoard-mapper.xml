@@ -2,5 +2,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="noticeBoardMapper">
 
+<!-- 	<resultMap type="" id=""> -->
+<!-- 		<result column="B_CONTENT" property="bContent" jdbcType="LONGVARCHAR"  -->
+<!-- 				javaType="java.lang.String" typeHandler="com.codeusgroup.codeus.common.MyLongTypeHandler"/> -->
+<!-- 	</resultMap> -->
+	
+<!-- 	private int bNum;
+	private String bType;
+	private String bTitle;
+	private String bContent;
+	private int views;
+	private Date createDate;
+	private Date modifyDate;
+	private int status;
+	private String pin;
+	private String mId;
+	private String mName;
+	private String jobName; -->
+	
+	<!-- private int fileNo;
+	private String filePath;
+	private Date uploadDate;
+	private String fileOriginName;
+	private String fileChangeName;
+	private String fileThumbYn;
+	private int fileStatus;
+	private String tableName;
+	private int bNum; -->
+	
+	<!-- FILE_NO, FILE_PATH, UPLOAD_DATE, FILE_ORIGIN_NAME, FILE_CHANGE_NAME, FILE_THUMB_YN, FILE_STATUS, FILE_TABLE_NAME, B_NUM -->
+	
+	<insert id="insertNoticeBoard">
+		insert into board values(seq_b_num.nextval, '공지', #{bTitle}, #{bContent}, 0, default,
+				 				 default, default, #{pin}, #{mId}, null)
+	</insert>
 
+	<insert id="insertBoardFile">
+		insert into attachment values(seq_file_no.nextval, #{filePath}, default, 
+					#{fileOriginName}, #{fileChangeName}, default, default, 'BOARD', seq_b_num.currval)
+	</insert>
+	
 </mapper>
