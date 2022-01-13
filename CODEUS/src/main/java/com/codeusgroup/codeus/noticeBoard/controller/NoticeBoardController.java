@@ -103,7 +103,6 @@ public class NoticeBoardController {
 			jsonObject.addProperty("responseCode", "error");
 			e.printStackTrace();
 		}
-		// dddd
 		return jsonObject;
 	}
 	
