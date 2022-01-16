@@ -17,7 +17,6 @@ public class MemberEnterInterceptor implements AsyncHandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
-		// 또는 topList.bo가 아닐 때만? 아니면 .bo에 해당하는 모든 url? /spring/blist.bo일 때만? -> board-context.xml에서 등록설정하면 됨
 		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 		if (loginUser == null) {
 			logger.debug("no login");
