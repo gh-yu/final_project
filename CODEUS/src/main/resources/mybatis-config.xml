@@ -14,21 +14,19 @@
  		<typeAlias type="com.codeusgroup.codeus.commBoard.model.vo.CommBoard" alias="Board"/>
  		<typeAlias type="com.codeusgroup.codeus.commBoard.model.vo.Reply" alias="Reply"/>
  		<typeAlias type="com.codeusgroup.codeus.commBoard.model.vo.Report" alias="Report"/>
+ 		<typeAlias type="com.codeusgroup.codeus.noticeBoard.model.vo.NoticeBoard" alias="NoticeBoard"/>
+ 		<typeAlias type="com.codeusgroup.codeus.noticeBoard.model.vo.NoticeBoardReply" alias="NoticeBoardReply"/>
+ 		<typeAlias type="com.codeusgroup.codeus.noticeBoard.model.vo.NoticeBoardFile" alias="NoticeBoardFile"/>
  	</typeAliases>
- 	
- 	<!-- ORACLE LONG 타입을 처리하기 위한 typeHandler -->
- 	<typeHandlers>
-        <typeHandler handler="com.codeusgroup.codeus.common.MyLongTypeHandler" jdbcType="LONGVARCHAR" javaType="java.lang.String"/>
-	</typeHandlers>
  	
  	<mappers>
  		<mapper resource="mappers/member-mapper.xml"/>
  		<mapper resource="mappers/myPage-mapper.xml"/>
  		<mapper resource="mappers/admin-mapper.xml"/>
  		<mapper resource="mappers/meetRoom-mapper.xml"/>
- 		<mapper resource="mappers/archive-mapper.xml"/>
- 		<mapper resource="mappers/noticeBoard-mapper.xml"/>
  		<mapper resource="mappers/board-mapper.xml"/>
+ 		<mapper resource="mappers/noticeBoard-mapper.xml"/>
+ 		<mapper resource="mappers/archive-mapper.xml"/>
  	</mappers>
  	
 </configuration>

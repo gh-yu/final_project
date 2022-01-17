@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,16 +41,23 @@
 	                <div class="col-12">
 	                	<div class="card">
 	                        <div class="card-header">
-                                <h3 class="card-title" style="font-weight: bold; font-size: large;">공지사항 글쓰기</h3>
+                                <h3 class="card-title" style="font-weight: bold; font-size: large;">공지사항 수정</h3>
                             </div>
 	                        <div class="card-body" >
-	                            		<form id="insertForm" action="nbinsert.nb" method="post">
+	                            		<form id="updateForm" action="nbupdate.nb" method="post">
+	                            			<input type="hidden" name="bNum" value="${ board.bNum }">
+	                            			<input type="hidden" name="page" value="${ page }">
+			                                <c:if test="${ searchValue ne null }">
+				                               <input type="hidden" name="searchCondition" value="${ searchCondition }">
+		                            		   <input type="hidden" name="searchValue" value="${ searchValue }">
+											</c:if>	
+	                            			
 											<table class="table" style="color: black;">
 												<tbody>
 													<tr>
 														<td> &nbsp;&nbsp;&nbsp;제목</td>
 														<td> 
-															<input type="text" class="form-control" id="bTitle" name="bTitle">
+															<input type="text" class="form-control" id="bTitle" name="bTitle" value="${ board.bTitle }">
 														</td>
 													</tr>
 													
@@ -73,6 +82,47 @@
 																	<input type="file" multiple="multiple" id="input-file" accept="" style="display: none;"/>
 																</div>
 																<div id="fileArea" style="margin-left: 10px;"> <!-- 파일 미리보기 영역  -->
+																	<c:forEach var="f" items="${ fileList }">
+								                            			 <!-- 파일이 이미지인지 아닌지 확인-->
+								                            			<c:set var="length" value="${fn:length(f.fileOriginName)}"/>
+								                            			<c:set var="imgExtArr" value="${fn:split('jpg,jpeg,png,gif,svg', ',')}" />
+								                            			<c:set var="ext" value="${ fn:substring(f.fileOriginName, fn:indexOf(f.fileOriginName, '.')  + 1, length) }"/>
+								                             			<c:set var="imgFlag" value="false"/>
+								                             			<c:forEach var="e" items="${ imgExtArr }">
+								                             				<c:if test="${ ext == e }">
+								                             					<c:set var="imgFlag" value="true"/>
+								                             				</c:if>
+								                             			</c:forEach>
+								                             			
+								                             			<div id="originFile${ f.fileNo }" class="file">
+								                             				<input type="hidden" name="deleteYn" value="N">
+								                             				<input type="hidden" name="fileOriginName" value="${ f.fileOriginName }">
+																			<input type="hidden" name="fileChangeName" value="${ f.fileChangeName }">
+																			<input type="hidden" name="filePath" value="${ f.filePath }">
+																			<input type="hidden" name="fileSize" value="${ f.fileSize }">
+																			<input type="hidden" name="fileNo" value="${ f.fileNo }">
+								                             			
+									                             			<!-- 이미지 파일인 경우 -->
+									                             			<c:if test="${ imgFlag }">
+									                             				<!-- 이미지 미리보기  -->
+										 					              		<img id="img${ f.fileNo }" src="${contextPath}/resources/uploadFiles/${ f.fileChangeName }" width="100" height="100" download><br>
+										 					                	 <a class="badge-s badge-outline-light" onclick="originFileDelete(${ f.fileNo })"><i class="bi bi-x"></i></a>
+									 										</c:if>
+									 										<!-- 이미지 파일이 아닌 경우-->
+									 										<c:if test="${ !imgFlag }">
+									 					                	    <a class="badge-s badge-outline-light" onclick="originFileDelete(${ f.fileNo })"><i class="bi bi-x"></i></a>
+															                    <!-- 파일 아이콘 결정 -->
+															                    <c:set var="iconType" value="${ ext == 'pdf' ? '-pdf' : ext == 'txt' ? '-text' :  ext == 'docx' ? '-word' : '' }"/> 
+															                    <i class="bi bi-file-earmark${ iconType }" style="color: #D2B48C;"></i>
+								 											</c:if>
+								 											<span>${ f.fileOriginName }</span> 
+								 											<!-- 파일 사이즈 표기 -->
+								 					                		<c:set var="size" value="${  f.fileSize >= 1024 * 1024 ?  f.fileSize / 1024 / 1024 * 100 : f.fileSize / 1024 * 100 }"/> 
+								 					                		<c:set var="unit" value="${  f.fileSize >= 1024 * 1024 ?  'MB' : 'KB' }"/> 
+								 					                		<fmt:formatNumber var="fileSizeFmt" value="${ size+((size%1>0.5)?(1-(size%1))%1:-(size%1)) }" type="number" pattern="0.00" />
+								 					                		<span style="color: gray"> (${ fileSizeFmt / 100 } ${ unit })</span>
+								 					                	</div>
+								                        			</c:forEach>
 																</div>
 															</div>
 														</td>
@@ -81,14 +131,19 @@
 													<tr>
 														<!-------------- summernote 에디터 시작 -------------->
 														<td colspan="2">
-															<textarea id="summernote" name="bContent"></textarea>
+															<textarea id="summernote" name="bContent">${ board.bContent }</textarea>
 														</td>
 														<!-------------- summernote 에디터 끝 -------------->		
 													</tr>
 													<tr>
 														<td>상단 고정</td>
 														<td>
-															<input type="checkbox" name="pin" value="Y">  
+															<c:if test="${ board.pin == 'Y' }">
+																<input type="checkbox" name="pin" value="Y" checked>  
+															</c:if>
+															<c:if test="${ board.pin != 'Y' }">
+																<input type="checkbox" name="pin" value="Y">  
+															</c:if>
 															<span style="color: gray; font-size: small">&nbsp;상단 고정</span>
 														</td>
 													</tr>									
@@ -96,8 +151,7 @@
 											</table>
 											<input type="hidden" name="mId" value="${ loginUser.mId }">
 											<div id="btnArea" align="center">
-												<button id="submitBtn" type="button" class="btn btn-primary">등록</button>
-												<button type="button" class="btn btn-outline-primary" onclick="location.href='noticeBoardList.nb'">목록으로</button>
+												<button id="submitBtn" type="button" class="btn btn-primary">저장</button>
 											</div>
 	                            		</form>
 	                            		
@@ -118,6 +172,11 @@
 			                          		let fileNo = 0;
 			                         		// 첨부파일 배열
 			                          		let filesArr = new Array();
+			                         		
+			                         		$(function() {
+			                         			fileCount = Number('${ fn:length(fileList) }');
+			                         			console.log(fileCount)
+			                         		});
 				                			
 				                          	function addFile(e) {
 				                          		let files = e.target.files;
@@ -205,7 +264,18 @@
 			                					}
 				                          	}
 				                       		
-				                       		// 파일 삭제
+				                       		// 기존 파일 삭제 체크
+				                       		function originFileDelete(fileNo) {
+				                       			console.log(fileNo);
+				                       			
+				                       			$('#originFile' + fileNo).find('input[name=deleteYn]').remove();
+				                       			$('#originFile' + fileNo).prepend('<input type="hidden" name="deleteYn" value="Y">');
+				                       			$('#originFile' + fileNo).hide();
+				                       			console.log(fileNo);
+				                       			fileCount--;
+				                       		}
+				                       		
+				                       		// 파일 삭제(새로 업로드된 파일)
 				                       		function fileDelete(fileNo) {
 				                       			$('#file' + fileNo).remove();
 				                       			filesArr[fileNo - 1].isDelete = true;
@@ -229,13 +299,18 @@
 			                          				alert('내용이 비어있습니다.');
 			                          			} else {
 			                          				
+			                          				// 삭제했던 썸머노트 에디터 내 이미지파일 드라이브에서도 삭제
+                            						for(let i in summernoteDeleteFileArr) {
+                            							deleteFile(summernoteDeleteFileArr[i]);
+                            						}
+			                          				
 			                          				// 첨부파일이 존재하면
 													if (filesArr.length > 0) {
 														
 														// ajax로 파일 upload
 				                          				fileData = new FormData();
-														
-				                          				let fileExist = false;
+				                          				
+														let fileExist = false;
 														for (let i = 0; i < filesArr.length; i++) {
 															// 삭제하지 않은 것만 담음
 															if(!filesArr[i].isDelete){
@@ -243,7 +318,7 @@
 																fileExist = true;
 															}
 														}
-														console.log(fileExist)
+														
 														if (fileExist) {
 															$.ajax({
 					                          					url: "uploadFiles.nb",
@@ -263,11 +338,13 @@
 					                            							html += '<input type="hidden" name="fileOriginName" value="' + data[i].fileOriginName + '">'
 					                            								 	+ '<input type="hidden" name="fileChangeName" value="' + data[i].fileChangeName + '">'
 					                            								 	+ '<input type="hidden" name="filePath" value="' + data[i].filePath + '">'
-					                            									+ '<input type="hidden" name="fileSize" value="' + data[i].fileSize + '">';
+					                            									+ '<input type="hidden" name="fileSize" value="' + data[i].fileSize + '">'
+							                            							+ '<input type="hidden" name="fileNo" value="0">'
+							                            							+ '<input type="hidden" name="deleteYn" value="NEW">';
 					                            						}
 					                            						
-					                            						$('#insertForm').append(html);
-					                            						$('#insertForm').submit();
+					                            						$('#updateForm').append(html);
+					                            						$('#updateForm').submit();
 					                            					} else {
 					                            						alert('알 수 없는 에러가 발생했습니다.','','error');
 					                            					}
@@ -276,12 +353,12 @@
 					                            					console.log(data);
 					                            					alert('알 수 없는 에러가 발생했습니다.','','error');
 					                            				}
-															});
+					                          				});
 														} else {
-															$('#insertForm').submit();	
+															$('#updateForm').submit();
 														}
 													} else {
-														 $('#insertForm').submit();
+														 $('#updateForm').submit();
 													}
 			                          			}
 			                          		});
@@ -302,6 +379,8 @@
 		                            	<script src="${contextPath}/resources/assets/vendor/summernote/summernote-lite.js"></script>
 										<script src="${contextPath}/resources/assets/vendor/summernote/lang/summernote-ko-KR.js"></script>
 		                            	<script>
+		                            	
+		                            		let summernoteDeleteFileArr = new Array();
 		                            		$(document).ready(function() {
 		                            			/**
 		                            			*  Summernote toolbar 설정, 에디터 내 파일 업로드 관련 설정
@@ -327,8 +406,8 @@
 		                            				  focus: true,                 // 에디터 로딩후 포커스를 맞출지 여부
 		                            				  lang: "ko-KR",			   // 한글 설정
 		                            				  // placeholder: '최대 2048자까지 쓸 수 있습니다',
-		                            		          callbacks: {
-		                            		        		// 이미지 첨부
+		                            		          callbacks: {	
+		                            		        	  	// 이미지 첨부
 															onImageUpload : function(files, editor, welEditable) {
 					                            		            // 파일 업로드(다중업로드를 위해 반복문 사용)
 					                            		            for (var i = files.length - 1; i >= 0; i--) {
@@ -345,12 +424,12 @@
 																	}
 															},
 															onMediaDelete : function(target, editor) {
-													              deleteFile(target[0].src);
-													              editor.focus();
+																summernoteDeleteFileArr.push(target[0].src);
+													            editor.focus();
+													            console.log(summernoteDeleteFileArr);
 															}
 													  }
 		                            			});
-												
 		                            		});
 		                            		
 
@@ -398,10 +477,10 @@
 										         }
 										        e.preventDefault();
 										    });
-		                            		
+											
+											
 		                            		// summernote 이미지 파일 삭제
 		                            		function deleteFile(src) {
-		                            			console.log(src);
 		                            		    $.ajax({
 		                            		        data: {src : src},
 		                            		        type: "POST",
@@ -412,6 +491,7 @@
 		                            		        }
 		                            		    });
 		                            		}
+											
 		                            		
 		                            		// sweet alert customize
 		            		        		let alert = function(msg, title, icon) {

@@ -12,7 +12,9 @@
 	.searchArea input{display: inline;  width: 150px;}
 	.searchArea select{display: inline;  width: 100px;}
 	.searchArea select, .searchArea input{font-size: small;}
-	.writeFormBtn{color: #696969; font-size: 14px; font-weight: bold;}
+	.writeFormBtn{color: #696969; font-size: 15px; font-weight: bold;}
+	.table tbody{font-size: 14px;}
+	.table a{color: black;}
 </style>
 </head>
 <body>
@@ -44,13 +46,12 @@
 	                                <div class="table-responsive">
 	                                    <table class="table table-hover table-responsive-sm" style="color: black; text-align: center;">
 	                                        <thead>
-	                                            <tr>
-	                                                <th scope="col" width="100px">이름</th>
-	                                                <th scope="col" width="120px">직위</th>
-	                                                <th scope="col" width="150px">부서</th>
-	                                                <th scope="col" width="120px">아이디</th>
-	                                                <th scope="col" width="180px">이메일</th>
-	                                                <th scope="col" width="130px">입사일</th>
+	                                            <tr style="font-size: large;">
+	                                                <th scope="col" width="100px">번호</th>
+	                                                <th scope="col" width="500px">제목</th>
+	                                                <th scope="col" width="100px">작성자</th>
+	                                                <th scope="col" width="100px">작성일</th>
+	                                                <th scope="col" width="100px">조회수</th>
 	                                            </tr>
 	                                        </thead>
 	                                        <tbody>
@@ -65,23 +66,31 @@
 		                                         	</tr>
 	                                        	</c:if>
 	                                         	<c:forEach var="nb" items="${ nbList }">
-		                                            <tr>
-		                                            	<td><input type="checkbox" class="checkM" name="mId" value="${ m.mId }"></td>
-		                                                <td>${ nb.bNum }</td>
-		                                                <c:url var="noticeBoarddetail" value="noticeBoardDetail.nb">
+	                                         		<c:if test="${ nb.pin eq 'Y' }"> <!-- 상단 고정 글인 경우 -->
+	                                         			<tr style="background: #F8F8FF;">
+	                                         				<td><i class="bi bi-megaphone-fill" style="font-size: large; color: orange"></i></td>
+	                                         		</c:if>
+	                                         		<c:if test="${ nb.pin ne 'Y' }">
+	                                         			<tr>
+	                                         				<td>${ nb.bNum }</td>
+	                                         		</c:if>
+		                                                <c:url var="noticeBoardDetail" value="noticeBoardDetail.nb">
 		                                                    <c:param name="bNum" value="${ nb.bNum }"/>
 		                                                    <c:param name="page" value="${ pi.currentPage }"/>
 		                                                    <c:if test="${ searchValue ne null }"> <!-- null이 아니면 검색을 했다는 뜻 -->
+		                                                    	<c:param name="searchCondition" value="${ searchCondition }"/>
 																<c:param name="searchValue" value="${ searchValue }"/>
 															</c:if>	
 		                                                </c:url>
-		                                                <td><a href="${ noticeBoardDetail }">${ nb.bTitle }</a></td>
-		                                                <td></td>
-		                                                <td></td>
-		                                                <td></td>
-		                                                <td></td>
 		                                                <td>
+		                                                	<a href="${ noticeBoardDetail }">${ nb.bTitle }</a>&nbsp;
+															<span class="badge badge-rounded badge-outline-light">
+																	댓글&nbsp;<span>${ nb.replyCount }</span>	
+															</span>
 		                                                </td>
+		                                                <td>${ nb.mName } ${ nb.jobName }</td>
+		                                                <td>${ nb.createDate }</td>
+		                                                <td>${ nb.views }</td>
 	                                            	</tr>
 	                                            </c:forEach>
 	                                        </tbody>
@@ -90,10 +99,12 @@
                             </div>
                         
                        		<script>
-								// 수정 또는 삭제 성공시 success 알럿창 띄우기
+								// 작성 또는 삭제 성공시 success 알럿창 띄우기
 	                			$(function(){
+	                				console.log('${message}')
 	                				if ('${message}' != '') {
-	                					alert('삭제되었습니다.');
+	                					let msg = '${message}' == 'success' ? '등록되었습니다.' : '삭제되었습니다.';
+	                					alert(msg);
 	                					<c:remove var="message" scope="request"/>
 		                				history.replaceState({}, null, location.pathname);
 	                				}
@@ -130,6 +141,7 @@
                                   			<c:url var="before" value="${ loc }">
 												<c:param name="page" value="${ pi.currentPage - 1 }"/>
 												<c:if test="${ searchValue ne null }"> <!-- null이 아니면 검색을 했다는 뜻 -->
+													<c:param name="searchCondition" value="${ searchCondition }"/>
 													<c:param name="searchValue" value="${ searchValue }"/>
 												</c:if>												
 											</c:url>
@@ -148,6 +160,7 @@
 	                                        	<c:url var="pagination" value="${ loc }">
 	                                        		<c:param name="page" value="${ p }"/>
 	                                        		<c:if test="${ searchValue ne null }"> 
+	                                        			<c:param name="searchCondition" value="${ searchCondition }"/>
 														<c:param name="searchValue" value="${ searchValue }"/>
 													</c:if>	
 	                                        	</c:url>
@@ -166,6 +179,7 @@
                                          	<c:url var="after" value="${ loc }">
                                         		<c:param name="page" value="${ pi.currentPage + 1 }"/>
 	                                        	<c:if test="${ searchValue ne null }"> 
+	                                        		<c:param name="searchCondition" value="${ searchCondition }"/>
 													<c:param name="searchValue" value="${ searchValue }"/>
 												</c:if>	                                       		
                                          	</c:url>
@@ -182,7 +196,7 @@
                             <!------------- 글 검색 -------------->
                             <div>
 	                            <div class="searchArea" align="center">
-					                <form id="searchForm" action="${ contextPath }/noticeBoardList.nb" method="get">
+					                <form id="searchForm" action="${ contextPath }/searchNoticeBoard.nb" method="get">
 					                    <select class="form-control" id="searchCondition" name="searchCondition" >
 											<option value="title">제목</option>
 											<option value="content">내용</option>
@@ -192,14 +206,6 @@
 					                    <button><i class="mdi mdi-magnify"></i></button>
 					                </form>
 				                </div>
-				                <script type="text/javascript">
-									function searchBoard(){
-										var searchCondition = $("#searchCondition").val();
-										var searchValue = $("#searchValue").val();
-										
-										location.href="search.bo?searchCondition="+searchCondition+"&searchValue="+searchValue;
-									}
-								</script>
 								<br><br>
 							</div>
 				          	<!------------- 글 검색 끝-------------->

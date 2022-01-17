@@ -15,11 +15,12 @@ public class NoticeBoard {
 	private String mId;
 	private String mName;
 	private String jobName;
+	private int replyCount;
 	
 	public NoticeBoard() {}
 
 	public NoticeBoard(int bNum, String bType, String bTitle, String bContent, int views, Date createDate,
-			Date modifyDate, int status, String pin, String mId, String mName, String jobName) {
+			Date modifyDate, int status, String pin, String mId, String mName, String jobName, int replyCount) {
 		super();
 		this.bNum = bNum;
 		this.bType = bType;
@@ -33,6 +34,7 @@ public class NoticeBoard {
 		this.mId = mId;
 		this.mName = mName;
 		this.jobName = jobName;
+		this.replyCount = replyCount;
 	}
 
 	public int getbNum() {
@@ -131,12 +133,20 @@ public class NoticeBoard {
 		this.jobName = jobName;
 	}
 
+	public int getReplyCount() {
+		return replyCount;
+	}
+
+	public void setReplyCount(int replyCount) {
+		this.replyCount = replyCount;
+	}
+
 	@Override
 	public String toString() {
 		return "NoticeBoard [bNum=" + bNum + ", bType=" + bType + ", bTitle=" + bTitle + ", bContent=" + bContent
 				+ ", views=" + views + ", createDate=" + createDate + ", modifyDate=" + modifyDate + ", status="
-				+ status + ", pin=" + pin + ", mId=" + mId + ", mName=" + mName + ", jobName=" + jobName + "]";
+				+ status + ", pin=" + pin + ", mId=" + mId + ", mName=" + mName + ", jobName=" + jobName
+				+ ", replyCount=" + replyCount + "]";
 	}
-	
-	
+
 }

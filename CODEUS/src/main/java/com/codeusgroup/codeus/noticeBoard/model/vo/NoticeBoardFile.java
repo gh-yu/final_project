@@ -12,11 +12,12 @@ public class NoticeBoardFile {
 	private int fileStatus;
 	private String tableName;
 	private int bNum;
+	private long fileSize;
 	
 	public NoticeBoardFile() {}
 
 	public NoticeBoardFile(int fileNo, String filePath, Date uploadDate, String fileOriginName, String fileChangeName,
-			String fileThumbYn, int fileStatus, String tableName, int bNum) {
+			String fileThumbYn, int fileStatus, String tableName, int bNum, long fileSize) {
 		super();
 		this.fileNo = fileNo;
 		this.filePath = filePath;
@@ -27,6 +28,7 @@ public class NoticeBoardFile {
 		this.fileStatus = fileStatus;
 		this.tableName = tableName;
 		this.bNum = bNum;
+		this.fileSize = fileSize;
 	}
 
 	public int getFileNo() {
@@ -101,11 +103,20 @@ public class NoticeBoardFile {
 		this.bNum = bNum;
 	}
 
+	public long getFileSize() {
+		return fileSize;
+	}
+
+	public void setFileSize(long l) {
+		this.fileSize = l;
+	}
+
 	@Override
 	public String toString() {
-		return "Attachment [fileNo=" + fileNo + ", filePath=" + filePath + ", uploadDate=" + uploadDate
+		return "NoticeBoardFile [fileNo=" + fileNo + ", filePath=" + filePath + ", uploadDate=" + uploadDate
 				+ ", fileOriginName=" + fileOriginName + ", fileChangeName=" + fileChangeName + ", fileThumbYn="
-				+ fileThumbYn + ", fileStatus=" + fileStatus + ", tableName=" + tableName + ", bNum=" + bNum + "]";
+				+ fileThumbYn + ", fileStatus=" + fileStatus + ", tableName=" + tableName + ", bNum=" + bNum
+				+ ", fileSize=" + fileSize + "]";
 	}
-	
+
 }
