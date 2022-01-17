@@ -199,29 +199,26 @@
                     
                    <!--  <li class="nav-label">Apps</li> -->
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                    		<i class="bi bi-chat-dots"></i></i><span class="nav-text">채팅</span></a>
-	                    	<ul aria-expanded="false">
-		                    		<li><a href="chetList.ch">채팅방 목록</a></li>
+                    		<i class="bi bi-chat-dots"></i><span class="nav-text">채팅</span></a>
+						<ul aria-expanded="false">
+		                    <li><a href="chetList.ch">채팅방 목록</a></li>
                             <li><a href="chetSearch.ch">채팅방 검색</a></li>
                        	</ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     		<i class="fa fa-file-text"></i><span class="nav-text">전자결재</span></a>
                         <ul aria-expanded="false">
-                            <li><a href="javascript:void()">Flot</a></li>
-                            <li><a href="javascript:void()">Morris</a></li>
-                            <li><a href="javascript:void()">Chartjs</a></li>
-                            <li><a href="javascript:void()">Chartist</a></li>
-                            <li><a href="javascript:void()">Sparkline</a></li>
-                            <li><a href="javascript:void()">Peity</a></li>
+                            <li><a href="mydocView.dc">내 문서함</a></li>
+                            <li><a href="teamdocView.dc">부서 문서함</a></li>
+                            <li><a href="newApprovalView.dc">문서 기안</a></li>
+                            <li><a href="approvalView.dc">문서 전체 목록</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     		<i class="bi bi-people"></i><span class="nav-text">커뮤니티</span></a>
                         <ul aria-expanded="false">
-                            <li><a href="javascript:void()">자유게시판</a></li>
+                            <li><a href="Commblist.bo">자유게시판</a></li>
                             <li><a href="javascript:void()">중고장터</a></li>
-
                         </ul>
                     </li>
                     <li><a href="noticeBoardList.nb" aria-expanded="false">
@@ -238,18 +235,18 @@
                        	</ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                                <i class="bi bi-pencil-square"></i><span class="nav-text">회의실예약</span></a>
+                                <i class="bi bi-pencil-square"></i><span class="nav-text">회의실 예약</span></a>
                         <ul aria-expanded="false">
-							<li><a href="mrlist.mr">회의실 목록</a></li>
-                            <li><a href="mrcal.mr">예약하기</a></li>
-							<li><a href="mrcal.mr">예약일정 캘린더</a></li>
+							<li><a href="mrlist.mr">예약 목록</a></li>
+							<li><a href="mrcal.mr">예약 캘린더</a></li>
+                            <li><a href="mrresrvinsert.mr">예약 신청</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     	<i class="bi bi-briefcase-fill"></i><span class="nav-text">근태관리</span></a>
                         <ul aria-expanded="false">
-                            <li><a href="javascript:void()">근태 현황</a></li>
-                            <li><a href="javascript:void()">Datatable</a></li>
+                            <li><a href="empStatusMain.em">근태 현황</a></li>
+                            <li><a href="annualLeaveMain.al">연차현황</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
