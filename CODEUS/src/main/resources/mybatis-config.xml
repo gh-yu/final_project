@@ -17,6 +17,10 @@
  		<typeAlias type="com.codeusgroup.codeus.noticeBoard.model.vo.NoticeBoard" alias="NoticeBoard"/>
  		<typeAlias type="com.codeusgroup.codeus.noticeBoard.model.vo.NoticeBoardReply" alias="NoticeBoardReply"/>
  		<typeAlias type="com.codeusgroup.codeus.noticeBoard.model.vo.NoticeBoardFile" alias="NoticeBoardFile"/>
+ 		<typeAlias type="com.codeusgroup.codeus.myPage.model.vo.Scrap" alias="Scrap"/>
+ 		<typeAlias type="com.codeusgroup.codeus.archive.model.vo.ArchiveFile" alias="ArchiveFile"/>
+ 		<typeAlias type="com.codeusgroup.codeus.archive.model.vo.ArchiveFolder" alias="ArchiveFolder"/>
+ 		<typeAlias type="com.codeusgroup.codeus.archive.model.vo.ArchiveCapacity" alias="ArchiveCapacity"/>
  	</typeAliases>
  	
  	<mappers>
@@ -26,6 +30,8 @@
  		<mapper resource="mappers/meetRoom-mapper.xml"/>
  		<mapper resource="mappers/board-mapper.xml"/>
  		<mapper resource="mappers/noticeBoard-mapper.xml"/>
+ 		<mapper resource="mappers/archive-mapper.xml"/>
+ 		<mapper resource="mappers/myPage-mapper.xml"/>
  		<mapper resource="mappers/archive-mapper.xml"/>
  	</mappers>
  	

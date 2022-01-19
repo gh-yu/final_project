@@ -149,7 +149,7 @@
                                     <i class="mdi mdi-account"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="./app-profile.html" class="dropdown-item">
+                                    <a href="myInfo.mp" class="dropdown-item">
                                         <i class="icon-user"></i>
                                         <span class="ml-2">Profile </span>
                                     </a>
@@ -259,8 +259,8 @@
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     	<i class="bi bi-person-circle"></i><span class="nav-text">마이페이지</span></a>
                         <ul aria-expanded="false">
-                            <li><a href="javascript:void()">내 정보</a></li>
-                            <li><a href="javascript:void()">스크랩 관리</a></li>
+                            <li><a href="myInfo.mp">내 정보</a></li>
+                            <li><a href="scrapList.mp">스크랩 관리</a></li>
                         </ul>
                     </li>
                 </ul>
