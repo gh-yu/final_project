@@ -26,6 +26,7 @@ import com.codeusgroup.codeus.admin.model.service.AdminService;
 import com.codeusgroup.codeus.admin.model.vo.Department;
 import com.codeusgroup.codeus.admin.model.vo.Job;
 import com.codeusgroup.codeus.admin.model.vo.PageInfo;
+import com.codeusgroup.codeus.admin.model.vo.Report;
 import com.codeusgroup.codeus.member.model.vo.Member;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -527,6 +528,91 @@ public class AdminController {
 		} else {
 			return "success";
 		}
+	}
+	
+	
+    /**
+     * 신고글 목록 조회
+     */	
+	@RequestMapping("admin/reportList.ad")
+	public ModelAndView reportList(@RequestParam(value="page", required=false) Integer page, 
+								   @RequestParam(value="message", required=false) String message, ModelAndView mv) {
+
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = aService.getReportListCount();
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+			
+		ArrayList<Report> boardReportList = aService.selectBoardReportList(pi);
+		ArrayList<Report> replyReportList = aService.selectReplyReportList(pi);
+		
+		if (boardReportList != null && replyReportList != null) {
+			mv.addObject("boardReportList", boardReportList);
+			mv.addObject("replyReportList", replyReportList);
+			mv.addObject("pi", pi);
+			mv.addObject("message", message);
+			mv.setViewName("reportList");
+		} else {
+			throw new AdminException("신고글 목록 조회에 실패하였습니다.");
+		}
+			
+		return mv;
+	}
+	
+    /**
+     * 신고된 게시글 관리
+     */	
+	@RequestMapping("admin/handingBoardReport.ad")
+	public String handingBoardReport(@ModelAttribute Report report, 
+						@RequestParam(value="page", required=false) Integer page, Model model) {
+		
+		int result = aService.handingBoardReport(report);
+		
+		String message = "";
+		if (report.getReportStatus() == 1) {
+			message = "d";
+		} else {
+			message = "c";
+		}
+		
+		if (result > 0) {
+			model.addAttribute("page", page);
+			model.addAttribute("message", page);
+		} else {
+			throw new AdminException("신고글 처리에 실패하였습니다.");
+		}
+			
+		return "redirect:reportList";
+	}
+	
+    /**
+     * 신고된 댓글 관리
+     */	
+	@RequestMapping("admin/handingReplyReport.ad")
+	public String handingReplyReport(@ModelAttribute Report report, 
+						@RequestParam(value="page", required=false) Integer page, Model model) {
+		
+		int result = aService.handingReplyReport(report);
+		
+		String message = "";
+		if (report.getReportStatus() == 1) {
+			message = "d";
+		} else {
+			message = "c";
+		}
+		
+		if (result > 0) {
+			model.addAttribute("page", page);
+			model.addAttribute("message", page);
+		} else {
+			throw new AdminException("신고글 처리에 실패하였습니다.");
+		}
+			
+		return "redirect:reportList";
 	}
 	
 }
