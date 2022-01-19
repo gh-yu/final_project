@@ -13,7 +13,10 @@
     <link rel="icon" type="image/png" sizes="16x16" href="./resources/assets/images/favicon.png">
     <link href="./resources/assets/css/style.css" rel="stylesheet">
     <script src="./resources/js/jquery-3.6.0.min.js"></script>
-
+<style>
+	.auth-form{color: black;}
+	input{margin-bottom: 10px;}
+</style>
 </head>
 
 <body class="h-100">

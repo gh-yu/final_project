@@ -23,6 +23,11 @@
 	
 	<context:component-scan base-package="com.codeusgroup.codeus" />
 	
-	
+	<interceptors>
+ 		<interceptor>
+			<mapping path="/**"/>
+			<beans:bean id="Interceptor" class="com.codeusgroup.codeus.common.interceptor.MemberEnterInterceptor"/> 
+		</interceptor>
+	</interceptors>	
 	
 </beans:beans>
