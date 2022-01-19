@@ -68,19 +68,21 @@
 			                               	&nbsp;&nbsp;<label class="col-form-label">아이디</label>${ loginUser.mId }
 			                               	<br>
 			                               	<span class="text-danger">*</span><label class="col-form-label">이메일</label>
-			                               	<input id="email" type="email" name="email" class="form-control" value="${ loginUser.email }" required>
+			                               	<input id="email" type="email" name="email" class="form-control" value="${ loginUser.email }" required maxlength="100">
 			                               	<button id="mailConfirm" type="button" class="btn btn-outline-primary" disabled>이메일 인증</button><br>
 			                               	<div id="emailCheck">
 				                               	&nbsp;&nbsp;<label class="col-form-label">인증코드</label>
 				                               	<input type="text" id="authCode" class="form-control" placeholder="인증 코드를 입력하세요."><br>
 				                               	<span id="emailGuide" class="text-danger guide">인증 코드가 일치하지 않습니다.</span><br>
 			                               	</div>
+			                               	<span class="text-danger">*</span><label class="col-form-label">전화번호</label>
+			                               	<input id="phone" type="text" name="phone" class="form-control" value="${ loginUser.phone }" required  maxlength="13" placeholder="-을 포함해 휴대전화 형식에 맞게 입력하세요."><br>
+			                               	<div class="phoneGuide guide">
+			                               		<span id="phoneGuide" class="text-danger">-을 포함해 휴대전화 형식에 맞게 입력하세요.</span>
+			                               		<br>
+			                               	</div>
 			                               	&nbsp;&nbsp;<label class="col-form-label">생년월일</label>
 			                               	<input type="text" id="birthDate" name="birthDate" class="form-control" value="${ loginUser.birthDate }" readonly>
-			                               	<br>
-			                               	<span class="text-danger">*</span><label class="col-form-label">전화번호</label>
-			                               	<input id="phone" type="text" name="phone" class="form-control" value="${ loginUser.phone }" required placeholder="-을 포함해 휴대전화 형식에 맞게 입력하세요."><br>
-			                               	<span id="phoneGuide" class="guide text-danger">-을 포함해 휴대전화 형식에 맞게 입력하세요.</span>
 			                               	<br>
 			                               	<c:forTokens var="addr" items="${ loginUser.address }" delims="/" varStatus="status">
 												<c:if test="${ status.index eq 0 && addr >= '0' && addr <= '99999' }">
@@ -114,7 +116,6 @@
 													$("#postcodify_search_button").postcodifyPopUp();
 												});
 											</script>
-			                               	<br>
 			                               	<div class="form-group row">
 	                                             &nbsp;&nbsp;<label class="form-col col-form-label">자기소개</label>
 	                                             <div class="col-lg-6">
@@ -233,7 +234,7 @@
 		                				if (!regExpPhone.test(phone)) {
 		                					$('#phoneGuide').text('-을 포함해 휴대전화 형식에 맞게 입력하세요.');
 		                					$('#phoneGuide').addClass('text-danger');
-		                					$('#phoneGuide').show();
+		                					$('.phoneGuide').show();
 		                					phoneCheck = false;
 		                				} else {
 		                					$('#phoneGuide').text('사용 가능합니다.');

@@ -59,9 +59,9 @@
 											<br>
 			                               	<label class="col-form-label">이메일</label>${ loginUser.email }
 			                               	<br>
-			                               	<label class="col-form-label">생년월일</label>${ loginUser.birthDate }
-			                               	<br>
 			                               	<label class="col-form-label">전화번호</label>${ loginUser.phone }
+			                               	<br>
+			                               	<label class="col-form-label">생년월일</label>${ loginUser.birthDate }
 			                               	<br>
 			                               	<label class="col-form-label">주소</label>
 			                               	<c:forTokens var="addr" items="${ loginUser.address }" delims="/" varStatus="status">
