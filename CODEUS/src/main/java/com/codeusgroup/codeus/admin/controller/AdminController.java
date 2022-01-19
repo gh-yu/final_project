@@ -1,26 +1,23 @@
 package com.codeusgroup.codeus.admin.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.codeusgroup.codeus.admin.common.Pagination;
@@ -128,9 +125,21 @@ public class AdminController {
      * 사원 정보 수정(여러 명)
      */
 	@RequestMapping("admin/mupdatemulti.ad")
-	public String updateMultiMember(@RequestParam("mId") String[] mIdArr, @RequestParam("mStatus") int mStatus) {
+	public String updateMultiMember(@RequestParam("mId") String[] mIdArr, @RequestParam("mStatus") int mStatus, HttpSession session) {
 		
 		int result = aService.updateMultiMember(mIdArr, mStatus);
+		
+		if (mStatus == 1) {
+			Member loginUser = (Member)session.getAttribute("loginUser");
+			String loginUserId = loginUser.getmId();
+			
+			for (String mId : mIdArr) {
+				if (loginUserId.equals(mId)) {
+					session.invalidate();
+					return "redirect:/";
+				}
+			}
+		}
 		
 		if (result != mIdArr.length) {
 			throw new AdminException("멤버 정보 수정에 실패하엿습니다.");
@@ -143,9 +152,19 @@ public class AdminController {
      * 사원 삭제
      */
 	@RequestMapping("admin/mdelete.ad")
-	public String deleteMember(@RequestParam("mId") String[] mIdArr) {
+	public String deleteMember(@RequestParam("mId") String[] mIdArr, HttpSession session) {
 		
 		int result = aService.deleteMember(mIdArr);
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String loginUserId = loginUser.getmId();
+		
+		for (String mId : mIdArr) {
+			if (loginUserId.equals(mId)) {
+				session.invalidate();
+				return "redirect:/";
+			}
+		}
 		
 		if (result != mIdArr.length) {
 			throw new AdminException("멤버 삭제에 실패하엿습니다.");
@@ -192,7 +211,7 @@ public class AdminController {
 							   @RequestParam("inputEndDate") String inputEndDate, @RequestParam("page") int page,
 							   @RequestParam(value="selectDept", required=false) String selectDept,
 							   @RequestParam(value="selectJob",  required=false) String selectJob,
-							   @RequestParam(value="searchValue", required=false) String searchValue, Model model) {
+							   @RequestParam(value="searchValue", required=false) String searchValue, Model model, HttpSession session) {
 		if (!inputHireDate.equals("")) {
 			String[] hSplit = inputHireDate.split("-");
 			int hYear = Integer.parseInt(hSplit[0]);
@@ -220,6 +239,15 @@ public class AdminController {
 		if (result <= 0) {
 			throw new AdminException("멤버 정보 수정에 실패하엿습니다.");
 		}
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String loginUserId = loginUser.getmId();
+			
+		if (loginUserId.equals(m.getmId())) {
+			Member loginMember = aService.selectMember(m.getmId());
+			session.setAttribute("loginUser", loginMember);
+		}
+		
 
 		model.addAttribute("mId", m.getmId()).addAttribute("message", "success").addAttribute("page", page);
 		model.addAttribute("selectDept", selectDept).addAttribute("selectJob", selectJob).addAttribute("searchValue", searchValue);
