@@ -31,7 +31,6 @@
  		<mapper resource="mappers/board-mapper.xml"/>
  		<mapper resource="mappers/noticeBoard-mapper.xml"/>
  		<mapper resource="mappers/archive-mapper.xml"/>
- 		<mapper resource="mappers/myPage-mapper.xml"/>
  	</mappers>
  	
 </configuration>
