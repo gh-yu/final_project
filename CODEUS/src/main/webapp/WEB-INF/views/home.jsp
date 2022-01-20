@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,11 +9,82 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>main page-dashboard</title>
-    <link href="${contextPath}/resources/assets/vendor/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/assets/vendor/chartist/css/chartist.min.css" rel="stylesheet">
 </head>
+<link href="${contextPath}/resources/assets/vendor/fullcalendar/packages/core/main.css" rel='stylesheet' />
+<link href="${contextPath}/resources/assets/vendor/fullcalendar/packages/daygrid/main.css" rel='stylesheet' />
+<script src="${contextPath}/resources/assets/vendor/fullcalendar/packages/core/main.js"></script>
+<script src="${contextPath}/resources/assets/vendor/fullcalendar/packages/daygrid/main.js"></script>
+<script src="${contextPath}/resources/assets/vendor/fullcalendar/packages/interaction/main.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
-<body>
+<style>
+	/* 출퇴근 관련 css */
+	#comTimeBtn, #offTimeBtn, #addAnnualLeave{
+		 border-radius: 25px;
+		 width: 100px;
+		 height: 40px;
+		 background: none;
+	 }
+	 
+	 .afterPush{
+	 	border: 1px solid gray; color: gray;  
+	 }
+	 
+	 .beforePush{
+		 border: 1px solid #593BDB; color: #593BDB;
+	 }
+ 	
+ 	#clock{
+ 		font-size: x-large;
+ 		color: black;
+ 	}
+ 	
+ 	#today{
+ 		color: darkgray;
+ 	}
+ 	
+ 	.profile-photo img{
+ 		width: 170px; 
+ 		height: 170px;
+ 		border-radius: 100%;
+ 	}
+ 	
+ 	#myName{
+ 		color: black;
+ 		font-size: large;
+ 		font-weight: bold;
+ 	}
+ 	
+ 
+ 	/* 공지사항 관련 css */
+ 	.table tbody{font-size: 14px;}
+	.table a{color: black;}
+ 	#noticeBoardArea{color: black;}
+ 	.pin {font-size: large; color: orange;}
+ 
+ 	
+ 	/* 캘린더 관련 css */
+ 	body.stop-dragging
+	{
+	  -ms-user-select: none; 
+	  -moz-user-select: -moz-none;
+	  -khtml-user-select: none;
+	  -webkit-user-select: none;
+	  user-select: none;
+	  height:10px;
+	}
+
+	
+	.container{
+		background-color: white;
+		margin: 0 auto;
+		margin-top: 2%;
+/* 		width: 50px; */
+	}
+</style>
+
+<body class='stop-dragging'>
 
     <!--**********************************
         Main wrapper start
@@ -26,607 +98,295 @@
         ***********************************-->
         <div class="content-body">
             <div class="container-fluid">
-                <div class="row page-titles mx-0">
-                    <div class="col-sm-6 p-md-0">
-                        <div class="welcome-text">
-                            <h4>Hi, welcome back!</h4>
-                            <p class="mb-0">Your business dashboard template</p>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Layout</a></li>
-                            <li class="breadcrumb-item active"><a href="javascript:void(0)">Blank</a></li>
-                        </ol>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card">
-                            <div class="stat-widget-one card-body">
-                                <div class="stat-icon d-inline-block">
-                                    <i class="ti-money text-success border-success"></i>
-                                </div>
-                                <div class="stat-content d-inline-block">
-                                    <div class="stat-text">Profit</div>
-                                    <div class="stat-digit">1,012</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card">
-                            <div class="stat-widget-one card-body">
-                                <div class="stat-icon d-inline-block">
-                                    <i class="ti-user text-primary border-primary"></i>
-                                </div>
-                                <div class="stat-content d-inline-block">
-                                    <div class="stat-text">Customer</div>
-                                    <div class="stat-digit">961</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card">
-                            <div class="stat-widget-one card-body">
-                                <div class="stat-icon d-inline-block">
-                                    <i class="ti-layout-grid2 text-pink border-pink"></i>
-                                </div>
-                                <div class="stat-content d-inline-block">
-                                    <div class="stat-text">Projects</div>
-                                    <div class="stat-digit">770</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card">
-                            <div class="stat-widget-one card-body">
-                                <div class="stat-icon d-inline-block">
-                                    <i class="ti-link text-danger border-danger"></i>
-                                </div>
-                                <div class="stat-content d-inline-block">
-                                    <div class="stat-text">Referral</div>
-                                    <div class="stat-digit">2,781</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-8">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Fee Collections and Expenses</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="ct-bar-chart mt-5"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="ct-pie-chart"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">All Exam Result</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table student-data-table m-t-20">
-                                        <thead>
-                                            <tr>
-                                                <th>Subject</th>
-                                                <th>Grade Point</th>
-                                                <th>Percent Form</th>
-                                                <th>Percent Upto</th>
-                                                <th>Date</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Class Test</td>
-                                                <td>Mathmatics</td>
-                                                <td>
-                                                    4.00
-                                                </td>
-                                                <td>
-                                                    95.00
-                                                </td>
-                                                <td>
-                                                    100
-                                                </td>
-                                                <td>20/04/2017</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Class Test</td>
-                                                <td>Mathmatics</td>
-                                                <td>
-                                                    4.00
-                                                </td>
-                                                <td>
-                                                    95.00
-                                                </td>
-                                                <td>
-                                                    100
-                                                </td>
-                                                <td>20/04/2017</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Class Test</td>
-                                                <td>English</td>
-                                                <td>
-                                                    4.00
-                                                </td>
-                                                <td>
-                                                    95.00
-                                                </td>
-                                                <td>
-                                                    100
-                                                </td>
-                                                <td>20/04/2017</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Class Test</td>
-                                                <td>Bangla</td>
-                                                <td>
-                                                    4.00
-                                                </td>
-                                                <td>
-                                                    95.00
-                                                </td>
-                                                <td>
-                                                    100
-                                                </td>
-                                                <td>20/04/2017</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Class Test</td>
-                                                <td>Mathmatics</td>
-                                                <td>
-                                                    4.00
-                                                </td>
-                                                <td>
-                                                    95.00
-                                                </td>
-                                                <td>
-                                                    100
-                                                </td>
-                                                <td>20/04/2017</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Class Test</td>
-                                                <td>English</td>
-                                                <td>
-                                                    4.00
-                                                </td>
-                                                <td>
-                                                    95.00
-                                                </td>
-                                                <td>
-                                                    100
-                                                </td>
-                                                <td>20/04/2017</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Class Test</td>
-                                                <td>Mathmatics</td>
-                                                <td>
-                                                    4.00
-                                                </td>
-                                                <td>
-                                                    95.00
-                                                </td>
-                                                <td>
-                                                    100
-                                                </td>
-                                                <td>20/04/2017</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-xl-4 col-xxl-6 col-md-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Timeline</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="widget-timeline">
-                                    <ul class="timeline">
-                                        <li>
-                                            <div class="timeline-badge primary"></div>
-                                            <a class="timeline-panel text-muted" href="#">
-                                                <span>10 minutes ago</span>
-                                                <h6 class="m-t-5">Youtube, a video-sharing website, goes live.</h6>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <div class="timeline-badge warning">
-                                            </div>
-                                            <a class="timeline-panel text-muted" href="#">
-                                                <span>20 minutes ago</span>
-                                                <h6 class="m-t-5">Mashable, a news website and blog, goes live.</h6>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <div class="timeline-badge danger">
-                                            </div>
-                                            <a class="timeline-panel text-muted" href="#">
-                                                <span>30 minutes ago</span>
-                                                <h6 class="m-t-5">Google acquires Youtube.</h6>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <div class="timeline-badge success">
-                                            </div>
-                                            <a class="timeline-panel text-muted" href="#">
-                                                <span>15 minutes ago</span>
-                                                <h6 class="m-t-5">StumbleUpon is acquired by eBay. </h6>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <div class="timeline-badge warning">
-                                            </div>
-                                            <a class="timeline-panel text-muted" href="#">
-                                                <span>20 minutes ago</span>
-                                                <h6 class="m-t-5">Mashable, a news website and blog, goes live.</h6>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <div class="timeline-badge dark">
-                                            </div>
-                                            <a class="timeline-panel text-muted" href="#">
-                                                <span>20 minutes ago</span>
-                                                <h6 class="m-t-5">Mashable, a news website and blog, goes live.</h6>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <div class="timeline-badge info">
-                                            </div>
-                                            <a class="timeline-panel text-muted" href="#">
-                                                <span>30 minutes ago</span>
-                                                <h6 class="m-t-5">Google acquires Youtube.</h6>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-6 col-xxl-6 col-md-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Notice Board</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="recent-comment m-t-15">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <a href="#"><img class="media-object mr-3" src="${contextPath}/resources/assets/images/avatar/4.png" alt="..."></a>
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 class="media-heading text-primary">john doe</h4>
-                                            <p>Cras sit amet nibh libero, in gravida nulla.</p>
-                                            <p class="comment-date">10 min ago</p>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <a href="#"><img class="media-object mr-3" src="${contextPath}/resources/assets/images/avatar/2.png" alt="..."></a>
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 class="media-heading text-success">Mr. John</h4>
-                                            <p>Cras sit amet nibh libero, in gravida nulla.</p>
-                                            <p class="comment-date">1 hour ago</p>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <a href="#"><img class="media-object mr-3" src="${contextPath}/resources/assets/images/avatar/3.png" alt="..."></a>
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 class="media-heading text-danger">Mr. John</h4>
-                                            <p>Cras sit amet nibh libero, in gravida nulla.</p>
-                                            <div class="comment-date">Yesterday</div>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <a href="#"><img class="media-object mr-3" src="${contextPath}/resources/assets/images/avatar/4.png" alt="..."></a>
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 class="media-heading text-primary">john doe</h4>
-                                            <p>Cras sit amet nibh libero, in gravida nulla.</p>
-                                            <p class="comment-date">10 min ago</p>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <a href="#"><img class="media-object mr-3" src="${contextPath}/resources/assets/images/avatar/2.png" alt="..."></a>
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 class="media-heading text-success">Mr. John</h4>
-                                            <p>Cras sit amet nibh libero, in gravida nulla.</p>
-                                            <p class="comment-date">1 hour ago</p>
-                                        </div>
-                                    </div>
-                                    <div class="media no-border">
-                                        <div class="media-left">
-                                            <a href="#"><img class="media-object mr-3" src="${contextPath}/resources/assets/images/avatar/3.png" alt="..."></a>
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 class="media-heading text-info">Mr. John</h4>
-                                            <p>Cras sit amet nibh libero, in gravida nulla.</p>
-                                            <div class="comment-date">Yesterday</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-xxl-6 col-lg-6 col-md-12 col-sm-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Todo</h4>
-                            </div>
-                            <div class="card-body px-0">
-                                <div class="todo-list">
-                                    <div class="tdl-holder">
-                                        <div class="tdl-content widget-todo2 mr-4">
-                                            <ul id="todo_list">
-                                                <li><label><input type="checkbox"><i></i><span>Get up</span><a href='#'
-                                                            class="ti-trash"></a></label></li>
-                                                <li><label><input type="checkbox" checked><i></i><span>Stand up</span><a
-                                                            href='#' class="ti-trash"></a></label></li>
-                                                <li><label><input type="checkbox"><i></i><span>Don't give up the
-                                                            fight.</span><a href='#' class="ti-trash"></a></label></li>
-                                                <li><label><input type="checkbox" checked><i></i><span>Do something
-                                                            else</span><a href='#' class="ti-trash"></a></label></li>
-                                                <li><label><input type="checkbox" checked><i></i><span>Stand up</span><a
-                                                            href='#' class="ti-trash"></a></label></li>
-                                                <li><label><input type="checkbox"><i></i><span>Don't give up the
-                                                            fight.</span><a href='#' class="ti-trash"></a></label></li>
-                                            </ul>
-                                        </div>
-                                        <div class="px-4">
-                                            <input type="text" class="tdl-new form-control" placeholder="Write new item and hit 'Enter'...">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-12 col-xxl-6 col-lg-6 col-md-12">
-                        <div class="row">
-                            <div class="col-xl-3 col-lg-6 col-sm-6 col-xxl-6 col-md-6">
-                                <div class="card">
-                                    <div class="social-graph-wrapper widget-facebook">
-                                        <span class="s-icon"><i class="fa fa-facebook"></i></span>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6 border-right">
-                                            <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                                <h4 class="m-1"><span class="counter">89</span> k</h4>
-                                                <p class="m-0">Friends</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                                <h4 class="m-1"><span class="counter">119</span> k</h4>
-                                                <p class="m-0">Followers</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-6 col-sm-6 col-xxl-6 col-md-6">
-                                <div class="card">
-                                    <div class="social-graph-wrapper widget-linkedin">
-                                        <span class="s-icon"><i class="fa fa-linkedin"></i></span>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6 border-right">
-                                            <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                                <h4 class="m-1"><span class="counter">89</span> k</h4>
-                                                <p class="m-0">Friends</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                                <h4 class="m-1"><span class="counter">119</span> k</h4>
-                                                <p class="m-0">Followers</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-6 col-sm-6 col-xxl-6 col-md-6">
-                                <div class="card">
-                                    <div class="social-graph-wrapper widget-googleplus">
-                                        <span class="s-icon"><i class="fa fa-google-plus"></i></span>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6 border-right">
-                                            <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                                <h4 class="m-1"><span class="counter">89</span> k</h4>
-                                                <p class="m-0">Friends</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                                <h4 class="m-1"><span class="counter">119</span> k</h4>
-                                                <p class="m-0">Followers</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-6 col-sm-6 col-xxl-6 col-md-6">
-                                <div class="card">
-                                    <div class="social-graph-wrapper widget-twitter">
-                                        <span class="s-icon"><i class="fa fa-twitter"></i></span>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6 border-right">
-                                            <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                                <h4 class="m-1"><span class="counter">89</span> k</h4>
-                                                <p class="m-0">Friends</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="pt-3 pb-3 pl-0 pr-0 text-center">
-                                                <h4 class="m-1"><span class="counter">119</span> k</h4>
-                                                <p class="m-0">Followers</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            
+				<!------------- 프로필, 출퇴근, 결재상태 시작  ------------->
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="card">
                             <div class="card-body">
-                                <div class="year-calendar"></div>
+                            	<!-- 프로필 -->
+                            	<div id="memberProfile">
+                            		<br>
+									<div class="profile-photo" align="center">
+		                                <c:if test="${ loginUser.imgChangeName eq null }">
+				                        	<img src="${contextPath}/resources/assets/images/empty-profile.png" alt="profile-image">
+				                        </c:if>
+				                        <c:if test="${ loginUser.imgChangeName ne null }">
+				                            <img src="${contextPath}/resources/uploadFiles/${ loginUser.imgChangeName }" alt="profile-image">
+				                        </c:if>
+				                    </div>
+				                    <br>
+				                    <div id="myName" align="center">${ loginUser.mName } ${ loginUser.jobName }</div>
+				                    <div id="myDept" align="center">${ loginUser.deptName }</div>
+                            	</div>
+                            	<br>
+                                <div id="nowDateArea"  align="center">
+                                	<!-- 현재 시간 -->
+                                	 <c:set var="today" value="<%=new java.util.Date()%>" />
+                                	 <c:set var="date"><fmt:formatDate value="${today}" pattern="yyyy-MM-dd(E)" /></c:set>
+									<div id="today" align="center"><c:out value="${date}" /></div>
+									<div id="clock" align="center"></div>
+									<br>
+									<!-- 출퇴근 버튼 -->
+									<c:choose>
+										<c:when test="${ requestScope.empStatus1.empOnTime != null && !empty requestScope.empStatus1 }"> <!-- 이미 출근 버튼 눌렀을때 -->
+		                            		<input type="button" id="comTimeBtn" value="출근" class="afterPush" disabled="disabled">
+		                            	</c:when>	
+		                            	<c:otherwise>
+		                            		<input type="button" id="comTimeBtn" onclick="comTime();" value="출근" class="beforePush">
+		                            	</c:otherwise>
+	                       			</c:choose>	
+	                       			<c:choose>
+										<c:when test="${ requestScope.empStatus1.getEmpOffTime() != null && !empty requestScope.empStatus1}"> <!-- 이미 퇴근 버튼 눌렀을때 -->
+		                            		<input type="button" id="offTimeBtn" value="퇴근" class="afterPush" disabled="disabled">
+		                            	</c:when>
+		                            	<c:when test="${ requestScope.empStatus1.empOnTime == null }"> <!-- 출근 버튼 누르기 전에는 disabled -->
+		                            		<input type="button" id="offTimeBtn" value="퇴근" class="afterPush" onclick="offTime();" disabled="disabled">
+		                            	</c:when>
+		                            	<c:otherwise>
+		                            		<input type="button" id="offTimeBtn" class="beforePush" onclick="offTime();" value="퇴근">
+		                            	</c:otherwise>		
+		                            </c:choose>		
+		                            <br><br>		
+                        		</div>
                             </div>
-                        </div>
-                        <!-- /# card -->
-                    </div>
-                    <div class="col-lg-8">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">All Expense</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
+                            
+                            <!---- 결재상태 ----->
+                            <div class="card-body" id="approvalStatus">
+								<div class="table-responsive">
                                     <table class="table student-data-table m-t-20">
                                         <thead>
                                             <tr>
                                                 <th>Expense Type</th>
                                                 <th>Amount</th>
-                                                <th>Status</th>
-                                                <th>Email</th>
-                                                <th>Date</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
 
                                                 <td>
-                                                    Salary
-                                                </td>
-                                                <td>
                                                     $2000
                                                 </td>
                                                 <td>
                                                     <span class="badge badge-primary">Paid</span>
                                                 </td>
-                                                <td>
-                                                    edumin@gmail.com
-                                                </td>
-                                                <td>
-                                                    10/05/2017
-                                                </td>
                                             </tr>
-                                            <tr>
-
-                                                <td>
-                                                    Salary
-                                                </td>
-                                                <td>
-                                                    $2000
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-warning">Pending</span>
-                                                </td>
-                                                <td>
-                                                    edumin@gmail.com
-                                                </td>
-                                                <td>
-                                                    10/05/2017
-                                                </td>
-                                            </tr>
-                                            <tr>
-
-                                                <td>
-                                                    Salary
-                                                </td>
-                                                <td>
-                                                    $2000
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-primary">Paid</span>
-                                                </td>
-                                                <td>
-                                                    edumin@gmail.com
-                                                </td>
-                                                <td>
-                                                    10/05/2017
-                                                </td>
-                                            </tr>
-                                            <tr>
-
-                                                <td>
-                                                    Salary
-                                                </td>
-                                                <td>
-                                                    $2000
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-danger">Due</span>
-                                                </td>
-                                                <td>
-                                                    edumin@gmail.com
-                                                </td>
-                                                <td>
-                                                    10/05/2017
-                                                </td>
-                                            </tr>
-                                            <tr>
-
-                                                <td>
-                                                    Salary
-                                                </td>
-                                                <td>
-                                                    $2000
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-primary">Paid</span>
-                                                </td>
-                                                <td>
-                                                    edumin@gmail.com
-                                                </td>
-                                                <td>
-                                                    10/05/2017
-                                                </td>
-                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+							</div>
+                        </div>
+                    </div>
+                    <script>
+	                    	$(function(){
+	                    		printTime();
+	                    		addAnnualLeave();
+	                    	})
+							
+	                    	function printTime() {
+							    	
+								var now = new Date();// 현재시간
+								var nowTime =  now.getHours() + "시" + now.getMinutes() + "분" + now.getSeconds() + "초";
+								
+								$('#clock').text(nowTime);// 현재시간을 출력
+								setTimeout("printTime()",1000); // setTimeout(“실행할함수”,시간) 시간은1초의 경우 1000
+								console.log(nowTime);
+							}			
+	                    	
+	                    	 //연차자동생성
+							 function addAnnualLeave(){
+								  $.ajax({
+									  url:'addAnnualLeave.al',
+									  success:function(data){
+											console.log(data);
+										},
+										error:function(data){
+											console.log(data);
+										}
+								  });
+							  }
+					    
+					    
+						  	//출퇴근
+							function comTime(){
+								
+								var now = new Date();
+								var nowDate =  now.getFullYear() + "/" + (now.getMonth()+1)+"/"+now.getDate();
+								var nowTime = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds() ;//현재시간
+								var day = new Date();
+								console.log(day);
+								
+								console.log(nowTime);			
+								
+								$.ajax({
+									url:'comTime.em',
+									data:{day:day, nowTime:nowTime},
+									dataType: 'json',
+									success:function(data){
+										console.log(data)
+										var onTime = data.empOntime;
+										var offTime = data.empOffTime;
+										console.log(onTime)
+										console.log(data.empOffTime)
+										if(onTime != ''){
+											$('#comTimeBtn').attr("disabled","disabled");
+											$('#comTimeBtn').css('color','gray');
+											$('#comTimeBtn').css('border-color','gray');
+											$('#offTimeBtn').css({'border': '1px solid #593BDB', 'color': '#593BDB' }).prop('disabled', false);
+										} else if(offTime != ''){
+											$('#offTimeBtn').attr("disabled","disabled");
+											$('#offTimeBtn').css('color','gray');
+											$('#offTimeBtn').css('border-color','gray');
+										}
+										 
+									},
+									error:function(data){
+										console.log(data);
+									}
+								});
+					
+							}
+					
+						  function offTime(){
+								
+								var now = new Date();
+								var nowDate =  now.getFullYear() + "/" + (now.getMonth()+1)+"/"+now.getDate();
+								var offTime = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds() ;//현재시간
+								var off = new Date();
+								var status = "업무종료";
+								$.ajax({
+									url:'offTime.em',
+									data:{off:off, 
+										offTime:offTime,
+										status:status
+										},
+									dataType: 'json',
+									success:function(data){
+										console.log(data);
+										
+										if(offTime != ''){
+											$('#offTimeBtn').attr("disabled","disabled");
+											$('#offTimeBtn').css('color','gray');
+											$('#offTimeBtn').css('border-color','gray');
+										}
+										 
+									},
+									error:function(data){
+										console.log(data);
+									}
+								});
+					
+							}
+					    
+					</script>
+					<!------------- 프로필, 출퇴근, 결재상태 끝  ------------->
+					
+                    <!------------- 캘린더 시작  ------------->
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card">
+									<div class="card-body" >
+										<div id="external-events" height="1px"class="my-3"> <!-- 없으면 캘린더 출력안됌 --> </div>
+										<div id='calendar' height="10px;"></div>
+									</div>
+								</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!------------- 캘린더 끝  ------------->
+                    
+                    <div class="col-lg-4">>
+                    </div>
+                   	<!------------- 공지사항 시작  ------------->
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">공지사항</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="noticeBoardArea" class="table student-data-table m-t-20">
+                                        <thead>
+                                        	<tr style="font-size: large;">
+	                                           <th scope="col" width="70px">번호</th>
+	                                           <th scope="col" width="300px">제목</th>
+	                                           <th scope="col" width="200px">작성자</th>
+	                                           <th scope="col" width="120px">작성일</th>
+	                                           <th scope="col" width="100px">조회수</th>
+	                                        </tr>
+                                        </thead>
+                                        <tbody>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!------------- 공지사항 끝  ------------->
+                    <script>
+	             		$(function(){
+	             			noticeBoardList();
+	             			
+	             			setInterval(function(){
+	             				noticeBoardList();
+	             			}, 10000);
+	             		});
+	             		
+	             		function noticeBoardList() {
+	             			
+	             			let $tableBody = $('#noticeBoardArea tbody');
+	             			$tableBody.html('');
+	             			
+ 	             			$.ajax({
+ 	             				url: 'noticeBoardListMain.nb',
+ 	             				dataType: 'json',
+ 	            				success: function(data){
+ 	            					console.log(data);
+ 	            					
+ 	            					if (data.length > 0) {
+ 	            						
+ 	            						let $tr;
+ 	            						let bTitle;
+ 	            						let a;
+ 	            						for (let i in data) {
+ 	            							
+ 	            							$tr = $('<tr>');
+ 	            							
+ 	            							if (data[i].pin == 'Y') {
+ 	            								$tr.css('background', '#F8F8FF');
+ 	            								$tr.append($('<td>').append('<i class="bi bi-megaphone-fill pin">'));
+ 	            							} else {          										$tr.append($('<td>').text(data[i].bNum));
+ 	            							}
+ 	            							
+ 	            							bTitle = data[i].bTitle.length > 10 ? data[i].bTitle.substring(0, data[i].bTitle.length) + "..." : data[i].bTitle
+ 	            							a = '<a href="noticeBoardDetail.nb?bNum=' + data[i].bNum + '&page=1">' + bTitle +'</a>';
+ 	            							$tr.append($('<td>').html(a));
+ 	            							$tr.append($('<td>').text(data[i].mName  + " " + (data[i].jobName == null ? "" : data[i].jobName)));
+ 	            							$tr.append($('<td>').text(data[i].createDate ));
+ 	            							$tr.append($('<td>').text(data[i].views));
+ 	            							
+ 	            							$tableBody.append($tr);
+ 	            						} 
+ 	            						
+ 	            					} else {
+	            						$tr = $('<tr>');
+	            						$tr.append($('<td colspan="5">').text("등록된 게시글이 없습니다."));
+	            							
+	            						$tableBody.append($tr);
+	            					}
+ 	            					
+ 	            					
+ 	            				},
+ 	            				error: function(data) {
+ 	            					console.log(data);
+ 	            				}
+ 	             			})
+	             			
+	             		}
+	             		
+	             		
+                    </script>
                 </div>
             </div>
         </div>
@@ -647,14 +407,6 @@
             Footer end
         ***********************************-->
 
-        <!--**********************************
-           Support ticket button start
-        ***********************************-->
-
-        <!--**********************************
-           Support ticket button end
-        ***********************************-->
-
 
     </div>
     <!--**********************************
@@ -664,15 +416,202 @@
     <!--**********************************
         Scripts
     ***********************************-->
-    <script src="${contextPath}/resources/assets/vendor/chartist/js/chartist.min.js"></script>
+	 <!--**********************************
+        Calendar Scripts
+    ***********************************-->
+    <script>
+    	
+		var calendar;
+		window.closeModal = function(){
+		    $('.modal').modal('hide');
+		};
+		
+		$(document).ready(function() {
+			readCalList();
+			
+			$(document).on('input.calCheckbox', function() {
+				checkCal();					// checkCal() 함수(체크된 체크박스 검사)
+				calendar.refetchEvents();	// 캘린더 리로드(일정 다시 불러오기)
+			});
+		});
+		
+		document.addEventListener('DOMContentLoaded', function() {
+	    var Calendar = FullCalendar.Calendar;
+	    var Draggable = FullCalendarInteraction.Draggable;
+	 
+	    var containerEl = document.getElementById('external-events');
+	    var calendarEl = document.getElementById('calendar');
+	    var checkbox = document.getElementById('drop-remove');
+	 
+	    // initialize the external events
+	    // -----------------------------------------------------------------
+	    new Draggable(containerEl, {
+	      itemSelector: '.fc-event',
+	      eventData: function(eventEl) {
+	        return {
+	          title: eventEl.innerText
+	        };
+	      }
+	    });
+	 
+	    // initialize the calendar
+	    // -----------------------------------------------------------------
+	    calendar = new Calendar(calendarEl, {
+	      plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
+	      header: {
+	        left: 'prev viewWeekends',
+	        center: 'title ',
+	        right: 'next today',
+	      },
+	      locale: 'ko',
+	      dateClick: function(info) {
+				addSch();
+	    	    $("input[name=startday]").val(info.dateStr);	// 클릭한 날짜를 시작날짜 끝날짜 초기값으로 지정
+	    		$("input[name=endday]").val(info.dateStr);
+	      },
+	      eventClick: function(info) {
+	  	   		viewSch(info.event.id);
+	      },
+	      selectable: true,
+	      defaultDate: localStorage.getItem("checkDate"),	// 달력 날짜 수동 고정(아예 defaultDate를 삭제하면 현재 달 보여줌) 
+	      navLinks: false, 				// 달력의 날짜 텍스트를 선택할 수 있는지 유무
+	      editable: false,
+	      eventLimit: false,				// 셀에 너무 많은 일정이 들어갔을 시 more로 처리 true에서 false로 수정
+	      customButtons: { //주말 숨기기 & 보이기 버튼
+	    	  today : {
+	            text  : '오늘',
+	            click : function () {
+	            	calendar.today();
+	            	checkDate();
+	            }
+	          },
+	          prev : {
+	        	  click : function () {
+	        		  calendar.prev();
+	        		  checkDate();  
+				}
+	          },
+	          next : {
+	        	  click : function () {
+	        		  calendar.next();
+	        		  checkDate();
+				}
+	          }
+	      },
+	         events: function (info, successCallback, failureCallback){
+	        	 setCheckbox();
+	        	 $.ajax({
+	     			url:"<%= request.getContextPath() %>/selectSchList.ca",
+	     			data:{sCalNo:localStorage.getItem("checkCal")},
+	     			dataType:"JSON",
+	     			success:function(json){
+	     				
+	     				var events = [];
+						$.each(json, function(index, item){
+							
+							if (json.length > 0) {
+								events.push({
+		                            title: item.title,
+		                            start: item.startday,
+		                            end: item.endday,
+		                            color: item.color,
+		                            id: item.scheNo
+		                         });
+							}else{
+								// 검색된 결과가 없을 때	
+							}
+						});
+						 successCallback(events);  
+	     			},
+	     			error: function(request, status, error){
+	     				console.log(json)
+	     		 	}
+	     		});
+	         }
+	    });
+	    checkDate();
+	    calendar.render();
+	});
+		
+	// 로컬스토리지에 사용자가 현재 위치한 캘린더의 날짜값을 저장하는 함수
+	function checkDate(){
+		  
+		  var date = calendar.getDate();
+		  date = moment(date).format("YYYY-MM-DD");
+		  
+		  var checkDate = localStorage.getItem("checkDate");
+		  
+		  if(checkDate == null){
+			  checkDate = "";
+			  localStorage.setItem("checkDate", date);
+		  }else{
+			  localStorage.removeItem("checkDate");
+			  localStorage.setItem("checkDate", date);
+		  }
+	}
+	
+	// 캘린더(내일정)를 읽어오는 함수
+	function readCalList(){
+		  $.ajax({
+				url:"<%= request.getContextPath() %>/readCalList.ca",
+				type:"get",
+				dataType:"JSON",
+				success:function(json){
+					var html = "<div style='margin-bottom: 10px;'></div>";
+					if (json.length > 0) {
+						$.each(json, function(index, item){
+							var name = "";
+							console.log(item.name);
+							if (item.name.length > 8) {                                                               
+								name = item.name.substring(0,8) + "...";
+							}else{
+								name = item.name;
+							}
+							
+							html += "<li>";
+							html += "<p class='nav_ul_p'>";
+							html += "<input id='calendar_id_" + index + "' class='calCheckbox' type='checkbox' />";
+							html += "<input type='hidden' value='" + item.scheNo + "' />";
+							html += "<label for='calendar_id_" + index + "' class='smallText'>&nbsp;" + name + "</label>";
+							html += "<span class='btn_wrap'>";
+							html += "<span class='dot' style='background-color: " + item.color + "'></span>";
+							html += "</span>";
+							html += "</p>";
+							html += "</li>";
+						});
+					} $("ul.nav_ul").html(html);
+						setCheckbox();
+				},
+				error: function(request, status, error){
+					alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error:yyyy "+error);
+			 	}
+			});
+		}
+	
+	// 로컬스토리지에 저장된 캘린더 체크박스 체크유무를 가지고 체크박스에 적용시켜주는 함수
+	function setCheckbox(){
+		  
+		  var sCalNo = localStorage.getItem("checkCal");
+		  var selCalNoArr = [];
+		  
+		  if (sCalNo != null) {
+			  selCalNoArr = sCalNo.split(",");
+			  
+			  $("input.calCheckbox").each(function(index) {
+				  
+				  var scheNo = $(this).next().val();
+				  for (var i = 0; i < selCalNoArr.length; i++) {
+					  if(scheNo == selCalNoArr[i]){
+						  
+						  $(this).prop("checked", true);
+						  break;
+					  }
+				  }
+			  });
+			}
+		}
+	</script>
 
-    <script src="${contextPath}/resources/assets/vendor/moment/moment.min.js"></script>
-    <script src="${contextPath}/resources/assets/vendor/pg-calendar/js/pignose.calendar.min.js"></script>
-
-
-    <script src="${contextPath}/resources/assets/js/dashboard/dashboard-2.js"></script>
-    <!-- Circle progress -->
 
 </body>
-
 </html>
