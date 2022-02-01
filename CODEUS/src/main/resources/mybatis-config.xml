@@ -21,6 +21,10 @@
  		<typeAlias type="com.codeusgroup.codeus.archive.model.vo.ArchiveFile" alias="ArchiveFile"/>
  		<typeAlias type="com.codeusgroup.codeus.archive.model.vo.ArchiveFolder" alias="ArchiveFolder"/>
  		<typeAlias type="com.codeusgroup.codeus.archive.model.vo.ArchiveCapacity" alias="ArchiveCapacity"/>
+ 		<typeAlias type="com.codeusgroup.codeus.approval.model.vo.Document" alias="Document"/>
+ 		<typeAlias type="com.codeusgroup.codeus.approval.model.vo.DocumentFile" alias="DocumentFile"/>
+ 		<typeAlias type="com.codeusgroup.codeus.approval.model.vo.Agreer" alias="Agreer"/>
+ 		<typeAlias type="com.codeusgroup.codeus.approval.model.vo.Referrer" alias="Referrer"/>
  	</typeAliases>
  	
  	<mappers>
@@ -31,6 +35,7 @@
  		<mapper resource="mappers/board-mapper.xml"/>
  		<mapper resource="mappers/noticeBoard-mapper.xml"/>
  		<mapper resource="mappers/archive-mapper.xml"/>
+ 		<mapper resource="mappers/approval-mapper.xml"/>
  	</mappers>
  	
 </configuration>
